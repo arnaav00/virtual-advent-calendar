@@ -1,3 +1,4 @@
+import { skaterPose } from './motion.js';
 const svg = document.querySelector('#landscape');
 const ink = '#354d49', snow = '#fffdf3';
 const stroke = `stroke="${ink}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"`;
@@ -69,12 +70,14 @@ art += rect(1055,718,195,15,snow,5);
 [[189,442],[357,439],[406,367],[576,367],[622,312],[830,313],[877,384],[1031,384],[1072,469],[1225,469]].forEach(([x,y],i)=>{art+=path(`M${x} ${y}l3 ${12+i%3*3}l3 -${12+i%3*3}`,snow,'stroke-width="1.2"');});
 // Color-changing Christmas lights follow every roof, clear of the windows.
 art += '<g class="ambient christmas-lights">';
-[[183,431,190,110],[397,358,192,110],[613,302,231,135],[867,373,178,109],[1065,459,174,107]].forEach(([x,y,w,h],house)=>{
-  art += path(`M${x+4} ${y+16}L${x+w/2} ${y-h+27}L${x+w-4} ${y+16}`,'none','stroke-width="1.5"');
-  for(let i=0;i<11;i++){
-    const t=i/10,bx=x+4+t*(w-8),by=y+16-(1-Math.abs(2*t-1))*(h-11),delay=-(i*.43+house*1.2);
-    art += `<g class="festive-light" style="--delay:${delay}s">${path(`M${bx} ${by}v5`,'none','stroke-width="1.2"')}<circle class="light-halo" cx="${bx}" cy="${by+9}" r="10" fill="currentColor"/><ellipse class="bulb" cx="${bx}" cy="${by+9}" rx="3.5" ry="5" fill="currentColor" stroke="${ink}" stroke-width="1"/><circle cx="${bx-1}" cy="${by+7}" r="1.2" fill="#fffdf3" opacity=".85"/></g>`;
-  }
+[[183,431,190,110],[397,358,192,110],[613,302,231,135],[867,373,178,109],[1065,459,174,107]].forEach(([x,y,w,h])=>{
+  const points=Array.from({length:9},(_,i)=>{const t=i/8;return [x+3+t*(w-6),y+11-(1-Math.abs(2*t-1))*(h-11)];});
+  let wire=`M${points[0][0]} ${points[0][1]}`;
+  points.slice(1).forEach(([bx,by],i)=>{const [ax,ay]=points[i];wire+=`Q${(ax+bx)/2} ${(ay+by)/2+10} ${bx} ${by}`;});
+  art+=path(wire,'none','stroke="#3b542d" stroke-width="1.5"');
+  points.forEach(([bx,by],i)=>{
+    art+=`<g class="festive-light" transform="translate(${bx} ${by}) rotate(${i%2?-28:22})"><ellipse class="light-halo" cy="10" rx="10" ry="15" fill="currentColor"/>${path('M-4 3C-9 8 -5 17 0 22C5 17 9 8 4 3Z','currentColor','stroke="none"')}${path('M-4 -2H4L4 4Q0 6 -4 4Z','#3d592c','stroke="#304727" stroke-width=".7"')}${path('M-3 7Q-5 12 -1 17','none','stroke="#fff8de" stroke-width="1.2" opacity=".85"')}</g>`;
+  });
 });
 art += '</g>';
 // Snow banks, fir trees, and a little frozen village pond.
@@ -90,25 +93,46 @@ art += path('M192 767L346 774M192 783L346 790','none','stroke="#8b9a84" stroke-w
 art += path('M188 751Q266 755 348 760','none',`stroke="${snow}" stroke-width="8"`);
 // A scarf-wearing snow friend.
 art += `<g transform="translate(339 786) rotate(-6)">${path('M-25 -24L-54 -47M-47 -42L-48 -55M25 -25L49 -45M44 -40L56 -41','none','stroke="#856c54" stroke-width="3"')}${circle(0,-11,29,snow)}${circle(0,-48,21,snow)}${path('M-22 -36Q0 -26 22 -37L23 -28Q0 -17 -22 -27Z','#b56856')}${path('M11 -29L16 -5L28 -9L21 -32','#b56856')}${path('M-20 -64L21 -64L14 -70L12 -89L-11 -89L-13 -68Z','#3e6055')}${circle(-7,-51,1.5,ink)}${circle(7,-51,1.5,ink)}${path('M0 -47L18 -44L0 -40Z','#cf9361')}${circle(0,-12,2,ink)}${circle(0,1,2,ink)}</g>`;
-// A little sleepy fox, curled up in the snow.
-art += `<g transform="translate(1117 792)">${path('M-30 7Q-37 -15 -17 -23L-20 -41L-4 -30L12 -30L24 -41L23 -18Q48 -10 44 12Q11 33 -30 7','#bd7c54')}${path('M-20 -18Q0 -2 23 -18L14 2H-7Z','#f5e4c6')}${path('M43 10Q24 -8 -3 6Q-18 22 -29 8Q-18 35 17 27Q40 24 43 10','#d19465')}${path('M-3 6Q-18 22 -29 8Q-22 28 -4 29L6 22Z',snow)}${path('M-12 -13l5 2m14 0l5 -2','none','stroke-width="1.5"')}${circle(0,-3,2,ink)}</g>`;
+// Snoopy rests on his red doghouse, with Woodstock on his tummy.
+art += `<g class="snoopy-house" transform="translate(1122 787) scale(.74)">
+  ${rect(-48,10,96,68,'#b9544b',1)}${path('M-48 30H48M-48 49H48M-48 67H48','none','stroke="#783f37" stroke-width="1.8"')}
+  ${path('M-63 -31H59L75 15H-76Z','#c76054','stroke="#443f38" stroke-width="2"')}${path('M-68 -9H65M-76 15Q-8 21 75 15','none','stroke="#783f37" stroke-width="1.8"')}
+  ${path('M-65 -29Q-55 -37 -41 -30H45Q59 -38 62 -29','none',`stroke="${snow}" stroke-width="7"`)}
+  ${path('M-49 -32Q-58 -38 -56 -50Q-50 -61 -50 -76Q-50 -92 -39 -99Q-30 -105 -19 -96Q-6 -84 -9 -62L-5 -42Q6 -55 21 -50Q34 -44 40 -40L43 -68Q43 -81 52 -78Q61 -74 61 -57L59 -31Z',snow,'stroke="#343b37" stroke-width="2.6"')}
+  ${path('M-29 -99Q-35 -110 -42 -104Q-48 -97 -40 -96Z','#343b37','stroke-width="1.5"')}${path('M-45 -47Q-42 -26 -43 -4Q-44 17 -37 16Q-30 11 -34 -10L-33 -44Z','#343b37','stroke="#343b37" stroke-width="1.8"')}
+  ${path('M-39 -69l6 3M5 -40Q20 -44 24 -35L26 -26M20 -34L20 -25M15 -34L15 -27M49 -66l10 -2M49 -57l11 -1','none','stroke="#343b37" stroke-width="2"')}
+  <g class="woodstock">${path('M12 -56L7 -66Q-7 -69 -3 -78Q0 -85 11 -85L7 -95L16 -91L20 -100L23 -88L31 -93L27 -81L32 -77L26 -70L20 -68L22 -59L31 -55L24 -52L16 -56Z','#edc94c','stroke="#343b37" stroke-width="1.7"')}${path('M8 -78l5 -1M13 -60l-3 8M18 -58l-1 7M8 -52h13','none','stroke="#343b37" stroke-width="1.3"')}</g>
+  ${path('M-57 78Q-38 70 -18 78Q8 73 24 78Q46 71 57 79','none',`stroke="${snow}" stroke-width="7"`)}
+</g>`;
 // Tiny boot prints and winter sprigs make the snow feel lived in.
 [[563,766],[553,777],[541,779],[532,790],[519,792],[510,803],[1029,789],[1041,796],[1053,796]].forEach(([x,y])=>{art+=`<ellipse cx="${x}" cy="${y}" rx="3" ry="6" fill="#bfcec0" transform="rotate(38 ${x} ${y})"/>`;});
 [[197,824],[1221,817],[397,837],[1020,856],[872,764]].forEach(([x,y])=>{art+=path(`M${x} ${y}v-18m0 12l-8 -7m8 3l7 -10`,'none','stroke="#8d9e85" stroke-width="1.7"');});
 art += path('M54 831Q93 817 137 829M1185 851Q1225 837 1251 846','none','stroke="#c4cfc0" stroke-width="1.5"');
-// A scarf-wearing skater traces a continuous oval around the pond.
-art += `<g class="ambient skater-travel"><ellipse cy="3" rx="18" ry="4" fill="#9dbab0" opacity=".26"/><g class="skater-facing"><g class="skater-bob">
-  <g class="skate-leg back">${path('M-4 -19L-13 -8L-21 -6','none','stroke="#48665f" stroke-width="6"')}${path('M-25 -3L-15 -3L-12 -5','none','stroke="#6f8278" stroke-width="2"')}${path('M-24 -7h9v4h-11Z',snow,'stroke-width="1.3"')}</g>
-  <g class="skate-leg front">${path('M3 -20L6 -10L13 -6','none','stroke="#48665f" stroke-width="6"')}${path('M7 -2H22L25 -5','none','stroke="#6f8278" stroke-width="2"')}${path('M8 -7h13v4H7Z',snow,'stroke-width="1.3"')}</g>
-  ${path('M-7 -43Q0 -46 8 -40L14 -20Q1 -14 -13 -22Z','#bd6b61','stroke-width="1.6"')}${path('M6 -37L21 -30L29 -36M-7 -37L-21 -29L-29 -33','none','stroke="#bd6b61" stroke-width="6"')}${circle(30,-37,3,'#e8c8a5')}${circle(-30,-34,3,'#e8c8a5')}
-  ${circle(0,-53,10,'#e8c8a5')}${path('M-10 -55Q-11 -69 2 -67Q13 -65 10 -54Z','#557b70','stroke-width="1.5"')}${path('M-11 -54H11','none','stroke="#d2ddbd" stroke-width="4"')}${circle(1,-69,4,'#d2ddbd')}${circle(5,-51,1,ink)}${path('M9 -50l4 2l-4 1','#e8c8a5','stroke-width="1"')}
-  <g class="skater-scarf">${path('M-5 -42Q-25 -51 -33 -44L-31 -36Q-19 -44 -5 -37Z','#edc98d','stroke-width="1.3"')}</g>${path('M-8 -43L8 -41','none','stroke="#edc98d" stroke-width="5"')}
-</g></g></g>`;
+// Articulated knees and grounded blades, driven by the shared motion model.
+art += `<g class="ambient skater-travel"><ellipse cy="3" rx="18" ry="3" fill="#9dbab0" opacity=".22"/>
+  ${[-1,1].map((side,i)=>`<path class="skater-leg" data-leg="${i}" d="M${side*4} -27L${side*7} -15L${side*7} -5" fill="none" stroke="${i?'#405f59':'#58756c'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><g class="skater-boot" data-boot="${i}" transform="translate(${side*7} 0)">${path('M-3 -8H3V-5L7 -3V-1H-4Z',snow,'stroke-width="1.2"')}${path('M-5 1H8L10 -1M-2 -1v2M5 -1v2','none','stroke="#647b78" stroke-width="1.2"')}</g>`).join('')}
+  <g class="skater-upper">${path('M-6 -48Q0 -51 7 -47L10 -27Q1 -23 -10 -28Z','#bd6b61','stroke-width="1.5"')}${path('M-6 -44L-16 -36L-25 -38M7 -44L17 -37L25 -41','none','stroke="#bd6b61" stroke-width="5"')}${circle(-26,-38,2.8,'#557b70')}${circle(26,-42,2.8,'#557b70')}
+  ${circle(0,-59,8.5,'#e8c8a5')}${path('M-9 -62Q-9 -75 1 -74Q11 -72 9 -62Z','#557b70','stroke-width="1.5"')}${path('M-9 -62H9','none','stroke="#d2ddbd" stroke-width="3"')}${circle(0,-76,3.5,'#d2ddbd')}${circle(-3,-57, .8,ink)}${circle(3,-57,.8,ink)}${path('M-2 -53Q0 -51 2 -53','none','stroke-width="1"')}
+  <g class="skater-scarf">${path('M-4 -48Q-16 -54 -24 -50L-25 -44Q-15 -48 -5 -43Z','#edc98d','stroke-width="1.2"')}</g>${path('M-7 -49L7 -48','none','stroke="#edc98d" stroke-width="4"')}${path('M0 -43v13','none','stroke="#a45c53" stroke-width="1"')}
+</g></g>`;
 // Santa and two reindeer cross the clear sky, then return after a quiet pause.
-function reindeer(x,y,delay){return `<g transform="translate(${x} ${y})"><g class="reindeer-bob" style="--delay:${delay}s">${path('M-22 -8Q-7 -19 9 -10L16 -27L26 -25L25 -9L14 1Q-3 10 -21 2Z','#b88a60','stroke-width="1.6"')}${path('M-22 -4l-9 -6','none','stroke="#b88a60" stroke-width="4"')}<g class="reindeer-legs" style="--delay:${delay}s">${path('M-16 1L-24 11L-15 17M-4 4L2 13L-3 20M12 0L23 8L31 4','none','stroke="#805e48" stroke-width="3"')}</g>${path('M18 -27L15 -38L10 -41M16 -34L23 -40M25 -26L30 -37L36 -40M31 -34L38 -33','none','stroke="#805e48" stroke-width="2"')}${circle(27,-21,2,'#a65e50')}${circle(22,-24,1,ink)}${path('M13 -13L26 -8','none','stroke="#a65e50" stroke-width="3"')}</g></g>`;}
+function reindeer(x,y,delay){
+  const leg=(hip,phase,far=false)=>`<g transform="translate(${hip} -1)"><g class="deer-leg" style="--delay:${delay+phase}s">${path('M-3 -3Q4 -3 4 4L2 17H-2L-5 5Z',far?'#917052':'#b18a62','stroke="#655541" stroke-width="1"')}<g transform="translate(0 16)"><g class="deer-shin" style="--delay:${delay+phase}s">${path('M-2 0H2L4 16L-1 17Z',far?'#917052':'#b18a62','stroke="#655541" stroke-width="1"')}${path('M-1 14L4 14L8 19H-2Z','#4e493b','stroke-width=".8"')}</g></g></g></g>`;
+  return `<g class="reindeer" transform="translate(${x} ${y})"><g class="reindeer-bob" style="--delay:${delay}s">
+  ${leg(-13,-.8,true)}${leg(16,-.2,true)}
+  ${path('M-29 -12Q-39 -17 -33 -23L-23 -19Z','#e8dcc3','stroke="#655541" stroke-width="1.3"')}
+  ${path('M-29 -12C-29 -28 0 -30 18 -19L25 -39Q24 -46 33 -48L43 -43L54 -37Q57 -30 48 -29L36 -30L28 -10Q24 7 8 9L-17 7Q-28 4 -29 -12Z','#b18a62','stroke="#655541" stroke-width="1.6"')}
+  ${path('M17 -18L24 -34L31 -31L25 -12L20 1L12 3Z','#eadcc1','stroke="none"')}
+  ${path('M28 -45Q13 -57 19 -59Q30 -56 34 -47M36 -46Q39 -60 43 -57Q45 -49 40 -43','#b18a62','stroke="#655541" stroke-width="1.2"')}
+  ${path('M28 -48L24 -60L25 -75M25 -64L16 -70L14 -76M25 -69L33 -77M33 -48L37 -60L37 -77M37 -65L46 -71L47 -77M37 -71L30 -80','none','stroke="#796447" stroke-width="2.1"')}
+  ${circle(43,-38,1.4,'#343b37')}${path('M51 -37Q58 -38 57 -33Q54 -30 51 -32Z','#4e493b','stroke-width="1"')}
+  ${path('M23 -24L33 -19M-4 -23L-7 7','none','stroke="#a65e50" stroke-width="4"')}${circle(29,-19,2,'#edc98d')}
+  ${leg(-20,0)}${leg(18,-1)}
+  </g></g>`;
+}
 art += `<g class="ambient santa-flight"><g class="santa-float" transform="scale(.78)">
-  ${path('M44 -9Q112 4 156 -12M43 -5Q160 19 224 -20','none','stroke="#987b53" stroke-width="1.5"')}
-  ${reindeer(139,-8,-.3)}${reindeer(211,-16,-.9)}
+  ${path('M44 -9Q104 5 180 -30M43 -5Q170 24 287 -35','none','stroke="#987b53" stroke-width="1.3"')}
+  ${reindeer(151,-8,-.3)}${reindeer(258,-13,-.9)}
   ${path('M-41 -14Q-63 -44 -39 -53Q-43 -65 -33 -62Q-22 -68 -25 -54Q-3 -44 -14 -12Z','#7c9372','stroke-width="1.8"')}
   ${path('M-14 -18Q-25 -40 -4 -43Q12 -43 19 -16Z','#b75d50','stroke-width="1.8"')}${path('M4 -34L21 -25L34 -28','none','stroke="#b75d50" stroke-width="7"')}${circle(35,-28,3,'#e7c8a1')}
   ${circle(-2,-49,10,'#e7c8a1')}${path('M-11 -47Q-12 -28 3 -34Q12 -40 7 -49L2 -45Z',snow,'stroke-width="1.2"')}${path('M-13 -54Q-7 -80 9 -65L16 -55Q5 -65 -3 -54Z','#b75d50','stroke-width="1.5"')}${path('M-13 -53H8','none',`stroke="${snow}" stroke-width="5"`)}${circle(16,-55,4,snow)}${circle(4,-50,1,ink)}
@@ -157,7 +181,22 @@ document.addEventListener('pointerdown',event=>{if(!event.target.closest('.door'
 // Lightweight, layered snowfall: capped pixel density and no per-frame DOM work.
 const canvas=document.querySelector('#snow'),ctx=canvas.getContext('2d');
 const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
-let width,height,flakes=[],frame,last=0;
+const skater=document.querySelector('.skater-travel');
+const skaterUpper=document.querySelector('.skater-upper');
+const skaterScarf=document.querySelector('.skater-scarf');
+const skaterLegs=[...document.querySelectorAll('.skater-leg')];
+const skaterBoots=[...document.querySelectorAll('.skater-boot')];
+let width,height,flakes=[],frame,last=0,sceneSeconds=3;
+function poseSkater(){
+  const pose=skaterPose(sceneSeconds);
+  skater.setAttribute('transform',`translate(${pose.x} ${pose.y}) scale(${pose.scale})`);
+  skaterUpper.setAttribute('transform',`translate(0 ${pose.dip}) rotate(${pose.lean} 0 -27)`);
+  skaterScarf.setAttribute('transform',`rotate(${pose.scarf} -4 -48)`);
+  pose.feet.forEach((foot,i)=>{
+    skaterLegs[i].setAttribute('d',`M${i?4:-4} ${-27+pose.dip}L${foot.kneeX} ${foot.kneeY}L${foot.x} ${foot.y-6}`);
+    skaterBoots[i].setAttribute('transform',`translate(${foot.x} ${foot.y})`);
+  });
+}
 function resize(){
   width=innerWidth;height=innerHeight;
   const dpr=Math.min(devicePixelRatio||1,2);
@@ -169,6 +208,6 @@ function resize(){
   if(motion.matches) draw(0);
 }
 function draw(delta){ctx.clearRect(0,0,width,height);flakes.forEach(f=>{f.y+=f.s*delta;f.x+=(Math.sin(f.y/90+f.phase)*8+8)*delta;if(f.y>height+5){f.y=-5;f.x=Math.random()*width;}if(f.x>width+5)f.x=-5;ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,248,${f.opacity})`;ctx.fill();});}
-function animate(time){draw(last?Math.min((time-last)/1000,.05):0);last=time;frame=requestAnimationFrame(animate);}
-function syncMotion(){cancelAnimationFrame(frame);last=0;document.body.classList.toggle('scene-paused',document.hidden);if(!motion.matches&&!document.hidden)frame=requestAnimationFrame(animate);else draw(0);}
+function animate(time){const delta=last?Math.min((time-last)/1000,.05):0;sceneSeconds+=delta;draw(delta);poseSkater();last=time;frame=requestAnimationFrame(animate);}
+function syncMotion(){cancelAnimationFrame(frame);last=0;poseSkater();document.body.classList.toggle('scene-paused',document.hidden);if(!motion.matches&&!document.hidden)frame=requestAnimationFrame(animate);else draw(0);}
 window.addEventListener('resize',resize);motion.addEventListener('change',syncMotion);document.addEventListener('visibilitychange',syncMotion);resize();syncMotion();
