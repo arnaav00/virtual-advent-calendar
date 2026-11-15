@@ -21,18 +21,17 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 .door:focus-visible{outline:3px solid #a6624e;outline-offset:9px}
 #snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .ambient{pointer-events:none}
-.christmas-lights{color:#f04447;animation:christmas-colors 12s linear infinite}
-.light-halo{opacity:.22;animation:light-breathe 3s ease-in-out infinite}
+.bulb-glass{opacity:.45;animation:bulb-pulse 2s steps(1,end) var(--phase) infinite}
+.light-halo{opacity:0;animation:halo-pulse 2s steps(1,end) var(--phase) infinite}
 .skater-travel{transform-box:view-box}
-.santa-flight{transform:translate(-400px,110px);animation:santa-crossing 34s linear -6s infinite}
+.santa-flight{transform-box:view-box}
 .santa-float{animation:sleigh-bob 3.4s ease-in-out infinite}
 .reindeer-bob{animation:reindeer-bob 2s ease-in-out var(--delay) infinite}
 .deer-leg{transform-origin:0 0;animation:deer-stride 2s ease-in-out var(--delay) infinite}
 .deer-shin{transform-origin:0 0;animation:deer-knee 2s ease-in-out var(--delay) infinite}
 .scene-paused .ambient,.scene-paused .ambient *{animation-play-state:paused!important}
-@keyframes christmas-colors{0%,22%,100%{color:#f04447}25%,47%{color:#45add4}50%,72%{color:#8cca51}75%,97%{color:#ffd645}}
-@keyframes light-breathe{0%,100%{opacity:.12}50%{opacity:.42}}
-@keyframes santa-crossing{0%{transform:translate(-400px,110px)}72%,100%{transform:translate(1770px,88px)}}
+@keyframes bulb-pulse{0%{opacity:1}25%,100%{opacity:.45}}
+@keyframes halo-pulse{0%{opacity:.55}25%,100%{opacity:0}}
 @keyframes sleigh-bob{0%,100%{transform:translateY(0) scale(.78)}50%{transform:translateY(-3px) scale(.78)}}
 @keyframes reindeer-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
 @keyframes deer-stride{0%,100%{transform:rotate(-27deg)}50%{transform:rotate(24deg)}}

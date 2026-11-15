@@ -1,4 +1,4 @@
-import { skaterPose } from './motion.js';
+import { skaterPose, santaPose } from './motion.js';
 const svg = document.querySelector('#landscape');
 const ink = '#354d49', snow = '#fffdf3';
 const stroke = `stroke="${ink}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"`;
@@ -15,7 +15,7 @@ function tree(x,y,s=1,paint='#54796b'){
 function wreath(x,y,s=1){
   return `<g transform="translate(${x} ${y}) scale(${s})">${circle(0,0,15,'#547463')}${circle(0,0,8,'#e8c4b3')}${path('M0 14Q-22 4 -14 22Q-7 28 0 14Q20 4 15 23Q8 28 0 14','#aa584b')}${path('M-3 21L-7 33M3 21L8 30','none','stroke="#aa584b" stroke-width="5"')}${[[-9,-8],[10,-7],[-12,5],[12,5]].map(([a,b])=>circle(a,b,2.5,'#e9c98b')).join('')}</g>`;
 }
-function chimney(x,y,paint){return `<g>${rect(x,y,28,77,paint)}${rect(x-5,y-4,38,10,snow,4)}${path(`M${x+5} ${y+20}h10m-1 12h12m-20 14h12`,'none','opacity=".35"')}</g>`;}
+function chimney(x,y,paint){return `<g class="chimney">${rect(x,y,28,77,paint)}${rect(x-5,y-4,38,10,snow,4)}${path(`M${x+5} ${y+20}h10m-1 12h12m-20 14h12`,'none','opacity=".35"')}</g>`;}
 function roof(x,y,w,h,color){return `${path(`M${x-13} ${y+7}L${x+w/2} ${y-h}L${x+w+13} ${y+7}L${x+w+6} ${y+20}L${x+w/2} ${y-h+20}L${x-6} ${y+20}Z`,color)}${path(`M${x-18} ${y+5}Q${x-24} ${y-3} ${x-12} ${y-9}L${x+w/2-9} ${y-h-11}Q${x+w/2} ${y-h-18} ${x+w/2+11} ${y-h-9}L${x+w+18} ${y-4}Q${x+w+27} ${y+9} ${x+w+13} ${y+12}Q${x+w+3} ${y+16} ${x+w-1} ${y+6}L${x+w/2} ${y-h+5}L${x+8} ${y+7}Q${x+1} ${y+23} ${x-6} ${y+11}Z`,snow)}`;}
 function attic(x,y,r=18){return `${circle(x,y,r,'#f0d79b')}${path(`M${x-r+2} ${y}h${r*2-4}M${x} ${y-r+2}v${r*2-4}`)}${circle(x,y,r+5,'none')}`;}
 let art = `<defs><radialGradient id="moon"><stop stop-color="#fff8da"/><stop offset="1" stop-color="#f6e3b5"/></radialGradient><linearGradient id="ground" x2="0" y2="1"><stop stop-color="#fffdf3"/><stop offset="1" stop-color="#e9ede4"/></linearGradient></defs>`;
@@ -27,7 +27,7 @@ art += path('M-1440 650H0Q163 547 293 610Q446 513 575 601Q804 479 995 584Q1217 5
 art += [tree(137,683,.9,'#8ba493'),tree(1271,689,.95,'#8ba493'),tree(345,605,.72,'#a5b7a1'),tree(1018,595,.8,'#9aaf9c')].join('');
 art += path('M-1440 738H0Q115 684 252 711Q472 659 694 710Q917 667 1119 700Q1310 669 1440 726H2880V1800H-1440Z','url(#ground)','stroke="none"');
 // Five houses, each with its own silhouette and small architectural details.
-art += chimney(215,344,'#c3cdb6');
+art += chimney(215,310,'#c3cdb6');
 art += rect(183,431,190,288,'#b8c7b4',3);
 art += path('M183 431L278 328L373 431Z','#b8c7b4');
 art += roof(183,431,190,110,'#54776a');
@@ -52,13 +52,14 @@ art += rect(600,720,257,16,snow,5);
 art += path('M668 731L659 747H800L791 731','#e7d7c3');
 art += path('M659 747L650 757H809L800 747',snow);
 art += wreath(729,586,1.05);
+art += chimney(1000,282,'#80a397');
 art += rect(867,373,178,352,'#9db8ae',3);
 art += path('M867 373L956 272L1045 373Z','#9db8ae');
 art += roof(867,373,178,109,'#4b7067');
 art += attic(956,338,16);
 art += path('M878 388V714M1034 388V714M867 499H1045M867 612H1045','none','opacity=".35"');
 art += rect(857,716,198,16,snow,5);
-art += chimney(1173,369,'#c89376');
+art += chimney(1173,330,'#c89376');
 art += rect(1065,459,174,267,'#e5c6a1',3);
 art += path('M1065 459L1152 360L1239 459Z','#e5c6a1');
 art += roof(1065,459,174,107,'#aa6b53');
@@ -68,16 +69,18 @@ art += rect(1055,718,195,15,snow,5);
 // Small masonry flecks and frosted roof icicles.
 [[198,680],[338,601],[419,581],[553,384],[630,472],[807,679],[880,582],[1016,636],[1082,614],[1203,493]].forEach(([x,y])=>{art+=path(`M${x} ${y}h13m-6 7h13`,'none','opacity=".25" stroke-width="1.5"');});
 [[189,442],[357,439],[406,367],[576,367],[622,312],[830,313],[877,384],[1031,384],[1072,469],[1225,469]].forEach(([x,y],i)=>{art+=path(`M${x} ${y}l3 ${12+i%3*3}l3 -${12+i%3*3}`,snow,'stroke-width="1.2"');});
-// Color-changing Christmas lights follow every roof, clear of the windows.
+// One continuous cable; fixed bulb colors chase in half-second groups.
 art += '<g class="ambient christmas-lights">';
-[[183,431,190,110],[397,358,192,110],[613,302,231,135],[867,373,178,109],[1065,459,174,107]].forEach(([x,y,w,h])=>{
-  const points=Array.from({length:9},(_,i)=>{const t=i/8;return [x+3+t*(w-6),y+11-(1-Math.abs(2*t-1))*(h-11)];});
-  let wire=`M${points[0][0]} ${points[0][1]}`;
-  points.slice(1).forEach(([bx,by],i)=>{const [ax,ay]=points[i];wire+=`Q${(ax+bx)/2} ${(ay+by)/2+10} ${bx} ${by}`;});
-  art+=path(wire,'none','stroke="#3b542d" stroke-width="1.5"');
-  points.forEach(([bx,by],i)=>{
-    art+=`<g class="festive-light" transform="translate(${bx} ${by}) rotate(${i%2?-28:22})"><ellipse class="light-halo" cy="10" rx="10" ry="15" fill="currentColor"/>${path('M-4 3C-9 8 -5 17 0 22C5 17 9 8 4 3Z','currentColor','stroke="none"')}${path('M-4 -2H4L4 4Q0 6 -4 4Z','#3d592c','stroke="#304727" stroke-width=".7"')}${path('M-3 7Q-5 12 -1 17','none','stroke="#fff8de" stroke-width="1.2" opacity=".85"')}</g>`;
-  });
+const lightPoints=[[183,431,190,110],[397,358,192,110],[613,302,231,135],[867,373,178,109],[1065,459,174,107]].flatMap(([x,y,w,h])=>
+  Array.from({length:9},(_,i)=>{const t=i/8;return [x+3+t*(w-6),y+11-(1-Math.abs(2*t-1))*(h-11)];})
+);
+let lightWire=`M${lightPoints[0][0]} ${lightPoints[0][1]}`;
+lightPoints.slice(1).forEach(([bx,by],i)=>{const [ax,ay]=lightPoints[i];lightWire+=`Q${(ax+bx)/2} ${(ay+by)/2+10} ${bx} ${by}`;});
+art+=path(lightWire,'none','class="light-wire" stroke="#3b542d" stroke-width="1.5"');
+const bulbColors=[['red','#f04447',0],['blue','#45add4',-1.5],['green','#8cca51',-1],['yellow','#ffd645',-.5]];
+lightPoints.forEach(([bx,by],i)=>{
+  const [name,color,delay]=bulbColors[i%4];
+  art+=`<g class="festive-light" data-color="${name}" style="color:${color};--phase:${delay}s" transform="translate(${bx} ${by}) rotate(${i%2?-28:22})"><ellipse class="light-halo" cy="10" rx="10" ry="15" fill="currentColor"/><g class="bulb-glass">${path('M-4 3C-9 8 -5 17 0 22C5 17 9 8 4 3Z','currentColor','stroke="none"')}${path('M-3 7Q-5 12 -1 17','none','stroke="#fff8de" stroke-width="1.2" opacity=".85"')}</g>${path('M-4 -2H4L4 4Q0 6 -4 4Z','#3d592c','stroke="#304727" stroke-width=".7"')}</g>`;
 });
 art += '</g>';
 // Snow banks, fir trees, and a little frozen village pond.
@@ -143,22 +146,22 @@ svg.innerHTML=art;
 // Door coordinates share the illustration's 1440 × 900 design space.
 // Future surprises can be connected by day without changing the scene.
 const doors = [
-  [7,213,475,54,76,'#dce1c2'],[18,293,475,54,76,'#dce1c2'],
-  [3,213,605,54,78,'#d4dcc3'],[12,293,605,54,78,'#d4dcc3'],
-  [14,423,389,55,77,'#f5dfa9'],[2,509,389,55,77,'#f5dfa9'],
-  [21,423,518,55,68,'#f5dfa9'],[9,509,518,55,68,'#f5dfa9'],
-  [16,423,632,55,62,'#f5dfa9'],[15,509,632,55,62,'#f5dfa9'],
-  [5,650,331,57,82,'#f2cbb1'],[23,752,331,57,82,'#f2cbb1'],
-  [11,637,467,49,64,'#f3d0b7'],[1,704,467,49,64,'#f3d0b7'],[19,771,467,49,64,'#f3d0b7'],
+  [1,213,475,54,76,'#dce1c2'],[2,293,475,54,76,'#dce1c2'],
+  [3,213,605,54,78,'#d4dcc3'],[4,293,605,54,78,'#d4dcc3'],
+  [5,423,389,55,77,'#f5dfa9'],[6,509,389,55,77,'#f5dfa9'],
+  [7,423,518,55,68,'#f5dfa9'],[8,509,518,55,68,'#f5dfa9'],
+  [9,423,632,55,62,'#f5dfa9'],[10,509,632,55,62,'#f5dfa9'],
+  [11,650,331,57,82,'#f2cbb1'],[12,752,331,57,82,'#f2cbb1'],
+  [13,637,467,49,64,'#f3d0b7'],[14,704,467,49,64,'#f3d0b7'],[15,771,467,49,64,'#f3d0b7'],
   [25,688,628,81,92,'#a65e50','grand'],
-  [8,892,410,53,66,'#cfddc7'],[17,970,410,53,66,'#cfddc7'],
-  [4,892,525,53,64,'#cfddc7'],[22,970,525,53,64,'#cfddc7'],
-  [13,931,631,54,61,'#cfddc7'],
-  [20,1089,495,51,63,'#f1d9ac'],[6,1163,495,51,63,'#f1d9ac'],
-  [10,1089,615,51,63,'#f1d9ac'],[24,1163,615,51,63,'#f1d9ac']
+  [16,892,410,53,66,'#cfddc7'],[17,970,410,53,66,'#cfddc7'],
+  [18,892,525,53,64,'#cfddc7'],[19,970,525,53,64,'#cfddc7'],
+  [20,931,631,54,61,'#cfddc7'],
+  [21,1089,495,51,63,'#f1d9ac'],[22,1163,495,51,63,'#f1d9ac'],
+  [23,1089,615,51,63,'#f1d9ac'],[24,1163,615,51,63,'#f1d9ac']
 ];
 const holder=document.querySelector('#doors');
-// Tab order follows the days, while their visual arrangement stays playful.
+// Days read across each row, then down each house, from left to right.
 doors.sort((a,b)=>a[0]-b[0]).forEach(([day,x,y,w,h,paint,kind='window'])=>{
   const button=document.createElement('button');
   button.className=`door ${kind}`;
@@ -182,12 +185,15 @@ document.addEventListener('pointerdown',event=>{if(!event.target.closest('.door'
 const canvas=document.querySelector('#snow'),ctx=canvas.getContext('2d');
 const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const skater=document.querySelector('.skater-travel');
+const santa=document.querySelector('.santa-flight');
 const skaterUpper=document.querySelector('.skater-upper');
 const skaterScarf=document.querySelector('.skater-scarf');
 const skaterLegs=[...document.querySelectorAll('.skater-leg')];
 const skaterBoots=[...document.querySelectorAll('.skater-boot')];
 let width,height,flakes=[],frame,last=0,sceneSeconds=3;
-function poseSkater(){
+function poseScene(){
+  const flight=santaPose(sceneSeconds+3);
+  santa.setAttribute('transform',`translate(${flight.x} ${flight.y}) rotate(${flight.rotation})`);
   const pose=skaterPose(sceneSeconds);
   skater.setAttribute('transform',`translate(${pose.x} ${pose.y}) scale(${pose.scale})`);
   skaterUpper.setAttribute('transform',`translate(0 ${pose.dip}) rotate(${pose.lean} 0 -27)`);
@@ -208,6 +214,6 @@ function resize(){
   if(motion.matches) draw(0);
 }
 function draw(delta){ctx.clearRect(0,0,width,height);flakes.forEach(f=>{f.y+=f.s*delta;f.x+=(Math.sin(f.y/90+f.phase)*8+8)*delta;if(f.y>height+5){f.y=-5;f.x=Math.random()*width;}if(f.x>width+5)f.x=-5;ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,248,${f.opacity})`;ctx.fill();});}
-function animate(time){const delta=last?Math.min((time-last)/1000,.05):0;sceneSeconds+=delta;draw(delta);poseSkater();last=time;frame=requestAnimationFrame(animate);}
-function syncMotion(){cancelAnimationFrame(frame);last=0;poseSkater();document.body.classList.toggle('scene-paused',document.hidden);if(!motion.matches&&!document.hidden)frame=requestAnimationFrame(animate);else draw(0);}
+function animate(time){const delta=last?Math.min((time-last)/1000,.05):0;sceneSeconds+=delta;draw(delta);poseScene();last=time;frame=requestAnimationFrame(animate);}
+function syncMotion(){cancelAnimationFrame(frame);last=0;poseScene();document.body.classList.toggle('scene-paused',document.hidden);if(!motion.matches&&!document.hidden)frame=requestAnimationFrame(animate);else draw(0);}
 window.addEventListener('resize',resize);motion.addEventListener('change',syncMotion);document.addEventListener('visibilitychange',syncMotion);resize();syncMotion();

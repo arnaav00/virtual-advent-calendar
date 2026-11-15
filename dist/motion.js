@@ -1,5 +1,18 @@
 const TAU = Math.PI * 2;
 export const LAP_SECONDS = 20;
+export const FLIGHT_SECONDS = 34;
+export const CROSSING_SECONDS = FLIGHT_SECONDS * .72;
+
+// A broad parabolic arc, with the sleigh tilted along its direction of travel.
+// The reset and pause happen beyond the edges of the illustration.
+export function santaPose(seconds) {
+  const t = Math.min((seconds % FLIGHT_SECONDS) / CROSSING_SECONDS, 1);
+  return {
+    x: -400 + 2170 * t,
+    y: 240 - 560 * t * (1 - t),
+    rotation: Math.atan2(560 * (2 * t - 1), 2170) * 180 / Math.PI
+  };
+}
 
 // A continuous oval with a front-facing figure: no mirror flips or width changes.
 // During each push one blade stays on the ice while the other recovers.
