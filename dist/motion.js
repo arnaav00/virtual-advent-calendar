@@ -1,16 +1,16 @@
 const TAU = Math.PI * 2;
 export const LAP_SECONDS = 20;
-export const FLIGHT_SECONDS = 34;
-export const CROSSING_SECONDS = FLIGHT_SECONDS * .72;
+export const FLIGHT_SECONDS = 22;
+export const CROSSING_SECONDS = FLIGHT_SECONDS;
 
 // A broad parabolic arc, with the sleigh tilted along its direction of travel.
-// The reset and pause happen beyond the edges of the illustration.
+// Wrap as the sleigh clears the right edge, with the lead nose entering at left.
 export function santaPose(seconds) {
-  const t = Math.min((seconds % FLIGHT_SECONDS) / CROSSING_SECONDS, 1);
+  const t = (seconds % FLIGHT_SECONDS) / FLIGHT_SECONDS;
   return {
-    x: -400 + 2170 * t,
-    y: 240 - 560 * t * (1 - t),
-    rotation: Math.atan2(560 * (2 * t - 1), 2170) * 180 / Math.PI
+    x: -244 + 1732 * t,
+    y: 240 - 500 * t * (1 - t),
+    rotation: Math.atan2(500 * (2 * t - 1), 1732) * 180 / Math.PI
   };
 }
 

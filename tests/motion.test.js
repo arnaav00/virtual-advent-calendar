@@ -2,20 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { skaterPose, LAP_SECONDS, santaPose, CROSSING_SECONDS, FLIGHT_SECONDS } from '../dist/motion.js';
 
-test('Santa climbs and descends an arc, clearing the central roof and resetting offscreen',()=>{
-  const start=santaPose(0),mid=santaPose(CROSSING_SECONDS/2),end=santaPose(CROSSING_SECONDS);
-  assert.ok(start.x<-300 && end.x>1740);
+test('Santa follows an arc and immediately wraps from the right edge to the left',()=>{
+  const start=santaPose(0),mid=santaPose(CROSSING_SECONDS/2),end=santaPose(CROSSING_SECONDS-.001);
+  assert.ok(start.x<=-240 && end.x>=1480);
   assert.ok(mid.y<start.y-100 && mid.y<end.y-100);
   assert.ok(start.rotation<0 && Math.abs(mid.rotation)<1e-9 && end.rotation>0);
   let previous=start;
-  for(let t=.1;t<=CROSSING_SECONDS;t+=.1){
+  for(let t=.1;t<CROSSING_SECONDS-.01;t+=.1){
     const p=santaPose(t);
     assert.ok(p.x>previous.x);
     assert.ok(Math.hypot(p.x-previous.x,p.y-previous.y)<10,'smooth flight');
     if(p.x>=600 && p.x<=850)assert.ok(p.y+25<150,'clear of the central roof');
     previous=p;
   }
-  assert.deepEqual(santaPose(FLIGHT_SECONDS-.01),end);
+  assert.ok(end.x>santaPose(FLIGHT_SECONDS-.1).x,'keeps moving until the wrap, without a pause');
+  assert.deepEqual(santaPose(FLIGHT_SECONDS),start);
+  assert.ok(santaPose(FLIGHT_SECONDS+.1).x>start.x,'starts moving immediately after the wrap');
 });
 
 test('a complete lap stays on the pond with a grounded support blade',()=>{

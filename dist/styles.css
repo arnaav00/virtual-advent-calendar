@@ -21,6 +21,15 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 .door:focus-visible{outline:3px solid #a6624e;outline-offset:9px}
 #snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .ambient{pointer-events:none}
+.easter-egg{cursor:pointer;pointer-events:all;outline:none}
+.easter-egg:focus-visible{filter:drop-shadow(0 0 4px #d8ae67)}
+.skater-hit{pointer-events:all}
+.skater-waiting-arms{display:none}
+.waiting .skater-moving-arms{display:none}
+.waiting .skater-waiting-arms{display:inline}
+.dancing-snoopy{pointer-events:none}
+.rudolph-glow{opacity:.45;animation:nose-glow 1.6s ease-in-out infinite}
+@keyframes nose-glow{0%,100%{opacity:.25}50%{opacity:.65}}
 .bulb-glass{opacity:.45;animation:bulb-pulse 2s steps(1,end) var(--phase) infinite}
 .light-halo{opacity:0;animation:halo-pulse 2s steps(1,end) var(--phase) infinite}
 .skater-travel{transform-box:view-box}
