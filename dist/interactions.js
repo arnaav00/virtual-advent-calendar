@@ -1,3 +1,5 @@
+import { doveMarkup } from './characters.js';
+import { dovePose } from './motion.js';
 const NS='http://www.w3.org/2000/svg';
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function group(parent,children,className){
@@ -34,7 +36,7 @@ export function setupEasterEggs(svg){
   const upper=skater.querySelector('.skater-upper'),arms=[...upper.children].slice(1,4);
   group(upper,arms,'skater-moving-arms');
   const waitingArms=document.createElementNS(NS,'g');waitingArms.setAttribute('class','skater-waiting-arms');
-  waitingArms.innerHTML='<path d="M-6 -44L-18 -36L-9 -29M7 -44L18 -36L9 -29" fill="none" stroke="#bd6b61" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="-9" cy="-29" r="2.8" fill="#557b70"/><circle cx="9" cy="-29" r="2.8" fill="#557b70"/>';
+  waitingArms.innerHTML='<path d="M-6 -44L-18 -36L-9 -29M7 -44L16 -48" fill="none" stroke="#bd6b61" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="-9" cy="-29" r="2.8" fill="#557b70"/><g transform="translate(16 -48)"><g class="skater-wave"><path d="M0 0L2 -14" fill="none" stroke="#bd6b61" stroke-width="4.5" stroke-linecap="round"/><path d="M0 -12L-1 -17Q0 -19 2 -17L4 -19Q7 -19 7 -16L5 -11Z" fill="#557b70" stroke="#354d49" stroke-width="1"/></g></g>';
   upper.append(waitingArms);
   let hovered=false,focused=false;
   const update=()=>{state.skaterWaiting=hovered||focused;skater.classList.toggle('waiting',state.skaterWaiting);skater.setAttribute('aria-pressed',String(state.skaterWaiting));};
@@ -112,6 +114,53 @@ export function setupEasterEggs(svg){
       snowParts.forEach(element=>element.style.removeProperty('opacity'));
       [...falling,...settling].forEach(animation=>animation.cancel());tree.dataset.state='idle';
     });
+  });
+
+  const wreath=svg.querySelector('.wreath');
+  const bough=group(wreath,[...wreath.children],'wreath-bough');
+  const wreathHit=document.createElementNS(NS,'circle');
+  for(const [key,value]of Object.entries({r:23,cy:5,fill:'transparent'}))wreathHit.setAttribute(key,value);
+  wreath.append(wreathHit);
+  const birdLayer=document.createElementNS(NS,'svg');
+  birdLayer.setAttribute('class','bird-layer');birdLayer.setAttribute('viewBox','0 0 1440 900');birdLayer.setAttribute('aria-hidden','true');
+  svg.parentElement.append(birdLayer);
+  button(wreath,'Release two turtle doves from the wreath',async()=>{
+    wreath.dataset.state='shaking';
+    const shake=await tween(bough,reduced.matches?[{opacity:1},{opacity:.7},{opacity:1}]:[
+      {transform:'rotate(0deg)'},{transform:'rotate(-9deg)'},{transform:'rotate(8deg)'},
+      {transform:'rotate(-6deg)'},{transform:'rotate(4deg)'},{transform:'rotate(0deg)'}
+    ],reduced.matches?180:500);
+    shake.cancel();
+    wreath.dataset.state='flying';
+    const bounds=svg.getBoundingClientRect(),scale=bounds.width/1440;
+    const birds=[-1,1].map(direction=>{
+      const bird=group(birdLayer,[],'turtle-dove');
+      const facing=group(bird,[],'dove-facing');facing.setAttribute('transform',`scale(${direction*.78} .78)`);facing.innerHTML=doveMarkup();
+      return{element:bird,direction,edge:direction===1?(innerWidth-bounds.left)/scale+70:-bounds.left/scale-70,
+        near:bird.querySelector('.dove-near-wing'),far:bird.querySelector('.dove-far-wing')};
+    });
+    await new Promise(resolve=>{
+      let previous=0,elapsed=0;
+      const fly=time=>{
+        const delta=previous?Math.min((time-previous)/1000,.05):0;previous=time;
+        if(!document.hidden)elapsed+=delta;
+        const duration=reduced.matches?1.2:4.8,progress=Math.min(1,elapsed/duration);
+        birds.forEach(({element,direction,edge,near,far})=>{
+          const pose=dovePose(progress,direction,edge);
+          element.setAttribute('transform',`translate(${pose.x} ${pose.y}) rotate(${pose.tilt})`);
+          const phase=elapsed*Math.PI*2*4.5+(direction===1?.35:0);
+          // Shoulder rotation and foreshortening model wings moving above/below the body.
+          const flap=reduced.matches?.6:Math.cos(phase);
+          near.setAttribute('transform',`rotate(${8+12*Math.sin(phase)}) scale(${.9+.1*Math.abs(flap)} ${flap})`);
+          far.setAttribute('transform',`rotate(-8) scale(.85 ${reduced.matches?.6:Math.cos(phase-.3)*.85})`);
+          if(reduced.matches)element.style.opacity=String(1-progress);
+        });
+        if(progress<1)requestAnimationFrame(fly);
+        else{birds.forEach(bird=>bird.element.remove());resolve();}
+      };
+      requestAnimationFrame(fly);
+    });
+    wreath.dataset.state='idle';
   });
 
   const house=svg.querySelector('.snoopy-house'),houseParts=[...house.children];

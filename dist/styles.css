@@ -27,6 +27,9 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 .skater-waiting-arms{display:none}
 .waiting .skater-moving-arms{display:none}
 .waiting .skater-waiting-arms{display:inline}
+.waiting .skater-wave{animation:skater-wave .65s ease-in-out infinite;transform-origin:0 0}
+.bird-layer{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:20}
+@keyframes skater-wave{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(22deg)}}
 .dancing-snoopy{pointer-events:none}
 .rudolph-glow{opacity:.45;animation:nose-glow 1.6s ease-in-out infinite}
 @keyframes nose-glow{0%,100%{opacity:.25}50%{opacity:.65}}
@@ -35,15 +38,17 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 .skater-travel{transform-box:view-box}
 .santa-flight{transform-box:view-box}
 .santa-float{animation:sleigh-bob 3.4s ease-in-out infinite}
-.reindeer-bob{animation:reindeer-bob 2s ease-in-out var(--delay) infinite}
-.deer-leg{transform-origin:0 0;animation:deer-stride 2s ease-in-out var(--delay) infinite}
-.deer-shin{transform-origin:0 0;animation:deer-knee 2s ease-in-out var(--delay) infinite}
+.appa-bob{animation:appa-bob 2s ease-in-out infinite}
+.appa-tail{transform-origin:160px -28px;animation:appa-tail 2.4s ease-in-out infinite}
+.appa-leg{transform-origin:0 0;animation:appa-stride 2s ease-in-out var(--delay) infinite}
+.appa-paw{transform-origin:0 0;animation:appa-knee 2s ease-in-out var(--delay) infinite}
 .scene-paused .ambient,.scene-paused .ambient *{animation-play-state:paused!important}
 @keyframes bulb-pulse{0%{opacity:1}25%,100%{opacity:.45}}
 @keyframes halo-pulse{0%{opacity:.55}25%,100%{opacity:0}}
 @keyframes sleigh-bob{0%,100%{transform:translateY(0) scale(.78)}50%{transform:translateY(-3px) scale(.78)}}
-@keyframes reindeer-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
-@keyframes deer-stride{0%,100%{transform:rotate(-27deg)}50%{transform:rotate(24deg)}}
-@keyframes deer-knee{0%,100%{transform:rotate(12deg)}35%{transform:rotate(52deg)}75%{transform:rotate(-12deg)}}
+@keyframes appa-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes appa-tail{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+@keyframes appa-stride{0%,100%{transform:rotate(-24deg)}50%{transform:rotate(27deg)}}
+@keyframes appa-knee{0%,100%{transform:rotate(8deg)}35%{transform:rotate(35deg)}75%{transform:rotate(-12deg)}}
 @media(min-aspect-ratio:8/5){.number{font-size:3.33vh}}
 @media(prefers-reduced-motion:reduce){.panel{transition:none}.ambient,.ambient *{animation:none!important}.santa-flight{display:none}.light-halo{opacity:.2}}

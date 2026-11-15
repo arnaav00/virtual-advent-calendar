@@ -1,5 +1,6 @@
 import { skaterPose, santaPose } from './motion.js';
 import { setupEasterEggs } from './interactions.js';
+import { appa } from './characters.js';
 const svg = document.querySelector('#landscape');
 const ink = '#354d49', snow = '#fffdf3';
 const stroke = `stroke="${ink}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"`;
@@ -14,7 +15,7 @@ function tree(x,y,s=1,paint='#54796b',side=''){
   return `<g ${side?`class="interactive-tree" data-side="${side}"`:''} transform="translate(${x} ${y}) scale(${s})">${path('M0 0L0 -170',ink)}${path('M0 -190Q-12 -160 -33 -139L-19 -140Q-34 -105 -57 -84L-37 -88Q-51 -54 -77 -23Q-20 -4 0 -9Q35 -3 77 -23Q49 -54 38 -88L58 -84Q34 -110 20 -140L34 -139Q12 -166 0 -190',paint)}${path('M0 -190Q-12 -160 -33 -139Q-23 -132 -13 -143Q-2 -134 7 -144Q17 -134 34 -139Q12 -166 0 -190',snow)}${path('M-37 -101Q-24 -91 -10 -102Q0 -92 12 -101Q26 -90 40 -101','none',`stroke="${snow}" stroke-width="8"`)}${path('M-60 -43Q-44 -32 -27 -44Q-11 -32 3 -44Q22 -31 37 -43Q47 -34 61 -43','none',`stroke="${snow}" stroke-width="9"`)}</g>`;
 }
 function wreath(x,y,s=1){
-  return `<g transform="translate(${x} ${y}) scale(${s})">${circle(0,0,15,'#547463')}${circle(0,0,8,'#e8c4b3')}${path('M0 14Q-22 4 -14 22Q-7 28 0 14Q20 4 15 23Q8 28 0 14','#aa584b')}${path('M-3 21L-7 33M3 21L8 30','none','stroke="#aa584b" stroke-width="5"')}${[[-9,-8],[10,-7],[-12,5],[12,5]].map(([a,b])=>circle(a,b,2.5,'#e9c98b')).join('')}</g>`;
+  return `<g class="wreath" transform="translate(${x} ${y}) scale(${s})">${circle(0,0,15,'#547463')}${circle(0,0,8,'#e8c4b3')}${path('M0 14Q-22 4 -14 22Q-7 28 0 14Q20 4 15 23Q8 28 0 14','#aa584b')}${path('M-3 21L-7 33M3 21L8 30','none','stroke="#aa584b" stroke-width="5"')}${[[-9,-8],[10,-7],[-12,5],[12,5]].map(([a,b])=>circle(a,b,2.5,'#e9c98b')).join('')}</g>`;
 }
 function chimney(x,y,paint){return `<g class="chimney">${rect(x,y,28,77,paint)}${rect(x-5,y-4,38,10,snow,4)}${path(`M${x+5} ${y+20}h10m-1 12h12m-20 14h12`,'none','opacity=".35"')}</g>`;}
 function roof(x,y,w,h,color){return `${path(`M${x-13} ${y+7}L${x+w/2} ${y-h}L${x+w+13} ${y+7}L${x+w+6} ${y+20}L${x+w/2} ${y-h+20}L${x-6} ${y+20}Z`,color)}${path(`M${x-18} ${y+5}Q${x-24} ${y-3} ${x-12} ${y-9}L${x+w/2-9} ${y-h-11}Q${x+w/2} ${y-h-18} ${x+w/2+11} ${y-h-9}L${x+w+18} ${y-4}Q${x+w+27} ${y+9} ${x+w+13} ${y+12}Q${x+w+3} ${y+16} ${x+w-1} ${y+6}L${x+w/2} ${y-h+5}L${x+8} ${y+7}Q${x+1} ${y+23} ${x-6} ${y+11}Z`,snow)}`;}
@@ -119,25 +120,10 @@ art += `<g class="ambient skater-travel"><ellipse cy="3" rx="18" ry="3" fill="#9
   ${circle(0,-59,8.5,'#e8c8a5')}${path('M-9 -62Q-9 -75 1 -74Q11 -72 9 -62Z','#557b70','stroke-width="1.5"')}${path('M-9 -62H9','none','stroke="#d2ddbd" stroke-width="3"')}${circle(0,-76,3.5,'#d2ddbd')}${circle(-3,-57, .8,ink)}${circle(3,-57,.8,ink)}${path('M-2 -53Q0 -51 2 -53','none','stroke-width="1"')}
   <g class="skater-scarf">${path('M-4 -48Q-16 -54 -24 -50L-25 -44Q-15 -48 -5 -43Z','#edc98d','stroke-width="1.2"')}</g>${path('M-7 -49L7 -48','none','stroke="#edc98d" stroke-width="4"')}${path('M0 -43v13','none','stroke="#a45c53" stroke-width="1"')}
 </g></g>`;
-// Santa and two pairs of reindeer cross the sky in a continuous loop.
-function reindeer(x,y,delay,leading=false){
-  const leg=(hip,phase,far=false)=>`<g transform="translate(${hip} -1)"><g class="deer-leg" style="--delay:${delay+phase}s">${path('M-3 -3Q4 -3 4 4L2 17H-2L-5 5Z',far?'#917052':'#b18a62','stroke="#655541" stroke-width="1"')}<g transform="translate(0 16)"><g class="deer-shin" style="--delay:${delay+phase}s">${path('M-2 0H2L4 16L-1 17Z',far?'#917052':'#b18a62','stroke="#655541" stroke-width="1"')}${path('M-1 14L4 14L8 19H-2Z','#4e493b','stroke-width=".8"')}</g></g></g></g>`;
-  return `<g class="reindeer" transform="translate(${x} ${y})"><g class="reindeer-bob" style="--delay:${delay}s">
-  ${leg(-13,-.8,true)}${leg(16,-.2,true)}
-  ${path('M-29 -12Q-39 -17 -33 -23L-23 -19Z','#e8dcc3','stroke="#655541" stroke-width="1.3"')}
-  ${path('M-29 -12C-29 -28 0 -30 18 -19L25 -39Q24 -46 33 -48L43 -43L54 -37Q57 -30 48 -29L36 -30L28 -10Q24 7 8 9L-17 7Q-28 4 -29 -12Z','#b18a62','stroke="#655541" stroke-width="1.6"')}
-  ${path('M17 -18L24 -34L31 -31L25 -12L20 1L12 3Z','#eadcc1','stroke="none"')}
-  ${path('M28 -45Q13 -57 19 -59Q30 -56 34 -47M36 -46Q39 -60 43 -57Q45 -49 40 -43','#b18a62','stroke="#655541" stroke-width="1.2"')}
-  ${path('M28 -48L24 -60L25 -75M25 -64L16 -70L14 -76M25 -69L33 -77M33 -48L37 -60L37 -77M37 -65L46 -71L47 -77M37 -71L30 -80','none','stroke="#796447" stroke-width="2.1"')}
-  ${circle(43,-38,1.4,'#343b37')}${leading?'<circle class="rudolph-glow" cx="55" cy="-34" r="12" fill="#ff6552"/>':''}${path('M51 -37Q58 -38 57 -33Q54 -30 51 -32Z',leading?'#f34c45':'#4e493b','stroke-width="1"')}
-  ${path('M23 -24L33 -19M-4 -23L-7 7','none','stroke="#a65e50" stroke-width="4"')}${circle(29,-19,2,'#edc98d')}
-  ${leg(-20,0)}${leg(18,-1)}
-  </g></g>`;
-}
+// Santa and Appa cross the sky in a continuous loop.
 art += `<g class="ambient santa-flight"><g class="santa-float" transform="scale(.78)">
-  ${path('M44 -9Q104 -39 169 -64L287 -69M43 -5Q170 24 305 -18','none','stroke="#987b53" stroke-width="1.3"')}
-  ${reindeer(140,-45,-.6)}${reindeer(258,-50,-1.2)}
-  ${reindeer(158,6,-.3)}${reindeer(276,1,-.9,true)}
+  ${path('M44 -9Q129 12 272 -29M43 -5Q147 28 280 -5','none','stroke="#987b53" stroke-width="1.3"')}
+  ${appa(path,circle)}
   ${path('M-41 -14Q-63 -44 -39 -53Q-43 -65 -33 -62Q-22 -68 -25 -54Q-3 -44 -14 -12Z','#7c9372','stroke-width="1.8"')}
   ${path('M-14 -18Q-25 -40 -4 -43Q12 -43 19 -16Z','#b75d50','stroke-width="1.8"')}${path('M4 -34L21 -25L34 -28','none','stroke="#b75d50" stroke-width="7"')}${circle(35,-28,3,'#e7c8a1')}
   ${circle(-2,-49,10,'#e7c8a1')}${path('M-11 -47Q-12 -28 3 -34Q12 -40 7 -49L2 -45Z',snow,'stroke-width="1.2"')}${path('M-13 -54Q-7 -80 9 -65L16 -55Q5 -65 -3 -54Z','#b75d50','stroke-width="1.5"')}${path('M-13 -53H8','none',`stroke="${snow}" stroke-width="5"`)}${circle(16,-55,4,snow)}${circle(4,-50,1,ink)}

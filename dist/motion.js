@@ -3,6 +3,14 @@ export const LAP_SECONDS = 20;
 export const FLIGHT_SECONDS = 22;
 export const CROSSING_SECONDS = FLIGHT_SECONDS;
 
+export function dovePose(progress,direction,edge){
+  const t=Math.max(0,Math.min(1,progress)),distance=Math.abs(edge-729);
+  const dx=distance*1.25*Math.pow(Math.max(t,.001),.25);
+  const dy=-180-80*Math.PI*Math.cos(Math.PI*t);
+  return{x:729+direction*distance*Math.pow(t,1.25),y:586-180*t-80*Math.sin(Math.PI*t),
+    tilt:direction*Math.max(-48,Math.min(18,Math.atan2(dy,dx)*180/Math.PI))};
+}
+
 // A broad parabolic arc, with the sleigh tilted along its direction of travel.
 // Wrap as the sleigh clears the right edge, with the lead nose entering at left.
 export function santaPose(seconds) {

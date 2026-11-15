@@ -1,6 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { skaterPose, LAP_SECONDS, santaPose, CROSSING_SECONDS, FLIGHT_SECONDS } from '../dist/motion.js';
+import { skaterPose, LAP_SECONDS, santaPose, CROSSING_SECONDS, FLIGHT_SECONDS, dovePose } from '../dist/motion.js';
+
+test('the doves separate from the wreath and exit their own side of the screen',()=>{
+  for(const [direction,edge]of [[-1,-70],[1,1510]]){
+    let previous=dovePose(0,direction,edge);
+    assert.equal(previous.x,729);assert.equal(previous.y,586);
+    for(let t=.01;t<=1.001;t+=.01){
+      const pose=dovePose(t,direction,edge);
+      assert.ok(direction*(pose.x-previous.x)>0,'flight always travels outward');
+      assert.ok(pose.y<586 && pose.y>370,'takes off above the wreath');
+      assert.ok(Math.abs(pose.tilt)<=48,'body follows a gentle flight direction');
+      previous=pose;
+    }
+    assert.equal(dovePose(1,direction,edge).x,edge);
+  }
+});
 
 test('Santa follows an arc and immediately wraps from the right edge to the left',()=>{
   const start=santaPose(0),mid=santaPose(CROSSING_SECONDS/2),end=santaPose(CROSSING_SECONDS-.001);
