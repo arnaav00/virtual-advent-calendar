@@ -14,25 +14,45 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 .panel{position:absolute;inset:-.5px;display:flex;align-items:center;justify-content:center;border-radius:inherit;background:var(--paint);color:var(--ink);transform-origin:0% 50%;transition:transform .7s cubic-bezier(.22,.68,.16,1),filter .7s,box-shadow .7s;backface-visibility:hidden;transform-style:preserve-3d;border:1px solid var(--ink)}
 .panel::before{content:"";position:absolute;inset:7px;border:1px solid currentColor;opacity:.28;border-radius:inherit}
 .panel::after{content:"";position:absolute;right:10%;top:57%;width:4px;height:4px;border-radius:50%;background:#ab7953;box-shadow:0 0 0 1px #354d4980}
-.number{font-family:Georgia,'Times New Roman',serif;font-size:clamp(12px,2.65vw,38px);font-weight:400;line-height:1;transform:rotate(var(--tilt,0deg));padding-bottom:3px}
+.number{font-family:Georgia,'Times New Roman',serif;font-size:clamp(10px,2.08vw,30px);font-weight:400;line-height:1;transform:rotate(var(--tilt,0deg));padding-bottom:3px}
 .door:nth-child(3n) .number{font-style:italic}
-.door:nth-child(5n) .number{font-weight:bold}
 .door:hover,.door:focus-visible,.door[data-open="true"]{z-index:10}
 .door:hover .panel,.door:focus-visible .panel,.door[data-open="true"] .panel{transform:rotateY(-106deg);filter:brightness(.91);box-shadow:7px 2px 12px #233a3220}
 .door:focus-visible{outline:3px solid #a6624e;outline-offset:9px}
-.door.gift{--radius:3px}
-.door.gift .panel::before{inset:0 43%;border:0;border-left:1px solid #354d4940;border-right:1px solid #354d4940;background:#fffdf350}
-.door.gift::before{inset:-3px}
-.door.gift .number{font-size:clamp(12px,2vw,29px);z-index:1}
-.door.grand .number{font-size:clamp(22px,3.9vw,55px)}
 #snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.smoke{animation:drift 6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
-.smoke.second{animation-delay:-3s}
-.star{animation:twinkle 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.star:nth-child(2n){animation-delay:-2s}
-.bulb{animation:glow 4s ease-in-out infinite alternate}
-@keyframes drift{0%,100%{transform:translate(0,3px) rotate(-3deg);opacity:.35}50%{transform:translate(6px,-6px) rotate(4deg);opacity:.65}}
-@keyframes twinkle{50%{opacity:.45;transform:scale(.85)}}
-@keyframes glow{to{fill:#ffedb5}}
-@media(min-aspect-ratio:8/5){.number{font-size:4.2vh}.door.gift .number{font-size:3.2vh}.door.grand .number{font-size:6vh}}
-@media(prefers-reduced-motion:reduce){.panel{transition:none}.smoke,.star,.bulb{animation:none}}
+.ambient{pointer-events:none}
+.festive-light{color:#e9bd63;animation:christmas-colors 8s linear var(--delay) infinite}
+.light-halo{opacity:.22;animation:light-breathe 3.6s ease-in-out var(--delay) infinite}
+.skater-travel{transform:translate(725px,842px);animation:skate-lap 18s linear -3s infinite}
+.skater-facing{animation:skate-turn 18s linear -3s infinite;transform-origin:0 0}
+.skater-bob{animation:skate-bob 1.8s ease-in-out infinite;transform-origin:0 0}
+.skate-leg{transform-origin:0 -20px;animation:skate-push 1.8s ease-in-out infinite}
+.skate-leg.back{animation-delay:-.9s}
+.skater-scarf{transform-origin:-5px -40px;animation:scarf-flutter 2.1s ease-in-out infinite}
+.santa-flight{transform:translate(-400px,110px);animation:santa-crossing 34s linear -6s infinite}
+.santa-float{animation:sleigh-bob 3.4s ease-in-out infinite}
+.reindeer-bob{animation:reindeer-bob 1.6s ease-in-out var(--delay) infinite}
+.reindeer-legs{transform-origin:0 0;animation:reindeer-kick 1.6s ease-in-out var(--delay) infinite}
+.scene-paused .ambient,.scene-paused .ambient *{animation-play-state:paused!important}
+@keyframes christmas-colors{0%,100%{color:#e67a72}25%{color:#efc96c}50%{color:#65b99b}75%{color:#94a6de}}
+@keyframes light-breathe{0%,100%{opacity:.14}50%{opacity:.48}}
+@keyframes skate-lap{
+  0%,100%{transform:translate(527px,827px) scale(.94)}
+  12.5%{transform:translate(583px,807px) scale(.89)}
+  25%{transform:translate(735px,800px) scale(.86)}
+  37.5%{transform:translate(889px,807px) scale(.89)}
+  50%{transform:translate(947px,827px) scale(.94)}
+  62.5%{transform:translate(889px,848px) scale(.98)}
+  75%{transform:translate(735px,856px) scale(1)}
+  87.5%{transform:translate(583px,848px) scale(.98)}
+}
+@keyframes skate-turn{0%{transform:scaleX(.35)}4%,46%{transform:scaleX(1)}50%{transform:scaleX(.35)}54%,96%{transform:scaleX(-1)}100%{transform:scaleX(.35)}}
+@keyframes skate-bob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-2px) rotate(3deg)}}
+@keyframes skate-push{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(17deg)}}
+@keyframes scarf-flutter{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(9deg)}}
+@keyframes santa-crossing{0%{transform:translate(-400px,110px)}72%,100%{transform:translate(1770px,88px)}}
+@keyframes sleigh-bob{0%,100%{transform:translateY(0) scale(.78)}50%{transform:translateY(-7px) scale(.78)}}
+@keyframes reindeer-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-4px) rotate(3deg)}}
+@keyframes reindeer-kick{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(8deg)}}
+@media(min-aspect-ratio:8/5){.number{font-size:3.33vh}}
+@media(prefers-reduced-motion:reduce){.panel{transition:none}.ambient,.ambient *{animation:none!important}.santa-flight{display:none}.light-halo{opacity:.2}}
