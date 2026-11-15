@@ -31,6 +31,15 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 .bird-layer{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:20}
 @keyframes skater-wave{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(22deg)}}
 .dancing-snoopy{pointer-events:none}
+.santa-gifts,.chimney-cats{pointer-events:none}
+.santa-gift-trigger{pointer-events:all}
+.snowball-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.cat-squint,.cat-meow-mouth,.cat-snow-splat{display:none}
+.is-hit .cat-eyes,.is-hit .cat-smile{display:none}
+.is-hit .cat-squint,.is-hit .cat-meow-mouth,.is-hit .cat-snow-splat{display:inline}
+.snowball-mode,.snowball-mode *{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23354d49' stroke-opacity='.6' stroke-width='6'%3E%3Ccircle cx='32' cy='32' r='19'/%3E%3Cpath d='M32 2v13m0 34v13M2 32h13m34 0h13'/%3E%3C/g%3E%3Cg fill='none' stroke='%23fffdf3' stroke-width='3.5'%3E%3Ccircle cx='32' cy='32' r='19'/%3E%3Cpath d='M32 2v13m0 34v13M2 32h13m34 0h13'/%3E%3C/g%3E%3C/svg%3E") 32 32,crosshair!important}
+.snowball-mode .door:hover .panel,.snowball-mode .door:focus-visible .panel{transform:none;filter:none;box-shadow:none}
+.snowball-mode .easter-egg,.snowball-mode .door{pointer-events:none}
 .rudolph-glow{opacity:.45;animation:nose-glow 1.6s ease-in-out infinite}
 @keyframes nose-glow{0%,100%{opacity:.25}50%{opacity:.65}}
 .bulb-glass{opacity:.45;animation:bulb-pulse 2s steps(1,end) var(--phase) infinite}

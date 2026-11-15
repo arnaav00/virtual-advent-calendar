@@ -9,6 +9,8 @@ Run `npm run dev` from this directory and open http://localhost:4173. The static
 - `dist/interactions.js`: skater pause, snowman tumble, falling tree snow, and Snoopy dance.
 - `dist/styles.css`: palette, viewport fitting, and hinged shutter transitions.
 - `dist/index.html`: accessible page shell.
+- `dist/snowball-game.js` and `dist/game-model.js`: T-toggle snowball game, chimney cats, independent projectiles, and hit timing.
+- `dist/santa-gifts.js`: colored presents dropping behind the houses when Santa is clicked.
 
 Hover or keyboard-focus a window or the central door to peek inside. Click/tap to keep it open; click it again, click outside, or press Escape to reset. All interiors are intentionally empty black placeholders. Visible content contains only numbers 1–25. Windows read left-to-right and top-to-bottom within each house: 1–4, 5–10, 11–15, 16–20, and 21–24; day 25 remains beneath the central wreath.
 
@@ -21,3 +23,7 @@ The scene scales as a single 1440 × 900 illustration to fit landscape laptop sc
 Easter eggs: hover over the skater to pause her with one hand on her hip and the other waving; click the snowman to tumble his body, head, carrot, scarf, arms, and hat separately, then rebuild after a one-second rest. Click either big front tree to shake loose clumps of snow that accelerate downward, scatter on landing, and settle back onto the branches after one second. Click the wreath above day 25 to shake it and release two flapping turtle doves that take off and exit opposite screen edges. Click Snoopy for a five-second happy dance beside the doghouse while Woodstock stays on the roof. Clickable surprises also support Enter and Space; the skater supports keyboard focus. Repeated clicks are ignored until each animation finishes.
 
 The caption-free Snoopy dance GIF is bundled locally from https://tenor.com/view/happysnoopy-snoopy-gif-20406733 (https://media1.tenor.com/m/IVzgNDAofuQAAAAC/happysnoopy-snoopy.gif). Its green background is removed by an SVG filter at render time; the source GIF remains unmodified.
+
+Press T to toggle the unscored snowball game; Escape also exits. A white ring-and-cross reticle replaces the cursor. Each left-button press launches one independent snowball from the viewport's bottom center (holding does not repeat). Orange, black, and white cats appear in random chimneys every second, rising for 0.2s, staying for 1.5s, and ducking for 0.2s. At most two are active, with no shared chimney. Hits are resolved on arrival, with a small forgiving margin around visible cats, a snowy flinch, and a recorded meow. Game mode consumes other click actions; normal advent interactions return when it ends. The game pauses in hidden tabs and clears on exit.
+
+Meow recording: “Meow.ogg”, Silas the cat by Dan Crosby (Dcrosby), https://commons.wikimedia.org/wiki/File:Meow.ogg — CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/). Original audio is bundled unmodified, with playback volume lowered. Attribution is also shipped in `dist/assets/meow-license.txt`.

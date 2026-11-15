@@ -1,6 +1,8 @@
 import { skaterPose, santaPose } from './motion.js';
 import { setupEasterEggs } from './interactions.js';
 import { appa } from './characters.js';
+import { setupSnowballGame } from './snowball-game.js';
+import { setupSantaGifts } from './santa-gifts.js';
 const svg = document.querySelector('#landscape');
 const ink = '#354d49', snow = '#fffdf3';
 const stroke = `stroke="${ink}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"`;
@@ -130,7 +132,11 @@ art += `<g class="ambient santa-flight"><g class="santa-float" transform="scale(
   ${path('M-57 -21Q-30 -13 24 -18Q39 -19 39 -32Q54 -31 48 -12Q44 8 18 10H-35Q-53 7 -57 -21Z','#ad594e','stroke-width="2"')}${path('M-50 -11Q-11 -3 30 -10','none','stroke="#edc98d" stroke-width="2"')}${path('M-35 12v8M21 11l6 9M-54 21H39Q56 21 57 11Q57 4 51 8','none','stroke="#b4935e" stroke-width="4"')}
 </g></g>`;
 svg.innerHTML=art;
+// The flying team and presents sit behind the village; chimney cats sit above it.
+svg.insertBefore(svg.querySelector('.santa-flight'),svg.querySelector('.chimney'));
 const eggs=setupEasterEggs(svg);
+setupSantaGifts(svg);
+setupSnowballGame(svg);
 
 // Door coordinates share the illustration's 1440 × 900 design space.
 // Future surprises can be connected by day without changing the scene.

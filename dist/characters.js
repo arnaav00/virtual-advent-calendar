@@ -7,7 +7,6 @@ export function appa(path,circle){
     ${path('M145 -31Q142 -63 169 -74Q210 -90 244 -75Q271 -69 285 -43L289 -20L281 -8L274 -12L267 0L259 -5L251 4L243 -1L235 6L226 1L217 7L208 2L198 7L189 1L181 5L173 -3L164 0L159 -9L151 -6L150 -17L143 -16L146 -24L140 -25Z','#f3efdb','stroke="#626354" stroke-width="1.8"')}
     ${path('M188 -79Q205 -84 221 -80L247 -57L237 -52L209 -69L192 -65Z','#9d907f','stroke="none"')}
     ${path('M163 -36l3 6m16 -19l2 7m15 15l3 6m22 -17l3 6m19 -17l3 7','none','stroke="#c4bda7" stroke-width="1.3"')}
-    ${path('M185 -75Q208 -71 237 -75L239 -84L230 -85L225 -92L211 -93L204 -84L187 -85Z','#657464','stroke="#46584a" stroke-width="1.5"')}${path('M177 -83Q176 -94 184 -95L198 -93L202 -83Z','#b99d78','stroke="#626354" stroke-width="1.3"')}${path('M184 -94L187 -84M194 -93L197 -84','none','stroke="#806e55" stroke-width="1.2"')}
     ${leg(177,-1,0)}${leg(218,0,-.5)}${leg(259,-2,-1)}
     <g class="appa-head">
     ${path('M272 -40Q252 -48 250 -61L252 -85Q256 -63 272 -61L280 -48Z','#626f63','stroke="#43554a" stroke-width="1.6"')}
