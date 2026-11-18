@@ -1,0 +1,340 @@
+.playlist-card{position:absolute;width:min(410px,calc(100vw - 40px));max-height:calc(100dvh - 44px);overflow:auto;padding:25px 29px 22px;background:#fff7e6;color:#39574d;border:1px solid #d7c6a4;border-radius:17px;box-shadow:0 28px 100px #071b2860,0 0 0 6px #fff7e61a;font-family:'Patrick Hand','Comic Sans MS',cursive;text-align:center;scrollbar-width:thin;scrollbar-color:#c6b895 transparent;animation:card-arrive .7s cubic-bezier(.16,1,.3,1) both;user-select:text}
+[hidden]{display:none!important}
+.card-stamp{margin:0 auto 6px;width:42px;height:42px;display:grid;place-items:center;background:#e3e8d7;border:1px dashed #8d9e83;border-radius:50%;font-size:30px;transform:rotate(-12deg)}
+.playlist-letter{font-size:23px;line-height:1.35;margin:12px 0 21px}
+.playlist-tile{border-radius:12px;overflow:hidden;background:#214537;min-height:152px;box-shadow:0 5px 12px #3e4c3420}
+.playlist-tile iframe{display:block;border:0;width:100%}
+.spotify-save{display:inline-block;font-size:18px;color:#3e6653;margin:12px 0 19px;text-underline-offset:4px}
+.reaction-area{border-top:1px dashed #cfc6ad;padding-top:18px}
+.playlist-card button{font:inherit;font-size:20px;border:1px solid #b5bda4;border-radius:10px;padding:8px 16px;background:#e8eddd;color:#38584c;cursor:pointer;transition:transform .2s,background .2s}
+.playlist-card button:hover{background:#dce6cf;transform:translateY(-2px)}
+.playlist-card button:focus-visible,.spotify-save:focus-visible{outline:2px solid #a57053;outline-offset:3px}
+.reaction-status{font-size:15px;line-height:1.3;color:#78816c;margin:12px 0 0}
+.reaction-camera{margin-top:15px}.reaction-camera video,.reaction-camera img{width:100%;aspect-ratio:4/3;object-fit:cover;border:6px solid white;border-bottom-width:19px;box-shadow:0 4px 12px #34493820;border-radius:3px}.reaction-camera video{transform:scaleX(-1)}
+.reaction-actions{display:flex;justify-content:center;gap:8px;margin-top:9px}.reaction-actions button{font-size:17px;padding:7px 11px}
+.has-card .gift-stage{visibility:hidden}.has-card .gift-close{z-index:2}
+.music-speaker{pointer-events:all;outline:none}.music-speaker.unlocked{cursor:pointer}.music-speaker.unlocked .speaker-led{fill:#eccb80;filter:drop-shadow(0 0 3px #ffdf81)}.music-speaker.unlocked:hover,.music-speaker:focus-visible{filter:drop-shadow(0 0 5px #edd29b)}
+.speaker-panel{position:fixed;z-index:30;width:min(320px,calc(100vw - 24px));padding:30px 9px 10px;border-radius:15px;background:#fff7e8;box-shadow:0 12px 45px #24493c50;border:1px solid #b8bca2;overflow:auto;animation:player-arrive .3s ease-out both;scrollbar-width:thin}
+.speaker-panel iframe{border:0;display:block;border-radius:10px;width:100%}.speaker-panel a{display:block;text-align:center;font:17px 'Patrick Hand','Comic Sans MS',cursive;color:#486a54;margin-top:9px}.speaker-close{position:absolute;right:10px;top:0;border:0;background:none;font-size:26px;color:#476052;cursor:pointer}
+@keyframes card-arrive{from{opacity:0;transform:translateY(80px) scale(.8) rotate(-3deg)}to{opacity:1;transform:none}}
+@keyframes player-arrive{from{opacity:0;transform:translateY(15px) scale(.96)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.playlist-card,.speaker-panel{animation:none}.playlist-card button{transition:none}}
+
+.playlist-tile{display:flex;align-items:center;gap:15px;padding:14px;min-height:120px;text-align:left;background:#e5eadc;border:1px solid #c9d2ba;overflow:visible}
+.playlist-cover{width:86px;height:86px;object-fit:cover;flex:0 0 86px;border-radius:7px;box-shadow:0 3px 7px #29473420}
+.playlist-details{min-width:0;display:flex;flex-direction:column;gap:7px}
+.playlist-details strong{font-family:Arial,sans-serif;font-size:18px;font-weight:700;line-height:1.3;overflow-wrap:anywhere;color:#294b3f}
+.playlist-details span{font-size:19px;color:#66785d}
+.playlist-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+@media(max-width:380px){.playlist-tile{gap:10px;padding:10px}.playlist-cover{width:65px;height:65px;flex-basis:65px}.playlist-details strong{font-size:16px}}
+
+.premium-player{padding:12px;background:#193c31;border-radius:10px;color:#fff7e6;font:15px Arial,sans-serif;line-height:1.4}.premium-player strong{display:block;font-size:19px;margin:9px 0 16px}.premium-heading{color:#a9ceaf;font-size:12px;letter-spacing:.07em}.premium-player button{border:1px solid #8aa48e;border-radius:18px;background:#edf4df;color:#234437;padding:8px 12px;cursor:pointer;font:inherit}.premium-player button:focus-visible{outline:2px solid #efce88;outline-offset:3px}.premium-player button[aria-pressed=true]{background:#92d3a0}.premium-controls .transport{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.volume-controls{display:flex;align-items:center;gap:10px;margin:17px 0}.volume-controls input{width:100%;min-width:0;accent-color:#a7d3a0}.premium-player .spotify-disconnect{background:transparent;color:#c0d4c0;font-size:12px;border:0;padding:0}.spotify-status{font-size:12px;color:#d5ddc9;margin:14px 0 0}.now-playing{font-size:14px;min-height:40px}
+
+/* The native embed remains untouched; compact companion controls sit below it. */
+.speaker-panel{background:#121212;border:1px solid #ffffff14;border-radius:13px;padding:28px 0 10px;box-shadow:0 16px 50px #0005;color:#fff}
+.speaker-panel iframe{border-radius:0!important}.speaker-close{color:#b3b3b3;right:10px;top:-2px;font-size:24px}.speaker-close:hover{color:#fff}
+.speaker-panel>a{font:11px Arial,sans-serif;color:#b3b3b3;text-decoration:none;margin-top:10px}.speaker-panel>a:hover{color:#fff;text-decoration:underline}
+.premium-player{padding:12px 16px 4px;background:#121212;border-radius:0;font-family:Arial,sans-serif;border-top:1px solid #ffffff12}
+.premium-player button{border:0;background:none;color:#b3b3b3;padding:5px;cursor:pointer;transition:color .15s,transform .15s}
+.premium-player button:hover{color:#fff;transform:scale(1.06)}.premium-player button[aria-pressed=true]{background:none;color:#1ed760}
+.premium-player button svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.premium-controls .transport{justify-content:center;gap:18px;flex-wrap:nowrap}.premium-player [data-action=play]{width:33px;height:33px;display:grid;place-items:center;background:#fff;color:#000;border-radius:50%}.premium-player [data-action=play] svg{width:17px;height:17px}
+.volume-controls{margin:12px 0 4px;gap:9px}.volume-controls input{height:3px;accent-color:#1db954;cursor:pointer}.volume-controls button{flex-shrink:0}
+.now-playing{font-size:11px;line-height:1.5;color:#b3b3b3;min-height:0;margin:0 0 10px}.now-playing:empty,.spotify-status:empty{display:none}.spotify-status{font-size:11px;line-height:1.5;color:#b3b3b3;margin:8px 0 0}
+.premium-player .spotify-connect{display:block;margin:0 auto;padding:8px 17px;background:#fff;border-radius:22px;font-size:12px;font-weight:700;color:#121212}
+.premium-player .spotify-disconnect{display:block;margin:8px auto 0;font-size:10px;color:#777;padding:2px}.premium-player button:focus-visible{outline:2px solid #1ed760;outline-offset:3px}
+.spotify-custom{font:14px Arial,Helvetica,sans-serif;background:#121212;color:#fff;border-radius:12px;overflow:hidden;text-align:left}
+.sp-header{position:relative;padding:16px 16px 10px;background:#202020}.sp-logo{position:absolute;right:16px;top:14px;width:24px;height:24px;color:white}.sp-logo svg{width:100%;height:100%}.sp-details{display:flex;gap:16px;padding-top:28px;align-items:center}.sp-details>img{width:112px;height:112px;object-fit:contain;border-radius:3px;flex-shrink:0}.sp-details>div{min-width:0}.spotify-custom a{color:inherit;text-decoration:none}.spotify-custom a:hover{text-decoration:underline}.sp-title{font-size:19px;font-weight:700;line-height:1.25;display:block;overflow-wrap:anywhere;letter-spacing:-.4px}.sp-creator{font-size:13px;color:#b3b3b3;margin:7px 0 10px}.sp-save{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;white-space:nowrap}.sp-save span{font-size:24px;font-weight:400;line-height:1}
+.spotify-custom button{font:inherit;border:0;cursor:pointer;color:#b3b3b3;background:transparent}.spotify-custom button:hover{color:#fff}.spotify-custom button:focus-visible,.spotify-custom a:focus-visible,.spotify-custom input:focus-visible{outline:2px solid #fff;outline-offset:3px}.spotify-custom button svg{width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.sp-transport{display:flex;align-items:center;gap:16px;margin-top:15px}.sp-transport button{padding:4px}.sp-spacer{flex:1}.sp-transport .sp-play{background:white;color:#000;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;margin-left:3px}.sp-play svg{width:23px!important;height:23px!important}.sp-play:hover{transform:scale(1.04);color:#000!important}.spotify-custom [aria-pressed=true]{color:#1ed760}.sp-progress{display:flex;gap:6px;align-items:center;font-size:10px;color:#aaa;margin-top:12px}.spotify-custom input[type=range]{accent-color:#fff;min-width:0;height:3px;cursor:pointer}.spotify-custom input[type=range]:hover{accent-color:#1ed760}.sp-seek{flex:1;width:100%}
+.sp-tracks{height:180px;overflow-y:auto;padding:8px 8px 4px;scrollbar-width:thin;scrollbar-color:#555 transparent}.sp-track{display:flex;align-items:center;gap:10px;width:100%;padding:9px 8px!important;text-align:left;border-radius:4px}.sp-track:hover{background:#ffffff10}.sp-number{font-size:12px;width:16px;text-align:center;flex-shrink:0}.sp-track-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:5px}.sp-track-info strong{font-size:13px;line-height:1.2;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sp-track-info>span{font-size:11px;color:#b3b3b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sp-track-duration{font-size:12px;font-variant-numeric:tabular-nums}.sp-track.active .sp-number,.sp-track.active strong{color:#1ed760}.sp-bottom{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid #ffffff09}.sp-bottom button{padding:3px}.sp-volume{flex:1;width:60px;max-width:110px}.sp-bottom .sp-connect{background:#fff;color:#000;border-radius:20px;padding:8px 12px;margin-left:auto;font-weight:700;font-size:11px;white-space:nowrap}.sp-status{font-size:11px;line-height:1.4;color:#b3b3b3;margin:0;padding:0 16px 10px}.sp-status:empty{display:none}
+.speaker-panel .spotify-custom a{font-family:Arial,Helvetica,sans-serif;text-align:left;margin-top:0}.speaker-panel .spotify-custom .sp-title{font-size:19px;font-weight:700;line-height:1.25;color:#fff}.speaker-panel .spotify-custom .sp-save{font-size:12px;font-weight:600;color:#fff}.speaker-panel .spotify-custom .sp-logo{margin:0;color:#fff}
+.sp-modes{display:flex;gap:5px;padding:4px 12px 12px;background:#121212}.sp-modes button{flex:1;border:1px solid #ffffff20;border-radius:18px;padding:7px 8px;background:transparent;color:#aaa;font:11px Arial,sans-serif;cursor:pointer}.sp-modes button[aria-pressed=true]{background:#fff;color:#111;border-color:#fff;font-weight:700}.sp-modes button:hover{border-color:#aaa}.sp-modes button:focus-visible{outline:2px solid #1ed760;outline-offset:2px}.sp-preview iframe{display:block;border:0;width:100%}.reaction-status:empty{display:none}
+.sp-connect-prompt{padding:22px 22px 25px;text-align:center}.sp-connect-prompt p{font:14px/1.6 Arial,Helvetica,sans-serif;color:#d3d3d3;margin:0 0 20px}.spotify-custom .sp-connect-prompt button{padding:11px 22px;border-radius:24px;background:#1ed760;color:#000;font-weight:700;font-size:13px}.spotify-custom .sp-connect-prompt button:hover{background:#3be477;transform:scale(1.03)}
+.reaction-viewfinder{position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#dce3d4;border:5px solid #fffdf6;box-shadow:0 4px 14px #34493824}.reaction-camera .reaction-viewfinder video,.reaction-camera .reaction-viewfinder img{display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;border:0;box-shadow:none;border-radius:0}.reaction-countdown{position:absolute;inset:0;display:grid;place-items:center;color:#fffdf2;text-shadow:0 3px 15px #213d36aa;background:#193e2520;font:72px 'Patrick Hand','Comic Sans MS',sans-serif;pointer-events:none}.reaction-flash{position:absolute;inset:0;background:#fffdf3;opacity:0;pointer-events:none}.reaction-actions{gap:18px;margin-top:14px;min-height:0}.playlist-card .reaction-actions button{position:relative;width:44px;height:44px;padding:10px;border-radius:50%;display:grid;place-items:center;background:#e5ecda;border:1px solid #afbea0}.reaction-actions svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.playlist-card .reaction-retake{background:#f3e4d9;border-color:#d1b8a7;color:#996d59}.playlist-card .reaction-save{background:#dde9cf;color:#496747}.reaction-icon::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);padding:4px 9px;border-radius:6px;background:#39574d;color:#fff7e6;font-size:14px;opacity:0;pointer-events:none;transition:opacity .15s;white-space:nowrap}.reaction-icon:hover::after,.reaction-icon:focus-visible::after{opacity:1}.playlist-card button:disabled{cursor:wait;opacity:.55;transform:none}
+.door:disabled{cursor:default}.door:disabled .panel,.door:disabled:hover .panel,.door:disabled:focus-visible .panel{transform:none;filter:none;box-shadow:none}
+.letter-card{width:min(540px,calc(100vw - 36px));padding:28px 38px;background-color:#f5edda;background-image:linear-gradient(90deg,transparent 27px,#b9917829 28px,transparent 29px),repeating-linear-gradient(0deg,transparent 0 31px,#718aa016 32px,#718aa016 33px);border-radius:4px 9px 5px 7px;box-shadow:0 25px 90px #0b1c2755,inset 0 0 55px #bda07722;color:#244d86}.north-pole-letter{font-family:'Caveat','Patrick Hand',cursive;font-size:26px;font-weight:500;line-height:1.28;text-align:left;letter-spacing:.1px;text-shadow:.25px 0 #244d8630}.north-pole-letter p{margin:0 0 16px}.north-pole-letter p:nth-child(2){transform:rotate(-.35deg)}.north-pole-letter p:nth-child(3){transform:rotate(.2deg)}.north-pole-letter .letter-signature{margin:15px 0 24px;transform:rotate(-1deg)}.playlist-card .letter-watch{display:block;width:100%;background:#315786;color:#fff8df;border:1px solid #204570;box-shadow:0 4px 0 #203d61,0 7px 16px #31578630;margin:0 0 22px;padding:12px 15px;font-size:22px}.playlist-card .letter-watch:hover{background:#3d6393}.letter-card .reaction-area{border-color:#7487a044}.letter-video{padding:0;border:0;background:transparent;max-width:90vw;max-height:90dvh;color:#fff}.letter-video::backdrop{background:#08141bea;backdrop-filter:blur(7px)}.letter-video-frame{position:relative;padding:38px 0 0}.letter-video video{display:block;max-width:85vw;width:850px;max-height:76dvh;border-radius:12px;background:#000;box-shadow:0 20px 90px #0008}.letter-video-close{position:absolute;right:0;top:0;border:0;border-radius:50%;width:30px;height:30px;color:#fff;background:#ffffff20;font-size:24px;cursor:pointer}.letter-video p{text-align:center;font:15px 'Patrick Hand',sans-serif}.letter-video p:empty{display:none}@media(max-height:750px){.letter-card{padding:22px 32px}.north-pole-letter{font-size:23px}.north-pole-letter p{margin-bottom:12px}}
+.sp-full-playlist{display:block;margin:10px auto;border:1px solid #ffffff40;border-radius:18px;padding:7px 14px;background:transparent;color:#ddd;font:12px Arial,sans-serif;cursor:pointer}.sp-full-playlist:hover{border-color:#fff;color:#fff}
+/* A warm, portrait playlist tile with the surrounding card left untouched. */
+.playlist-tile{display:block;padding:18px;max-width:270px;margin:0 auto;background:#8b624a;border:1px solid #77513b;border-radius:12px;box-shadow:0 5px 15px #66442b26;text-align:left;color:#fff8e8}
+.playlist-cover{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;border-radius:6px;box-shadow:none}.playlist-details{gap:8px;margin-top:15px}.playlist-details strong{font-size:21px;line-height:1.2;color:#fff8e8;letter-spacing:-.3px}.playlist-details span{font:15px/1.4 Arial,sans-serif;color:#ead8c6}.playlist-brand{display:flex;align-items:center;gap:5px;margin-top:20px;font:bold 19px Arial,sans-serif;letter-spacing:-.5px;text-decoration:none;color:#fff8e8}.playlist-brand svg{width:25px;height:25px}
+.letter-card.awaiting-envelope{width:min(570px,92vw);height:390px;overflow:visible;padding:0;background:transparent;border:0;box-shadow:none;display:grid;place-items:center}.sealed-envelope{width:90%;max-width:470px;perspective:1200px;filter:drop-shadow(0 20px 25px #09191d55)}.envelope-body{position:relative;width:100%;aspect-ratio:1.65;perspective:1200px}.envelope-inside{position:absolute;inset:0;background:#bfa281;border-radius:5px;box-shadow:inset 0 10px 22px #7b5e3540}.envelope-paper{position:absolute;inset:12px 17px 10px;background:#fff7df;border:1px solid #e5d6b8;border-radius:3px;padding:23px;z-index:1;text-align:left;box-shadow:0 2px 6px #68462922;color:#29538b;font:27px 'Caveat',cursive}.envelope-paper i{display:block;height:1px;background:#7a9ab233;margin-top:23px}.envelope-pocket{position:absolute;inset:0;z-index:2;overflow:hidden;border-radius:5px;background:linear-gradient(32deg,#dec6a3 49.6%,transparent 50%) left/51% 100% no-repeat,linear-gradient(-32deg,#e7d2b0 49.6%,transparent 50%) right/51% 100% no-repeat;filter:drop-shadow(0 -1px 1px #96754a25)}.envelope-pocket::after{content:'';position:absolute;inset:0;background:#eedcbb;clip-path:polygon(0 100%,50% 41%,100% 100%)}.envelope-flap{position:absolute;inset:0;z-index:3;transform-origin:50% 0;backface-visibility:visible;background:linear-gradient(175deg,#f4e4c7,#dfc49f);clip-path:polygon(0 0,100% 0,50% 58%);filter:drop-shadow(0 2px 2px #76563444)}.playlist-card .envelope-seal{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);z-index:4;width:62px;height:62px;padding:9px;border-radius:48% 52% 46% 54%;background:radial-gradient(circle at 35% 30%,#cb7568,#a94e48 75%);border:2px solid #d48b78;box-shadow:0 3px 3px #643a2740,inset 0 0 0 3px #9b4b4320;cursor:pointer}.playlist-card .envelope-seal:hover{background:#bf655a;transform:translate(-50%,-50%) scale(1.06)}.envelope-seal svg{width:100%;height:100%;fill:#f4c5a5;filter:drop-shadow(0 1px 0 #76362d)}.letter-content{transform-origin:50% 30%}
+@media(max-height:800px){.playlist-card:not(.letter-card){padding:20px 24px}.playlist-letter{font-size:21px;margin:10px 0 14px}.playlist-tile{max-width:230px;padding:14px}.playlist-details strong{font-size:18px}.playlist-brand{margin-top:12px}.card-stamp{width:32px;height:32px;font-size:25px}}
+
+.envelope-pocket{background:#e7d2b0;clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%)}
+
+.playlist-cover-link{display:block;width:100%;border-radius:6px;cursor:pointer;line-height:0}.playlist-cover-link:focus-visible{outline:3px solid #fff2d8;outline-offset:4px}.playlist-cover{transition:transform .26s cubic-bezier(.2,.75,.25,1),box-shadow .26s}.playlist-cover-link:hover .playlist-cover,.playlist-cover-link:focus-visible .playlist-cover{transform:scale(1.035);box-shadow:0 8px 22px #38231555}.playlist-boombox-hint{margin:22px 4px 18px;font-size:18px;line-height:1.38;text-align:center;color:#45584b}
+@media(max-height:800px){.playlist-boombox-hint{font-size:16px;margin:17px 4px 15px}}
+
+/* Floating camera stamp stays attached to the revealed gift, outside its scrolling content. */
+.reaction-start{position:fixed;z-index:6;width:82px;height:82px;margin:0;padding:0!important;border:0!important;border-radius:50%!important;background:transparent!important;color:#f5e8c9!important;box-shadow:none!important;cursor:pointer;transition:transform .22s ease,filter .22s ease}.reaction-start:hover{transform:scale(1.06)!important;filter:drop-shadow(0 4px 8px #172c2860)}.reaction-start:focus-visible{outline:2px solid #f3dfb6;outline-offset:3px}.reaction-orbit{display:block;width:100%;height:100%;overflow:visible}.reaction-orbit>circle{fill:#f6eddaee;stroke:#82684c;stroke-width:1.6}.reaction-orbit text{fill:#f5e8c9;font:9px 'Patrick Hand','Comic Sans MS',cursive;letter-spacing:.45px}.reaction-camera-icon{fill:none;stroke:#526a59;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.reaction-camera-icon circle{fill:#e5d7b8;stroke:#526a59;stroke-width:2}.playlist-card{padding-bottom:12px}
+.playlist-card:not(.letter-card) .playlist-boombox-hint{margin-bottom:0}
+.letter-card .north-pole-letter .letter-signature{margin-bottom:12px}
+.letter-card .letter-watch{margin-bottom:10px}
+.letter-card .reaction-area:has(.reaction-camera[hidden]){border:0;padding:0}
+@media(prefers-reduced-motion:reduce){.reaction-start{transition:none}}
+
+/* Camera capture is its own dismissible modal above the opened gift. */
+.reaction-dialog{width:min(560px,calc(100vw - 36px));max-width:none;max-height:calc(100dvh - 36px);overflow:auto;padding:26px;background:#fff7e6;color:#39574d;border:1px solid #d7c6a4;border-radius:18px;box-shadow:0 26px 90px #071b2870,0 0 0 6px #fff7e61a;font-family:'Patrick Hand','Comic Sans MS',cursive;scrollbar-width:thin;scrollbar-color:#c6b895 transparent}
+.reaction-dialog[open]{display:block;animation:card-arrive .32s cubic-bezier(.16,1,.3,1) both}
+.reaction-dialog::backdrop{background:rgba(12,24,26,.74);backdrop-filter:blur(5px);animation:gift-dim .25s ease-out both}
+.reaction-close{position:sticky;float:right;top:0;z-index:2;width:38px;height:38px;margin:-12px -12px 10px 10px;padding:0!important;border-radius:50%!important;background:#e8eddd!important;border:1px solid #b5bda4!important;color:#39574d;font:26px/1 'Patrick Hand','Comic Sans MS',cursive!important}
+.reaction-dialog .reaction-area{clear:both;margin:0;border:0;padding:0}
+.reaction-dialog .reaction-camera{margin:0}
+.reaction-dialog .reaction-viewfinder{width:100%;max-height:calc(100dvh - 170px)}
+.reaction-dialog .reaction-viewfinder video,.reaction-dialog .reaction-viewfinder img{max-height:calc(100dvh - 170px)}
+.reaction-dialog .reaction-actions{min-height:48px;gap:18px;margin-top:14px}
+.reaction-start{width:92px;height:92px}
+.reaction-start::after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 7px);transform:translate(-50%,4px);padding:5px 10px;border:1px solid #d7c6a4;border-radius:8px;background:#fff7e6;color:#39574d;box-shadow:0 4px 12px #071b2830;font:15px 'Patrick Hand','Comic Sans MS',cursive;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .16s,transform .16s}
+.reaction-start:hover::after,.reaction-start:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+@media(max-width:640px){.reaction-dialog{padding:20px}.reaction-start{width:78px;height:78px}}
+@media(prefers-reduced-motion:reduce){.reaction-dialog[open],.reaction-dialog::backdrop,.reaction-start::after{animation:none;transition:none}}
+.playlist-tile{position:relative;transition:transform .24s cubic-bezier(.2,.75,.25,1)}
+.playlist-cover-link::after{content:"";position:absolute;inset:0;z-index:2;border-radius:inherit}
+.playlist-tile:has(.playlist-cover-link:hover){transform:scale(1.018)}
+.playlist-tile:has(.playlist-cover-link:focus-visible){outline:3px solid #fff2d8;outline-offset:4px}
+.playlist-card:not(.letter-card) .playlist-boombox-hint{margin-bottom:26px}
+.occasion-card .playlist-letter{font-size:26px;line-height:1.45;margin:23px 0 24px}
+@media(max-height:800px){.playlist-card:not(.letter-card) .playlist-boombox-hint{margin-bottom:20px}.occasion-card .playlist-letter{font-size:23px;margin:18px 0 20px}}
+
+/* Final layout refinements for camera guidance, Premium controls and the letter sign-off. */
+.reaction-dialog .reaction-status{text-align:center;margin:16px 0 0}
+.sp-transport{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px 44px minmax(0,1fr);gap:10px;width:100%;justify-items:center}
+.sp-transport .sp-spacer{display:none}
+.sp-transport [data-action="shuffle"]{grid-column:1;grid-row:1;justify-self:start}
+.sp-transport [data-action="previous"]{grid-column:2;grid-row:1}
+.sp-transport .sp-play{grid-column:3;grid-row:1;margin:0}
+.sp-transport [data-action="next"]{grid-column:4;grid-row:1}
+.sp-tracks{margin-bottom:10px}
+.sp-bottom{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,220px) minmax(0,1fr);padding:22px 16px 12px}
+.sp-bottom [data-action="mute"]{grid-column:1;justify-self:start}
+.sp-bottom .sp-volume{grid-column:2;width:100%;max-width:220px;justify-self:center}
+.letter-card .north-pole-letter .letter-signature{margin-bottom:32px}
+.occasion-card .card-stamp{width:132px;height:90px;margin:0 auto 8px;padding:0;background:transparent;border:0;border-radius:0;font-size:0;transform:none}
+.santa-hat-stamp{display:block;width:100%;height:100%;object-fit:contain;filter:none}
+.occasion-first-line{display:block;width:max-content;max-width:none;margin-inline:auto;white-space:nowrap;font-size:clamp(14px,5vw,20px);line-height:1.3}
+@media(max-height:800px){.occasion-card .card-stamp{width:120px;height:82px;margin-bottom:6px}}
+.north-pole-letter{font-family:'Kalam','Patrick Hand',cursive;font-weight:400}
+.letter-card{background-color:#f1e4c6;background-image:linear-gradient(90deg,transparent 33px,#a96f5b55 34px,transparent 35px),repeating-linear-gradient(0deg,transparent 0 31px,#536f982b 32px,#536f982b 33px),radial-gradient(ellipse at 18% 12%,#fff9e04a,transparent 72%);border-color:#c5ae83;box-shadow:0 25px 90px #0b1c2755,inset 0 0 55px #aa86542d}
+
+/* A folded birthday card that opens into a two-page spread. */
+.birthday-card{width:max-content;max-width:calc(100vw - 32px);max-height:none;overflow:visible;padding:14px;background:transparent;border:0;border-radius:0;box-shadow:none;display:grid;place-items:center}
+.birthday-book{position:relative;width:min(360px,calc(100vw - 96px));height:min(430px,calc(100dvh - 110px));min-height:350px;perspective:1800px;transition:width .9s cubic-bezier(.2,.75,.25,1)}
+.birthday-book.is-open{width:min(720px,calc(100vw - 100px))}
+.birthday-spread{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;background:#fffefa;border:1px solid #dedbd3;border-radius:4px 7px 7px 4px;box-shadow:0 22px 65px #071b2850,0 0 0 5px #fffefa18;opacity:0;pointer-events:none;transition:opacity .35s ease .42s;overflow:hidden}
+.birthday-book.is-open .birthday-spread{opacity:1;pointer-events:auto}
+.birthday-panel{position:relative;min-width:0;min-height:0;background:linear-gradient(110deg,#fffefa,#fffdf8);color:#40584b}
+.birthday-message{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(22px,4vw,48px);text-align:left;border-right:1px solid #e9e3d7}
+.birthday-letter-mark{position:absolute;top:20px;left:28px;color:#d6848a;font:28px 'Patrick Hand',cursive}
+.birthday-message p{margin:0;font:clamp(17px,2vw,23px)/1.45 'Patrick Hand','Comic Sans MS',cursive}
+.birthday-message .birthday-message-lead{margin-bottom:22px;font-size:clamp(21px,2.5vw,30px);color:#bf6568}
+.birthday-cake-panel{display:grid;place-items:center;overflow:hidden}
+.birthday-cake-scene{position:absolute;inset:0;display:grid;place-items:center}
+.birthday-plate{position:absolute;bottom:42px;left:50%;width:min(82%,300px);transform:translateX(-50%)}
+.birthday-cake-bite{position:absolute;z-index:1;left:50%;top:47%;width:min(78%,270px);height:70%;transform:translate(-50%,-50%);padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;cursor:pointer}
+.birthday-cake-bite:hover{transform:translate(-50%,-50%) scale(1.045)!important}
+.birthday-cake-bite:focus-visible{outline:2px solid #c77776;outline-offset:4px;border-radius:12px!important}
+.birthday-cake-bite svg{width:100%;height:100%;overflow:visible}
+.birthday-spoon{position:absolute;z-index:2;right:7%;bottom:47px;width:25px;height:96px;transform:rotate(20deg);filter:drop-shadow(0 2px 1px #273f371c)}
+.birthday-cake-video{position:absolute;z-index:4;inset:0;width:100%;height:100%;object-fit:cover;background:#fffefa}
+.birthday-video-status{position:absolute;z-index:5;left:8px;right:8px;bottom:8px;margin:0;padding:7px 9px;border-radius:8px;background:#fffefaee;color:#7c5148;text-align:center;font:15px 'Patrick Hand',cursive}
+.birthday-cover{position:absolute;z-index:3;inset:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;padding:35px 18px 18px!important;border:1px solid #dedbd3!important;border-radius:4px 7px 7px 4px!important;background:#fffefa!important;color:#40584b!important;box-shadow:0 22px 65px #071b2850,inset -7px 0 16px #a49a8612!important;backface-visibility:hidden;transform-origin:left center;transition:left .9s cubic-bezier(.2,.75,.25,1),width .9s cubic-bezier(.2,.75,.25,1),transform .95s cubic-bezier(.2,.75,.25,1),box-shadow .5s;cursor:pointer}
+.birthday-cover:hover{box-shadow:0 25px 70px #071b2860,inset -8px 0 17px #a49a861b!important}
+.birthday-cover:focus-visible{outline:3px solid #d49a79;outline-offset:5px}
+.birthday-cover-title{display:block;color:#bf6568;font:36px/1.02 'Patrick Hand','Comic Sans MS',cursive;letter-spacing:.2px}
+.birthday-cover-art{display:block;width:100%;height:auto;max-height:calc(100% - 100px);margin-top:0}
+.birthday-cover-hint{position:absolute;right:16px;bottom:12px;color:#d6848a;font:21px 'Patrick Hand',cursive}
+.birthday-book.is-open .birthday-cover{left:50%;width:50%;transform:rotateY(-180deg);pointer-events:none;box-shadow:inset 8px 0 16px #a49a8612!important}
+.reaction-start{left:auto!important;right:clamp(16px,3vw,38px)!important;top:auto!important;bottom:clamp(16px,3vh,32px)!important}
+@media(max-width:600px){.birthday-book{width:min(340px,calc(100vw - 52px));height:min(400px,calc(100dvh - 100px));min-height:330px}.birthday-book.is-open{width:calc(100vw - 32px)}.birthday-message{padding:16px}.birthday-message p{font-size:16px}.birthday-message .birthday-message-lead{font-size:19px;margin-bottom:14px}.birthday-cover-title{font-size:32px}.birthday-spoon{right:1%;width:19px}}
+@media(prefers-reduced-motion:reduce){.birthday-book,.birthday-spread,.birthday-cover{transition:none}.birthday-cake-bite{transition:none}}
+
+/* Photo cutout stays grounded on the plate; polished silver spoon sits beside it. */
+.birthday-cake-scene{isolation:isolate}
+.birthday-plate{z-index:0;bottom:42px;width:min(86%,300px);filter:drop-shadow(0 5px 5px #29373118)}
+.birthday-cake-bite{top:auto;bottom:86px;width:min(78%,260px);height:auto;aspect-ratio:562/722;transform:translateX(-50%);z-index:1}
+.birthday-cake-bite:hover{transform:translateX(-50%) scale(1.035)!important}
+.birthday-cake-bite img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 3px 2px #32231d20)}
+.birthday-spoon{z-index:2;right:2%;bottom:47px;width:min(37%,132px);height:auto;transform:rotate(-18deg);filter:drop-shadow(0 3px 2px #273f3740)}
+@media(max-width:600px){.birthday-cake-bite{bottom:78px;width:min(80%,220px)}.birthday-spoon{right:0;width:min(39%,110px);bottom:42px}}
+
+/* Keep the recipient's replacement cake artwork at its current size; lower only its position. */
+.birthday-cake-bite{bottom:35px}
+.birthday-cake-bite:hover{transform:translateX(-50%) scale(1.035)!important}
+.birthday-message[role="button"]{cursor:pointer}
+.birthday-message[role="button"]:focus-visible{outline:2px solid #d8a69b;outline-offset:-7px}
+.occasion-card .playlist-letter{display:flex;flex-direction:column;align-items:center;gap:0;font-size:clamp(20px,2.2vw,26px);line-height:1.15;margin:20px 0 24px}
+.occasion-card .occasion-first-line,.occasion-card .occasion-second-line{display:block;white-space:normal;font-size:inherit;line-height:inherit}
+@media(max-width:600px){.birthday-cake-bite{bottom:27px}.occasion-card .playlist-letter{font-size:clamp(17px,5vw,22px);gap:0;line-height:1.15}}
+
+/* Gift 5: photo-based earring try-on, with the supplied pendants kept intact. */
+.earring-card{width:min(430px,calc(100vw - 32px));max-height:calc(100dvh - 48px);padding:13px;background:#fff7e8;border-color:#d7c6a4;overflow:auto;overscroll-behavior:contain}
+.earring-tryon{display:flex;flex-direction:column;gap:12px}
+.earring-note-card{padding:14px 14px 5px;border:1px solid #d8c7a8;border-radius:12px;background:linear-gradient(145deg,#fffaf0,#f3e8d2);box-shadow:0 3px 10px #66533b12}
+.earring-note-card>p{margin:0 auto 2px;max-width:360px;color:#39574d;font:21px/1.18 'Patrick Hand','Comic Sans MS',cursive}
+.earring-rack{position:relative;height:78px;margin:0 -1px;touch-action:none}
+.earring-hole-guide{position:absolute;left:8%;right:8%;bottom:9px;height:1px;border-bottom:1px dashed #a99a7d66;pointer-events:none}
+.earring-slot{position:absolute;left:var(--slot-x);top:2px;width:54px;height:70px;transform:translateX(-50%)}
+.earring-piercing{position:absolute;z-index:2;left:50%;top:1px;width:4px;height:4px;transform:translateX(-50%);border-radius:50%;background:#755d42;box-shadow:0 0 0 2px #d6c3a4,0 0 0 3px #fff8e9}
+.playlist-card .earring-item{position:absolute;z-index:3;left:50%;top:2px;width:var(--item-width);height:var(--item-height);padding:0!important;transform:translateX(-50%);border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;touch-action:none;cursor:grab;transition:filter .18s;user-select:none;-webkit-user-select:none}
+.playlist-card .earring-item:hover{transform:translateX(-50%) translateY(-2px)!important;background:transparent!important;filter:drop-shadow(0 3px 3px #322c2455)}
+.playlist-card .earring-item:active,.playlist-card .earring-item.is-dragging{cursor:grabbing;transition:none!important}
+.playlist-card .earring-item:focus-visible{outline:2px solid #a17d58;outline-offset:3px;border-radius:8px!important}
+.earring-hook{position:absolute;z-index:2;left:50%;top:0;width:19px;height:25px;transform:translateX(-50%);overflow:visible;pointer-events:none;filter:drop-shadow(0 1px 1px #3c363125)}
+.earring-hook path{fill:none;stroke:#919b9c;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
+.earring-hook path+path{stroke:#f8fbf7;stroke-width:.75}
+.earring-item img{position:absolute;left:50%;top:17px;width:100%;height:calc(100% - 17px);transform:translateX(-50%);object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+.earring-photo-stage{position:relative;width:100%;aspect-ratio:710/917;overflow:hidden;border:6px solid #fffdf7;border-radius:13px;background:#e7dfd2;box-shadow:0 6px 20px #3e302024;touch-action:none}
+.earring-face{display:block;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+.earring-target{position:absolute;left:72.5%;top:59.2%;width:28%;height:13%;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none}
+.earring-target::after{content:"";position:absolute;inset:17% 28%;border:1px dashed #fff5d2;border-radius:50%;background:#fff5d226;opacity:0;transform:scale(.75);transition:opacity .15s,transform .15s}
+.earring-photo-stage.is-dragging .earring-target::after{opacity:.9;transform:scale(1)}
+.earring-item.is-placed{cursor:grab}
+.playlist-card .earring-item.is-placed:hover{transform:none!important;filter:drop-shadow(0 3px 3px #322c2455)}
+@media(max-width:420px){.earring-card{padding:10px}.earring-note-card{padding:11px 10px 4px}.earring-note-card>p{font-size:19px}.earring-rack{height:70px}.earring-slot{transform:translateX(-50%) scale(.9);transform-origin:top center}}
+
+/* Gift 4 cake cutout: reduce both dimensions by 15%, then settle it onto the plate. */
+.birthday-cake-bite{width:min(66.3%,221px);bottom:26px}
+@media(max-width:600px){.birthday-cake-bite{width:min(68%,187px);bottom:18px}}
+
+/* Rebalance the occasion note inside its paper panel. */
+.occasion-card .playlist-letter{width:100%;max-width:100%;text-align:center}
+.occasion-card .occasion-first-line,.occasion-card .occasion-second-line{width:100%;max-width:100%;text-align:center}
+.occasion-card .occasion-first-line{font-size:clamp(18px,2.45vw,23px);white-space:nowrap}
+.occasion-card .occasion-second-line{font-size:inherit}
+@media(max-width:600px){.occasion-card .occasion-first-line{font-size:clamp(15px,4.5vw,19px)}}
+
+/* Center the cake, plate and spoon as one unchanged little arrangement. */
+.birthday-cake-scene{transform:translateY(-68px)}
+@media(max-width:600px){.birthday-cake-scene{transform:translateY(-44px)}}
+
+/* Separate the hanging earring card from the portrait and keep drag visuals above overflow. */
+.earring-card{padding:0;background:transparent;border:0;box-shadow:none;overflow:visible}
+.earring-tryon{gap:12px}
+.earring-note-wrap{position:relative;padding-bottom:76px}
+.earring-note-card{position:relative;z-index:1;overflow:visible;padding:12px 14px 11px;border-radius:12px;background:linear-gradient(145deg,#fffaf0,#f3e8d2);box-shadow:0 4px 12px #66533b20}
+.earring-note-card>p{max-width:none;width:100%;margin:0 auto;font-size:20px;line-height:1.15}
+.earring-rack{position:absolute;z-index:3;top:calc(100% - 1px);left:0;right:0;height:75px;margin:0}
+.earring-hole-guide{display:none}
+.earring-slot{top:0;width:54px;height:70px}
+.earring-piercing{top:-1px;width:4px;height:4px;box-shadow:0 0 0 2px #d6c3a4,0 0 0 3px #fff8e9}
+.playlist-card .earring-item{top:0}
+.earring-hook{top:-1px;width:19px;height:46px;overflow:visible}
+.earring-hook path{stroke-width:1.45}
+.earring-hook path+path{stroke-width:.7}
+.earring-item img{top:18px;height:calc(100% - 18px)}
+.earring-drag-layer{position:fixed;z-index:1000;inset:0;pointer-events:none;overflow:visible}
+.earring-drag-layer .earring-item.is-dragging{pointer-events:auto}
+.earring-target{left:69.3%;top:62.2%}
+.earring-target{top:62.2%;height:22.5%}
+.earring-target::after{display:none!important}
+.earring-target::after{inset:13% 24%}
+.earring-drag-layer .earring-item,.earring-photo-stage .earring-item{display:block;position:fixed;margin:0;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;appearance:none;-webkit-appearance:none;transform-origin:50% 2px;touch-action:none;transition:none!important;}
+.earring-drag-layer .earring-item{cursor:grabbing;filter:drop-shadow(0 4px 3px #29241c35)}
+.earring-photo-stage .earring-item{position:absolute;cursor:grab;filter:drop-shadow(0 2px 2px #29241c28)}
+.earring-drag-layer .earring-item .earring-hook,.earring-photo-stage .earring-item .earring-hook{top:-1px;width:19px;height:20px;filter:drop-shadow(0 .5px .5px #3c363115)}
+.earring-drag-layer .earring-hook path,.earring-photo-stage .earring-hook path{stroke-width:.9}
+.earring-drag-layer .earring-hook path+path,.earring-photo-stage .earring-hook path+path{stroke-width:.38}
+.earring-drag-layer .earring-item img,.earring-photo-stage .earring-item img{top:21px;height:calc(100% - 21px)}
+.earring-slot .earring-hook{height:20px;width:19px}
+.earring-slot .earring-hook path{stroke-width:.9}
+.earring-slot .earring-hook path+path{stroke-width:.38}
+.earring-slot .earring-item img{top:21px;height:calc(100% - 21px)}
+.earring-rack-card{width:min(465px,calc(100vw - 28px));padding:0;overflow-y:auto}
+.earring-rack-gift-scene{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;padding:0 10px}
+.rack-note-card{width:100%;max-width:440px;padding:12px 16px!important;text-align:center}
+.rack-note-card>p{max-width:390px;font-size:19px!important;line-height:1.15!important}
+.rack-display{position:relative;width:min(440px,calc(100vw - 48px));aspect-ratio:1313/1423;margin:0 auto;isolation:isolate}
+.rack-art{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none;filter:drop-shadow(0 5px 9px #223e4826)}
+.rack-chimes{position:absolute;inset:0;pointer-events:none}
+.playlist-card .rack-chime{position:absolute;z-index:2;width:var(--piece-w);height:calc(var(--piece-h) + 31px);margin:0;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:inherit;box-shadow:none!important;appearance:none;-webkit-appearance:none;transform:translate(-50%,-1px);transform-origin:50% 0;pointer-events:auto;cursor:pointer;touch-action:manipulation;}
+.rack-chime:hover,.rack-chime:focus-visible{filter:drop-shadow(0 3px 3px #263b4540);outline:none}
+.playlist-card .rack-chime-tray{transform:translate(-50%,-50%) rotate(-24deg);transform-origin:50% 50%}
+.playlist-card .rack-chime-tray{height:var(--piece-h)}
+.playlist-card .rack-chime-tray img{top:0}
+.playlist-card .rack-chime-tray .rack-hook{top:-18px;width:11px;height:18px}
+.playlist-card .rack-chime-tray .rack-hook path{stroke-width:1.25}
+.rack-chime:focus-visible{outline:1px solid #8ca9ae;outline-offset:3px}
+.rack-hook{position:absolute;z-index:2;left:50%;top:0;width:12px;height:32px;transform:translateX(-50%);overflow:visible;pointer-events:none}
+.rack-hook path{fill:none;stroke:#c0c8c3;stroke-width:.9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 .5px .5px #273b4133)}
+.rack-chime img{position:absolute;z-index:1;left:50%;top:29px;width:var(--piece-w);height:var(--piece-h);transform:translateX(-50%);object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+@media(max-width:480px){.earring-rack-card{width:calc(100vw - 24px);max-height:calc(100dvh - 36px)}.earring-rack-gift-scene{padding:0 8px;gap:8px}.rack-display{width:min(420px,calc(100vw - 40px))}.rack-note-card>p{font-size:18px!important}}
+
+/* Gift 2: message card above a detached, live webcam mirror. */
+.playlist-card.mirror-gift-card{width:min(410px,calc(100vw - 40px));max-height:calc(100dvh - 36px);overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;gap:14px;padding:0;background:transparent;border:0;box-shadow:none;scrollbar-width:thin}
+.gift-two-message{display:flex;flex-direction:column;align-items:center;gap:5px;margin:0;padding:20px 24px;background:#fff7e6;border:1px solid #d7c6a4;border-radius:17px;box-shadow:0 18px 46px #071b2850,0 0 0 5px #fff7e61a;color:#39574d;font:clamp(21px,2.4vw,25px)/1.15 'Patrick Hand','Comic Sans MS',cursive;text-align:center}
+.gift-two-message span{display:block}
+.gift-two-message span:first-child{white-space:nowrap;font-size:clamp(15px,4.5vw,22px)}
+.christmas-mirror{position:relative;isolation:isolate;width:100%;aspect-ratio:430/609;flex:none;overflow:visible}
+.mirror-video{position:absolute;z-index:0;left:17.7%;top:15%;width:63.4%;height:71.1%;object-fit:cover;transform:scaleX(-1);background:linear-gradient(145deg,#83938c,#4d6867)}
+.mirror-frame-art{position:absolute;z-index:2;inset:0;display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.mirror-status{position:absolute;z-index:3;left:25%;right:25%;top:50%;bottom:auto;transform:translateY(-50%);margin:0;padding:8px 10px;border:1px solid #f1e4d0a0;border-radius:12px;background:#173830c9;color:#fff6e7;font:clamp(13px,1.45vw,16px)/1.2 'Patrick Hand','Comic Sans MS',cursive;text-align:center;text-shadow:0 1px 3px #102b28;backdrop-filter:blur(4px)}
+@media(max-width:480px){.playlist-card.mirror-gift-card{width:calc(100vw - 40px);max-height:calc(100dvh - 28px);gap:12px}.gift-two-message{padding:16px 17px;font-size:21px}.mirror-status{font-size:13px}}
+
+/* Gift 7: centered, muted story clips with Instagram-style progress segments. */
+.playlist-card.wrapped-stories-card{width:auto;max-height:none;overflow:visible;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;text-align:initial}
+.wrapped-stories{position:relative;width:min(420px,calc(100vw - 36px),50.625dvh);aspect-ratio:9/16;max-height:calc(100dvh - 72px);overflow:hidden;border-radius:16px;background:#08090c;box-shadow:0 25px 80px #0009;isolation:isolate}
+.wrapped-story-video{display:block;width:100%;height:100%;object-fit:contain;background:#08090c}
+.wrapped-story-progress{position:absolute;z-index:2;left:10px;right:10px;top:12px;display:flex;gap:3px;pointer-events:none}
+.wrapped-story-segment{display:block;position:relative;flex:1;min-width:0;height:2px;overflow:hidden;border-radius:4px;background:#ffffff5c}
+.wrapped-story-fill{position:absolute;inset:0;display:block;border-radius:inherit;background:#fff;transform:scaleX(0);transform-origin:left center;will-change:transform}
+.wrapped-story-arrow{position:absolute;z-index:3;top:50%;display:grid!important;place-items:center;width:30px;height:30px;margin:0;padding:0!important;border:0!important;border-radius:50%!important;background:#7779!important;color:#fff!important;box-shadow:0 1px 5px #0005!important;transform:translateY(-50%);transition:background .18s,opacity .18s!important;cursor:pointer}
+.wrapped-story-arrow[hidden]{display:none!important}
+.wrapped-story-arrow:hover{background:#777c!important;transform:translateY(-50%)!important}
+.wrapped-story-arrow:focus-visible{outline:2px solid #fff!important;outline-offset:3px}
+.wrapped-story-arrow svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wrapped-story-previous{left:9px}.wrapped-story-next{right:9px}
+.wrapped-stories-card .reaction-area{display:none}
+.wrapped-story-live{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-height:520px){.wrapped-stories{width:min(292px,calc(100vw - 36px),50.625dvh);border-radius:12px}.wrapped-story-progress{top:8px;left:8px;right:8px}}
+
+/* Gift 8: photo-based little library and a 15-book shelf sorting game. */
+.playlist-card.library-card{position:fixed;z-index:1;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0;margin:0;padding:clamp(14px,3vh,30px) 12px 12px;border:0;border-radius:0;background:transparent;color:#fff;box-shadow:none;scrollbar-width:none;user-select:none}
+.library-card .reaction-area{display:none}
+.library-gift-scene{display:contents}
+.library-gift-heading{position:relative;top:8px;z-index:1;width:min(920px,calc(100vw - 22px));margin:0 auto 4px;text-align:center;color:#fff;text-shadow:0 2px 12px #061716c9;pointer-events:none}
+.library-gift-heading h2{margin:0;white-space:nowrap;font:clamp(13.2px,2.4vw,28.8px)/1.05 'Patrick Hand','Comic Sans MS',cursive;letter-spacing:-.35px}
+.library-gift-heading p{margin:5px 0 0;font:clamp(15.6px,1.8vw,21.6px)/1.05 'Patrick Hand','Comic Sans MS',cursive;opacity:.92}
+.library-play-area{display:flex;flex:1;min-height:0;width:min(820px,calc(100vw - 26px));flex-direction:column;align-items:center;justify-content:center;gap:clamp(0px,1.1vh,12px);margin-bottom:24px}
+.library-cabinet-stage{position:relative;isolation:isolate;flex:none;width:min(405px,88vw,39dvh);height:min(58dvh,590px);aspect-ratio:2/3;filter:drop-shadow(0 16px 24px #06171678);transition:filter .3s ease}
+.library-cupboard{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .42s ease,transform .65s cubic-bezier(.2,.75,.2,1);pointer-events:none;-webkit-user-drag:none}
+.library-cupboard-closed{opacity:1;transform:scaleX(1.1)}
+.library-cupboard-open{transform:scale(.96)}
+.library-cupboard-complete{opacity:0;transform:scaleX(1.1)}
+.library-cabinet-stage.is-open .library-cupboard-closed{opacity:0;transform:scale(.96)}
+.library-cabinet-stage.is-open .library-cupboard-open{opacity:1;transform:scale(1)}
+.library-cabinet-stage.is-closing .library-cupboard-open{opacity:0;transform:scale(.96)}
+.library-cabinet-stage.is-complete .library-cupboard-closed,.library-cabinet-stage.is-complete .library-cupboard-open{opacity:0}
+.library-cabinet-stage.is-complete .library-cupboard-complete{opacity:1}
+.library-glass-hitbox{position:absolute;z-index:3;left:20%;top:27%;width:62%;height:54%;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;cursor:pointer}
+.library-cabinet-stage.is-open .library-glass-hitbox,.library-cabinet-stage.is-complete .library-glass-hitbox{pointer-events:none}
+.library-shelf-slots{position:absolute;z-index:2;inset:0;pointer-events:none;opacity:0;transition:opacity .2s}
+.library-shelf-slots.is-active{opacity:1;pointer-events:auto}
+.library-shelf-slot{position:absolute;display:block;overflow:visible}
+.library-floor{position:relative;isolation:isolate;flex:none;width:min(660px,calc(100vw - 34px));height:min(18dvh,172px);min-height:95px;perspective:700px}
+.library-floor::after{content:"";position:absolute;z-index:-1;left:2%;right:2%;bottom:2px;height:24%;border-radius:50%;background:radial-gradient(ellipse,#0713116b,transparent 70%);pointer-events:none}
+.library-floor-tile{position:absolute;left:var(--floor-x);top:var(--floor-y);width:22%;height:82px;display:grid;place-items:center;overflow:visible}
+.library-book{position:relative;z-index:1;display:block;width:clamp(88px,16vw,120px);height:clamp(53px,8vh,70px);margin:0;padding:0!important;border:1px solid #35251e!important;border-radius:3px!important;background:linear-gradient(150deg,color-mix(in srgb,var(--book-color),white 20%),var(--book-color) 54%,color-mix(in srgb,var(--book-color),black 28%))!important;box-shadow:0 8px 10px #090e0d88,inset 0 1px 1px #ffffff88!important;transform:rotate(var(--scatter-tilt)) rotateX(7deg);transform-style:preserve-3d;touch-action:none;cursor:grab;transition:transform .32s cubic-bezier(.2,.7,.25,1),width .35s,height .35s,filter .2s}
+.library-book-face{position:absolute;z-index:2;inset:2px 7px 8px 2px;border:1px solid #ffffff50;border-radius:2px;background:linear-gradient(125deg,color-mix(in srgb,var(--book-color),white 20%),var(--book-color) 48%,color-mix(in srgb,var(--book-color),black 25%));box-shadow:inset 0 0 0 1px #00000012,inset 0 1px 0 #ffffff38}
+.library-book-pages{position:absolute;z-index:1;left:5px;right:3px;top:5px;bottom:3px;border:0;border-right:4px solid #c6ae85;border-bottom:4px solid #c6ae85;border-radius:1px 2px 3px 2px;background:linear-gradient(135deg,#f4e7c9,#d9c49b 56%,#f5e9cf);box-shadow:2px 2px 1px #38261c;clip-path:polygon(0 0,96% 0,100% 5%,100% 100%,4% 100%,0 94%);opacity:1}
+.library-book-spine{position:absolute;z-index:3;left:4px;top:3px;bottom:8px;width:5px;border-radius:2px 0 0 2px;background:linear-gradient(90deg,#0003,#ffffff37 40%,#0002);box-shadow:1px 0 #180f0d4d}
+.library-book:hover{filter:brightness(1.12) drop-shadow(0 5px 5px #080d0c80);transform:rotate(var(--scatter-tilt)) rotateX(7deg) translateY(-3px)!important}
+.library-book.is-upright,.library-book.is-dragging{width:22px;height:68px;border-radius:3px 2px 2px 3px!important;transform:rotate(0)!important;filter:drop-shadow(0 7px 8px #02060699);cursor:grabbing}
+.library-book.is-upright .library-book-face,.library-book.is-shelved .library-book-face{inset:2px 3px;border-left:1px solid #fff4;border-right:1px solid #180f0d55;background:linear-gradient(90deg,#ffffff19,transparent 35%,#00000022)}
+.library-book.is-upright .library-book-pages,.library-book.is-shelved .library-book-pages{left:auto;right:0;top:3px;bottom:3px;width:3px;border:0;border-radius:0 2px 2px 0;background:#f4ead7}
+.library-book.is-upright .library-book-spine,.library-book.is-shelved .library-book-spine{left:4px;top:5px;bottom:5px;width:1px;background:#fff5}
+.library-book.is-shelved{position:absolute;left:0;bottom:0;width:100%;height:80%;z-index:1;border-radius:2px 2px 1px 1px!important;transform:none!important;cursor:default;box-shadow:0 1px 2px #1c110b77,inset 1px 0 #ffffff4d!important;opacity:1!important}
+.library-book.is-shelved .library-book-face{inset:0 1px 0 1px}
+.library-book.is-falling{animation:library-book-fall .65s cubic-bezier(.3,.7,.35,1) both}
+@keyframes library-book-fall{0%{transform:translateY(-110px) rotate(-8deg) scale(.94);opacity:1}58%{transform:translateY(7px) rotate(8deg) scale(1.02);opacity:1}78%{transform:translateY(-3px) rotate(-5deg);opacity:1}100%{transform:rotate(var(--scatter-tilt)) translate(var(--scatter-x,0px),var(--scatter-y,0px));opacity:1}}
+.library-glass-gleam{position:absolute;z-index:5;left:18%;top:14%;width:61%;height:65%;overflow:hidden;pointer-events:none;opacity:0}
+.library-glass-gleam::before{content:"";position:absolute;top:-20%;bottom:-20%;left:-38%;width:23%;transform:skewX(-19deg);background:linear-gradient(90deg,transparent,#fff9dca0 48%,#fff 52%,transparent);filter:blur(2px)}
+.library-cabinet-stage.is-complete .library-glass-gleam{opacity:1}
+.library-cabinet-stage.is-complete .library-glass-gleam::before{animation:library-glint 1.05s ease-in-out .05s both}
+@keyframes library-glint{0%{left:-38%;opacity:0}15%{opacity:.9}85%{opacity:.75}100%{left:118%;opacity:0}}
+.library-start-over{position:fixed;left:50%;bottom:clamp(118px,19vh,190px);z-index:7;margin:0;padding:9px 27px!important;border:1px solid #d7c7a5!important;border-radius:999px!important;background:linear-gradient(#fff9e9,#e8d7b4)!important;color:#554631!important;box-shadow:0 4px 0 #8b7152,0 9px 22px #06171670!important;font:700 15px/1 'Patrick Hand','Comic Sans MS',cursive!important;letter-spacing:1.5px;transform:translateX(-50%);transition:transform .18s,box-shadow .18s!important}
+.library-start-over:hover{transform:translate(-50%,-2px)!important;box-shadow:0 6px 0 #8b7152,0 12px 25px #06171680!important}
+.library-start-over[hidden]{display:none!important}
+.library-drag-layer{position:fixed;z-index:10;inset:0;pointer-events:none}
+@media(max-width:520px){.library-gift-heading h2{font-size:clamp(12px,3.66vw,18px);letter-spacing:-.45px}.library-gift-heading p{font-size:15.6px}.library-cabinet-stage{width:min(310px,84vw,37dvh);height:min(50dvh,465px)}.library-play-area{gap:0}.library-floor{width:calc(100vw - 22px);height:min(19dvh,150px);min-height:88px}.library-floor-tile{height:70px}.library-book{width:clamp(76px,19vw,105px);height:clamp(45px,10vh,58px)}.library-book{width:clamp(82px,22vw,110px);height:clamp(48px,11vh,62px)}.library-start-over{bottom:clamp(108px,17vh,150px)}}
+@media(max-height:700px){.library-card.playlist-card{padding-top:10px}.library-gift-heading{margin-bottom:0}.library-cabinet-stage{height:min(51dvh,470px);width:min(350px,34dvh)}.library-floor{height:min(17dvh,125px);min-height:76px}.library-floor-tile{height:62px}.library-book{width:clamp(78px,15vw,110px);height:clamp(45px,8vh,60px)}}
+@media(prefers-reduced-motion:reduce){.library-cupboard,.library-book,.library-glass-gleam::before,.library-book.is-falling{transition:none;animation:none}}

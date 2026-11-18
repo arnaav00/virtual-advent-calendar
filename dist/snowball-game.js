@@ -1,4 +1,4 @@
-import { CHIMNEYS, createRound, advanceRound, catOffset, hitCat, snowballDuration, snowballPose } from './game-model.js';
+import { CHIMNEYS, CAT_HIDDEN_OFFSET, createRound, advanceRound, catOffset, hitCat, snowballDuration, snowballPose } from './game-model.js';
 const NS='http://www.w3.org/2000/svg';
 function catDrawing(color){
   const fur={orange:'#d69a61',black:'#47534e',white:'#fffaf0'}[color];
@@ -17,6 +17,12 @@ function catDrawing(color){
     <path d="M-12 -25L-26 -28M-12 -22L-25 -21M12 -25L26 -28M12 -22L25 -21" stroke="#879288" stroke-width="1"/>
     <path d="M-17 -5Q-23 -12 -22 -2L-20 3Q-12 7 -10 0L-11 -4M17 -5Q23 -12 22 -2L20 3Q12 7 10 0L11 -4" fill="${fur}"/>
     <path class="cat-snow-splat" d="M-9 -33Q-14 -40 -6 -39Q-3 -48 2 -39Q12 -42 10 -35Q18 -30 9 -28Q10 -20 3 -25Q-4 -19 -6 -27Q-15 -26 -9 -33" fill="#fffdf8" stroke="#c9dad6" stroke-width="1"/>
+    <g class="cat-santa-cap" transform="rotate(9 0 -46)">
+      <path d="M-17 -47Q-17 -64 -6 -70Q9 -79 20 -60L25 -53Q14 -62 10 -59L15 -46Z" fill="#bd655b"/>
+      <path d="M-17 -49Q0 -52 17 -48L17 -42Q0 -45 -17 -43Z" fill="#fff7e8"/>
+      <circle cx="25" cy="-53" r="5" fill="#fff7e8"/>
+      <path d="M-10 -61Q-8 -66 -3 -67" fill="none" stroke="#d89180" stroke-width="1.3"/>
+    </g>
   </g>`;
 }
 export function setupSnowballGame(svg){
@@ -63,7 +69,7 @@ export function setupSnowballGame(svg){
       }
       const {x,y}=CHIMNEYS[cat.chimney],hit=cat.hitAt!==null;
       let offset=catOffset(clock-cat.born),rotation=0;
-      if(hit){const t=(clock-cat.hitAt)/.42;offset=cat.hitOffset+Math.max(0,(t-.45)/.55)*62;rotation=reduced.matches?0:Math.sin(t*Math.PI*4)*10*(1-t);}
+      if(hit){const t=(clock-cat.hitAt)/.42;offset=cat.hitOffset+Math.max(0,(t-.45)/.55)*CAT_HIDDEN_OFFSET;rotation=reduced.matches?0:Math.sin(t*Math.PI*4)*10*(1-t);}
       node.classList.toggle('is-hit',hit);node.dataset.state=hit?'hit':offset<1?'ready':'moving';
       node.querySelector('.cat-position').setAttribute('transform',`translate(${x} ${y+offset})`);
       node.querySelector('.cat-body').setAttribute('transform',`rotate(${rotation} 0 -20)`);
@@ -111,6 +117,7 @@ export function setupSnowballGame(svg){
     if(active){document.activeElement?.blur();unlockAudio();frame=requestAnimationFrame(tick);}
   }
   document.addEventListener('keydown',event=>{
+    if(document.querySelector('dialog[open]'))return;
     if(event.repeat||event.ctrlKey||event.metaKey||event.altKey||event.target.closest('input,textarea,[contenteditable="true"]'))return;
     if(event.key.toLowerCase()==='t'){event.preventDefault();toggle(!active);}
     else if(event.key==='Escape'&&active)toggle(false);

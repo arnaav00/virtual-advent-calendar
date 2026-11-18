@@ -1,0 +1,31 @@
+.gift-dialog{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:#f7e8c5;overflow:hidden;overscroll-behavior:none;user-select:none;-webkit-user-select:none;outline:none}
+.gift-dialog[open]{display:grid;place-items:center}
+.gift-dialog::backdrop{background:rgba(15,30,31,.76);backdrop-filter:blur(4px);animation:gift-dim .35s ease-out both}
+.gift-dialog.closing::backdrop{animation:gift-undim .2s ease-in both}
+.gift-stage{position:relative;width:min(720px,94vw,89dvh);aspect-ratio:600/620;pointer-events:none;transform-origin:50% 60%;will-change:transform,opacity}
+.gift-art{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:none}
+.present-interactive{pointer-events:all}
+.gift-shadow,.gift-reveal,.gift-confetti{pointer-events:none}
+.gift-reveal{opacity:0;transform-origin:300px 315px}
+.gift-lid{transform-origin:300px 278px}
+.gift-bow{transform-origin:300px 264px}
+.gift-wrap{transform-origin:300px 318px}
+.gift-lid,.gift-bow,.gift-wrap,.gift-reveal{transform-box:view-box}
+.ribbon-handle{cursor:grab;touch-action:none;outline:none}
+.ribbon-handle:focus-visible{filter:drop-shadow(0 0 6px #fff2c9)}
+.ribbon-handle>path{animation:ribbon-invitation 1.8s ease-in-out infinite}
+.dragging .ribbon-handle{cursor:grabbing}
+.dragging .ribbon-handle>path,.unwrapping .ribbon-handle>path{animation:none}
+.unwrapping .ribbon-handle{pointer-events:none}
+.gift-close{position:fixed;right:max(24px,env(safe-area-inset-right));top:max(24px,env(safe-area-inset-top));width:42px;height:42px;display:grid;place-items:center;border:1px solid #f6e8c54d;border-radius:50%;background:#fff4dd0a;color:#f5e6ca;cursor:pointer;transition:background .2s,transform .2s}
+.gift-close:hover{background:#fff4dd20;transform:rotate(6deg)}
+.gift-close:focus-visible{outline:2px solid #f2d69b;outline-offset:4px}
+.gift-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+.revealed .gift-heart{animation:gift-heart-float 3s ease-in-out infinite;transform-origin:300px 220px}
+@keyframes gift-dim{from{background:rgba(15,30,31,0);backdrop-filter:blur(0)}to{background:rgba(15,30,31,.76);backdrop-filter:blur(4px)}}
+@keyframes gift-undim{from{background:rgba(15,30,31,.76);backdrop-filter:blur(4px)}to{background:rgba(15,30,31,0);backdrop-filter:blur(0)}}
+@keyframes ribbon-invitation{0%,100%{filter:brightness(1)}50%{filter:brightness(1.18)}}
+@keyframes gift-heart-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+@media(prefers-reduced-motion:reduce){.gift-dialog::backdrop,.gift-dialog.closing::backdrop,.ribbon-handle>path,.revealed .gift-heart{animation:none}.gift-close{transition:none}}
+.gift-physical-instruction{position:absolute;z-index:1;left:50%;top:-46px;width:min(600px,calc(100vw - 36px));margin:0;transform:translateX(-50%);color:#fff8e8;text-align:center;font:clamp(18px,2.3vw,25px)/1.2 'Patrick Hand','Comic Sans MS',cursive;letter-spacing:.2px;text-shadow:0 2px 10px #101e1dcc}
+.physical-gift .gift-stage{width:min(650px,90vw,76dvh)}

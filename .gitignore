@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Local service state and logs
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*.log
+
+# Generated and operating-system files
+coverage/
+.DS_Store
+Thumbs.db
+
+# Local-only project notes and editor metadata
+PROJECT-HANDOFF.md
+.openai/

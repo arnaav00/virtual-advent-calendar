@@ -17,9 +17,10 @@ test('one-second spawns never exceed two cats or share a chimney, and cycle all 
 test('cats hold for 1.5 seconds and reject hidden or already-hit targets',()=>{
   const round=createRound();advanceRound(round,0,()=>0);
   const cat=round.cats[0],base=CHIMNEYS[cat.chimney];
-  assert.equal(catOffset(.2),0);assert.equal(catOffset(1.7),0);assert.equal(catOffset(1.9),62);
+  assert.equal(catOffset(.2),0);assert.equal(catOffset(1.7),0);assert.equal(catOffset(1.9),82);
   assert.equal(hitCat(round,0,base.x,base.y-29),undefined);
   assert.equal(hitCat(round,.5,base.x,base.y-29),cat);
+  assert.equal(hitCat(round,.5,base.x,base.y-67),cat,'the visible Santa cap is part of the target');
   assert.equal(hitCat(round,.5,base.x,base.y+8),undefined);
   assert.equal(hitCat(round,.5,base.x+40,base.y-29),undefined);
   cat.hitAt=.5;assert.equal(hitCat(round,.6,base.x,base.y-29),undefined);

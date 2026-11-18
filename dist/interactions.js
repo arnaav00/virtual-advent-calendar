@@ -36,7 +36,7 @@ export function setupEasterEggs(svg){
   const upper=skater.querySelector('.skater-upper'),arms=[...upper.children].slice(1,4);
   group(upper,arms,'skater-moving-arms');
   const waitingArms=document.createElementNS(NS,'g');waitingArms.setAttribute('class','skater-waiting-arms');
-  waitingArms.innerHTML='<path d="M-6 -44L-18 -36L-9 -29M7 -44L16 -48" fill="none" stroke="#bd6b61" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="-9" cy="-29" r="2.8" fill="#557b70"/><g transform="translate(16 -48)"><g class="skater-wave"><path d="M0 0L2 -14" fill="none" stroke="#bd6b61" stroke-width="4.5" stroke-linecap="round"/><path d="M0 -12L-1 -17Q0 -19 2 -17L4 -19Q7 -19 7 -16L5 -11Z" fill="#557b70" stroke="#354d49" stroke-width="1"/></g></g>';
+  waitingArms.innerHTML='<path d="M-6 -44L-18 -36L-9 -29M7 -44L16 -48" fill="none" stroke="#527b66" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="-9" cy="-29" r="2.8" fill="#b76658"/><g transform="translate(16 -48)"><g class="skater-wave"><path d="M0 0L2 -14" fill="none" stroke="#527b66" stroke-width="4.5" stroke-linecap="round"/><path d="M0 -12L-1 -17Q0 -19 2 -17L4 -19Q7 -19 7 -16L5 -11Z" fill="#b76658" stroke="#354d49" stroke-width="1"/></g></g>';
   upper.append(waitingArms);
   let hovered=false,focused=false;
   const update=()=>{state.skaterWaiting=hovered||focused;skater.classList.toggle('waiting',state.skaterWaiting);skater.setAttribute('aria-pressed',String(state.skaterWaiting));};
@@ -45,12 +45,10 @@ export function setupEasterEggs(svg){
   skater.addEventListener('focus',()=>{focused=skater.matches(':focus-visible');update();});
   skater.addEventListener('blur',()=>{focused=false;update();});
 
-  const snowman=svg.querySelector('g[transform="translate(339 786) rotate(-6)"]');
-  snowman.classList.add('snowman');
-  const pieces=[...snowman.children];
-  const specs=[['arms',[0],-30,-40,51,40],['body',[1,9,10],-11,-20,2,-20],['head',[2,6,7],-48,43,42,30],['carrot',[8],-44,72,62,145],['scarf',[3,4],-28,15,43,78],['hat',[5],-76,-54,89,-28]];
-  const parts=specs.map(([name,indices,origin,x,y,rotation])=>{
-    const element=group(snowman,indices.map(i=>pieces[i]),`snowman-${name}`);
+  const snowman=svg.querySelector('.snowman');
+  const specs=[['arms',-68,-12,62,35],['base',-21,-28,0,-20],['middle',-62,28,48,35],['head',-97,70,88,-28],['carrot',-94,102,101,145],['scarf',-78,13,85,78],['hat',-125,-68,127,-28]];
+  const parts=specs.map(([name,origin,x,y,rotation])=>{
+    const element=snowman.querySelector(`.snowman-${name}`);
     element.style.transformOrigin=`0px ${origin}px`;
     return{element,fallen:`translate(${x}px,${y}px) rotate(${rotation}deg)`};
   });

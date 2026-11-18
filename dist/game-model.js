@@ -1,12 +1,13 @@
 // Timing and hit geometry live independently of drawing and browser input.
 export const CHIMNEYS=[{x:229,y:306},{x:554,y:260},{x:805,y:185},{x:1014,y:278},{x:1187,y:326}];
 export const CAT_RISE=.2, CAT_STAY=1.5, CAT_FALL=.2, CAT_LIFETIME=CAT_RISE+CAT_STAY+CAT_FALL;
+export const CAT_HIDDEN_OFFSET=82;
 const smooth=t=>t*t*(3-2*t);
 export function catOffset(age){
-  if(age<0||age>=CAT_LIFETIME)return 62;
-  if(age<CAT_RISE)return 62*(1-smooth(age/CAT_RISE));
+  if(age<0||age>=CAT_LIFETIME)return CAT_HIDDEN_OFFSET;
+  if(age<CAT_RISE)return CAT_HIDDEN_OFFSET*(1-smooth(age/CAT_RISE));
   if(age<=CAT_RISE+CAT_STAY)return 0;
-  return 62*smooth((age-CAT_RISE-CAT_STAY)/CAT_FALL);
+  return CAT_HIDDEN_OFFSET*smooth((age-CAT_RISE-CAT_STAY)/CAT_FALL);
 }
 export function createRound(){return{cats:[],nextSpawn:0,lastChimney:-1,nextId:0,colors:[]};}
 export function advanceRound(round,time,random=Math.random){
@@ -28,7 +29,9 @@ export function hitCat(round,time,x,y){
     if(cat.hitAt!==null)return false;
     const base=CHIMNEYS[cat.chimney],offset=catOffset(time-cat.born);
     // A little forgiveness around the ears; never hit the hidden part below the rim.
-    return y<=base.y+2 && ((x-base.x)/27)**2+((y-(base.y-29+offset))/30)**2<=1;
+    const face=((x-base.x)/27)**2+((y-(base.y-29+offset))/30)**2<=1;
+    const cap=((x-base.x-3)/23)**2+((y-(base.y-55+offset))/22)**2<=1;
+    return y<=base.y+2 && (face||cap);
   });
 }
 export function snowballDuration(distance){return .24+Math.min(1,distance/1000)*.16;}
