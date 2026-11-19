@@ -18,6 +18,8 @@ const path = (d, fill = 'none', extra = '') => {
   return `<path d="${d}" fill="${fill}" ${Object.entries(attributes).map(([key,value])=>`${key}="${value}"`).join(' ')}/>`;
 };
 const rect = (x,y,w,h,fill,rx=0) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" ${stroke}/>`;
+const houseBody = (x,y,w,h,fill,rx=0) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="none"/><path d="M${x} ${y}V${y+h-rx}Q${x} ${y+h} ${x+rx} ${y+h}H${x+w-rx}Q${x+w} ${y+h} ${x+w} ${y+h-rx}V${y}" fill="none" ${stroke}/>`;
+const gable = (x,y,w,h,fill) => `<path d="M${x} ${y}L${x+w/2} ${y-h}L${x+w} ${y}Z" fill="${fill}" stroke="none"/>${path(`M${x} ${y}L${x+w/2} ${y-h}L${x+w} ${y}`)}`;
 const circle = (x,y,r,fill,extra='') => `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" ${stroke} ${extra}/>`;
 function fence(x,y,width,side){
   const count=7,step=(width-16)/(count-1);
@@ -51,23 +53,23 @@ art += [tree(137,683,.9,'#8ba493'),tree(1271,689,.95,'#8ba493'),tree(345,605,.72
 art += path('M-1440 738H0Q115 684 252 711Q472 659 694 710Q917 667 1119 700Q1310 669 1440 726H2880V1800H-1440Z','url(#ground)','stroke="none"');
 // Five houses, each with its own silhouette and small architectural details.
 art += chimney(215,310,'#c3cdb6');
-art += rect(183,431,190,288,'#b8c7b4',3);
-art += path('M183 431L278 328L373 431Z','#b8c7b4');
+art += houseBody(183,431,190,288,'#b8c7b4',3);
+art += gable(183,431,190,103,'#b8c7b4');
 art += roof(183,431,190,110,'#54776a');
 art += attic(278,397,15);
 art += path('M193 444V706M363 444V706M183 578H373','none','opacity=".45"');
 art += rect(173,710,211,15,snow,5);
 art += chimney(540,264,'#cb967d');
-art += rect(397,358,192,368,'#e9c79e',2);
-art += path('M397 358L493 254L589 358Z','#e9c79e');
+art += houseBody(397,358,192,368,'#e9c79e',2);
+art += gable(397,358,192,104,'#e9c79e');
 art += roof(397,358,192,110,'#ac6554');
 art += attic(493,321,17);
 art += path('M407 372V715M579 372V715M398 491H589M398 612H589','none','opacity=".3"');
 art += rect(387,717,213,16,snow,5);
 // The pink house is the heart of the village.
 art += chimney(791,189,'#c58176');
-art += rect(613,302,231,428,'#e1ada1',2);
-art += path('M613 302L728 174L844 302Z','#e1ada1');
+art += houseBody(613,302,231,428,'#e1ada1',2);
+art += gable(613,302,231,128,'#e1ada1');
 art += roof(613,302,231,135,'#875349');
 art += attic(728,252,22);
 art += path('M625 315V716M831 315V716M613 439H844M613 554H844','none','opacity=".4"');
@@ -76,15 +78,15 @@ art += path('M668 731L659 747H800L791 731','#e7d7c3');
 art += path('M659 747L650 757H809L800 747',snow);
 art += wreath(729,586,1.05);
 art += chimney(1000,282,'#80a397');
-art += rect(867,373,178,352,'#9db8ae',3);
-art += path('M867 373L956 272L1045 373Z','#9db8ae');
+art += houseBody(867,373,178,352,'#9db8ae',3);
+art += gable(867,373,178,101,'#9db8ae');
 art += roof(867,373,178,109,'#4b7067');
 art += attic(956,338,16);
 art += path('M878 388V714M1034 388V714M867 499H1045M867 612H1045','none','opacity=".35"');
 art += rect(857,716,198,16,snow,5);
 art += chimney(1173,330,'#c89376');
-art += rect(1065,459,174,267,'#e5c6a1',3);
-art += path('M1065 459L1152 360L1239 459Z','#e5c6a1');
+art += houseBody(1065,459,174,267,'#e5c6a1',3);
+art += gable(1065,459,174,99,'#e5c6a1');
 art += roof(1065,459,174,107,'#aa6b53');
 art += attic(1152,421,14);
 art += path('M1076 475V713M1228 475V713M1065 583H1239','none','opacity=".4"');

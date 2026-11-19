@@ -10,6 +10,9 @@ export function setupSantaGifts(svg){
   const colors=['#bb655c','#78a497','#e3b85e','#8e91b5','#d296b0'];
   let nextColor=0;
   function drop(){
+    const laugh=new Audio('./assets/santa-ho-ho-ho.mp3');
+    laugh.volume=.85;
+    laugh.play().catch(()=>{});
     const origin=new DOMPoint(-10,3).matrixTransform(svg.getScreenCTM().inverse().multiply(santa.getScreenCTM()));
     const i=nextColor++%colors.length;
       const box=document.createElementNS(NS,'g');box.setAttribute('class','falling-gift');

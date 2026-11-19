@@ -1,6 +1,8 @@
 import {isOpened,markOpened} from './gift-state.js';
 import {playlistCard} from './playlist-gift.js';
 import { giftPalette, pullProgress } from './gift-model.js';
+import { christmillionCard } from './christmillion-gift.js';
+import { btsCard } from './bts-gift.js';
 export function setupGiftModal(){
   const dialog=document.createElement('dialog');dialog.id='day-gift';dialog.className='gift-dialog';dialog.setAttribute('aria-label','Open your present');
   dialog.innerHTML=`<button class="gift-close" aria-label="Close gift"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button>
@@ -58,8 +60,9 @@ export function setupGiftModal(){
     </g>
   </svg></div>`;
   document.body.append(dialog);
-  const cards={1:playlistCard(1),2:playlistCard(2,3),3:playlistCard(3,2),4:playlistCard(4),5:playlistCard(5),6:playlistCard(6),7:playlistCard(7),8:playlistCard(8)};Object.values(cards).forEach(item=>dialog.append(item.element,item.captureButton));let card=cards[1],currentDay=0;
+  const cards={1:playlistCard(1),2:playlistCard(2,3),3:playlistCard(3,2),4:playlistCard(4),5:playlistCard(5),6:playlistCard(6),7:playlistCard(7),8:playlistCard(8),9:christmillionCard(),10:btsCard()};Object.values(cards).forEach(item=>dialog.append(item.element,item.captureButton));let card=cards[1],currentDay=0;
   const physicalInstruction=dialog.querySelector('.gift-physical-instruction');
+  dialog.querySelector('.gift-close').addEventListener('click',()=>close());
   const art=dialog.querySelector('.gift-art'),handle=dialog.querySelector('.ribbon-handle'),left=dialog.querySelector('.bow-left'),right=dialog.querySelector('.bow-right');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let trigger=null,state='closed',drag=null,session=0,animations=[],springFrame=0,suppressClick=false;
@@ -96,22 +99,23 @@ export function setupGiftModal(){
     dialog.close();state='closed';document.body.classList.remove('gift-open');reset();
     if(trigger){trigger.dataset.open='false';trigger.setAttribute('aria-expanded','false');trigger.focus({preventScroll:true});}
   }
+  document.addEventListener('christmillion-close',()=>{if(currentDay===9)void close();});
   async function unwrap(){
     if(state!=='wrapped')return;
     markOpened(currentDay);state='unwrapping';dialog.dataset.state=state;const token=session;
     if(drag&&handle.hasPointerCapture(drag.id))handle.releasePointerCapture(drag.id);drag=null;
     cancelAnimationFrame(springFrame);dialog.classList.remove('dragging');dialog.classList.add('unwrapping');
     handle.setAttribute('tabindex','-1');handle.setAttribute('aria-disabled','true');dialog.querySelector('.gift-close').focus({preventScroll:true});
-    await Promise.all([
+    await Promise.race([Promise.all([
       animate(dialog.querySelector('.gift-bow'),[{opacity:1,transform:'translate(0,0) rotate(0deg)'},{opacity:0,transform:'translate(100px,80px) rotate(24deg)'}],{duration:reduced.matches?0:470,easing:'cubic-bezier(.4,0,.8,.3)'}),
       animate(dialog.querySelector('.gift-wrap'),[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(160px) rotate(5deg)'}],{duration:reduced.matches?0:580,easing:'cubic-bezier(.4,0,.8,.3)'}),
       animate(dialog.querySelector('.lid-ribbon'),[{opacity:1},{opacity:0}],{duration:reduced.matches?0:400}),
       physicalInstruction.hidden?Promise.resolve():animate(physicalInstruction,[{opacity:1,transform:'translate(-50%,0)'},{opacity:0,transform:'translate(-50%,-8px)'}],{duration:reduced.matches?0:480,easing:'ease-in'})
-    ]);
+    ]),new Promise(resolve=>setTimeout(resolve,reduced.matches?0:1150))]);
     physicalInstruction.hidden=true;
     if(token!==session)return;
     animate(dialog.querySelector('.gift-lid'),[{transform:'translateY(0) rotate(0deg)'},{transform:'translateY(-12px) rotate(2deg)',offset:.15},{transform:'translate(-22px,-180px) rotate(-13deg)'}],{duration:reduced.matches?0:1000,easing:'cubic-bezier(.2,.8,.2,1)'});
-    await animate(dialog.querySelector('.gift-reveal'),[{opacity:0,transform:'translateY(175px) scale(.5)'},{opacity:1,transform:'translateY(-12px) scale(1.04)',offset:.8},{opacity:1,transform:'translateY(0) scale(1)'}],{delay:reduced.matches?0:240,duration:reduced.matches?0:1050,easing:'cubic-bezier(.2,.7,.2,1)'});
+    await Promise.race([animate(dialog.querySelector('.gift-reveal'),[{opacity:0,transform:'translateY(175px) scale(.5)'},{opacity:1,transform:'translateY(-12px) scale(1.04)',offset:.8},{opacity:1,transform:'translateY(0) scale(1)'}],{delay:reduced.matches?0:240,duration:reduced.matches?0:1050,easing:'cubic-bezier(.2,.7,.2,1)'}),new Promise(resolve=>setTimeout(resolve,reduced.matches?0:1400))]);
     if(token!==session)return;
     state='revealed';dialog.classList.add('revealed');dialog.dataset.state=state;
     if(cards[currentDay]){dialog.classList.add('has-card');card.show();positionCapture();}
@@ -145,9 +149,9 @@ export function setupGiftModal(){
   handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',event=>{release(event);suppressClick=false;});
   handle.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();unwrap();}});
   dialog.addEventListener('pointerdown',event=>{if(!event.target.closest('.ribbon-handle'))suppressClick=false;});
-  dialog.addEventListener('click',event=>{if(suppressClick){suppressClick=false;return;}if(!event.target.closest('.present-interactive,.playlist-card,.reaction-start'))close();});
-  dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
-  dialog.addEventListener('keydown',event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();close();}});
+  dialog.addEventListener('click',event=>{if(suppressClick){suppressClick=false;return;}if(currentDay===10)return;if(!event.target.closest('.present-interactive,.playlist-card,.reaction-start,.bts-gift-card'))close();});
+  dialog.addEventListener('cancel',event=>{event.preventDefault();if(currentDay!==10)close();});
+  dialog.addEventListener('keydown',event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();if(currentDay!==10)close();}});
   return{
     open(day,source){
       ++session;reset();currentDay=day;card=cards[day]||cards[1];trigger=source;state='wrapped';dialog.dataset.state=state;

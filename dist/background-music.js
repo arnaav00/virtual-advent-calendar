@@ -6,7 +6,8 @@ export function setupBackgroundMusic(){
  audio.play().then(()=>{started=true;}).catch(()=>{document.addEventListener('pointerdown',start,true);document.addEventListener('keydown',start,true);});
  const stop=()=>{stoppedForSpotify=true;audio.pause();audio.currentTime=0;document.removeEventListener('pointerdown',start,true);document.removeEventListener('keydown',start,true);};
  window.addEventListener('spotify-playback-started',stop);
- window.addEventListener('pause-calendar-music',()=>audio.pause());
- window.addEventListener('resume-calendar-music',()=>{if(started&&!stoppedForSpotify)audio.play().catch(()=>{});});
+ let pausedForGift=false;
+ window.addEventListener('pause-calendar-music',()=>{pausedForGift=!audio.paused;audio.pause();});
+ window.addEventListener('resume-calendar-music',()=>{if(pausedForGift&&started&&!stoppedForSpotify)audio.play().catch(()=>{});pausedForGift=false;});
  return{audio,stop};
 }
