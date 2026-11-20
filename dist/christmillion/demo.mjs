@@ -24,7 +24,7 @@ export const DEMO = {
     { id: 'p2', text: 'Name a Thane resident whose surname is Ghosh or Debraj', answers: [a('Anmol', 'schooler'), a('Arpita', 'schooler'), a('Debraj', 'schooler'), james(), krillion()] },
     { id: 'p3', text: 'Name an author of “Engineering Flexible Pristine and Core–Shell Triazolate Frameworks with Pressure-Induced Breathing for High-Pressure CO2 Capture”', answers: [a('Prerna Yogeshwar', 'schooler'), a('Shailina Srivastava', 'schooler'), a('Gomathi Seetharam', 'rare'), a('Sachin Gunthe', 'deepcut'), a('Jitendra Sangwai', 'deepcut'), james(), krillion()] },
     { id: 'p4', text: 'Name a person who had the name Joel on their 25th birthday cake', answers: [a('Joel', 'tooclever'), james(), krillion()] },
-    { id: 'p5', text: 'Name an IITM student who’s going to ace their upcoming conference presentation in Goa', answers: [a('Teressa', 'schooler'), a('Sudheera', 'schooler'), james(), krillion()] },
+    { id: 'p5', text: 'Name an IITM student who’s going to ace their upcoming conference presentation in Goa', answers: [a('Teressa', 'schooler'), a('Sudheera', 'schooler'), a('Vedha', 'schooler'), james(), krillion()] },
     { id: 'p6', text: 'Name a member of the hit 2010s band, The Treblesomes', answers: [a('Rachel', 'schooler'), a('Rebecca', 'rare'), a('Shloka', 'deepcut'), james(), krillion()] },
     { id: 'p7', text: 'Name the most amazing, beautiful, talented, smartest, funniest person ever', answers: [krillion()] },
   ],
