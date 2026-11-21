@@ -93,3 +93,7 @@ The home-scene mini snowglobe now tilts 5° clockwise. Its foreground snow ridge
 
 Gift 18 is registered in `dist/gift-modal.js` and implemented in `dist/ao3-gift.js`. Its compact white AO3-style entry reproduces the reference’s metadata arrangement, underlined work title, fandom line, dense dotted-underlined tags, summary, rating icon, and bottom stats row. The supplied collected icon is `dist/assets/gift18-collected.png`. The title alone links to the supplied Google Doc; the shared close button, reaction photo capture, and click-outside dismissal are available. The modal was opened and visually checked in the live preview; click-outside dismissal was tested after correcting its day-18 event handling. The browser preview was left open on Gift 18.
 
+
+## Follow-up: home miniature light and AO3 metadata alignment (21 Nov 2026)
+
+The persistent home-scene miniature is now an accessible toggle button. Clicking or pressing Enter/Space switches an amber light overlay inside the snowglobe photo on and off; clicks stop before reaching the scene handlers. The toggle was tested live in the preview. Gift 18's date is aligned at the upper right using the same inset as the bottom stats row. “Arnaav Anand” now shares the title link's color and underline styling while remaining plain text. The live preview was refreshed and left showing Gift 18.

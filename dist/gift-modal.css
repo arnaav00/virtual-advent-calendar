@@ -385,3 +385,8 @@
 @media(max-width:650px){.ao3-card{width:calc(100vw - 24px);max-height:78dvh;padding:11px 10px;font-size:13px}.ao3-heading{min-height:54px;padding-left:60px;padding-right:0}.ao3-rating{width:50px;height:50px}.ao3-title-line{display:block;padding-right:0}.ao3-title-line time{display:block;font-size:11px}.ao3-work-title{font-size:15px}.ao3-fandom{font-size:13px}.ao3-tags{margin-top:9px}.ao3-stats{justify-content:flex-start;column-gap:9px;font-size:12px}}
 .ao3-card{font-size:clamp(15px,1.55vw,18px);user-select:none;-webkit-user-select:none}
 .ao3-work-title{font-size:1.12em}
+.ao3-heading{padding-right:0}
+.ao3-title-line{padding-right:124px}
+.ao3-title-line time{position:absolute;top:0;right:0;text-align:right}
+.ao3-author{color:#8c252c;text-decoration:underline;text-decoration-color:#a9383b;text-underline-offset:2px}
+@media(max-width:650px){.ao3-heading{padding-right:0}.ao3-title-line{padding-right:82px}.ao3-title-line time{top:0;right:0;font-size:10px}}

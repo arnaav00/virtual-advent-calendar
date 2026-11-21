@@ -14,7 +14,7 @@ export function ao3Card() {
   camera.reactionDialog.setAttribute('aria-label', 'Gift #18 photo capture');
   card.innerHTML = `<div class="ao3-heading">
     <img class="ao3-rating" src="./assets/gift18-collected.png" alt="Teen rating, F/M, no archive warning, complete">
-    <div class="ao3-title-line"><div class="ao3-work-title"><a href="${titleUrl}" target="_blank" rel="noopener noreferrer">Love At First Knight</a> <span>by Arnaav Anand</span></div><time datetime="2026-12-17">17 Dec 2026</time></div>
+    <div class="ao3-title-line"><div class="ao3-work-title"><a href="${titleUrl}" target="_blank" rel="noopener noreferrer">Love At First Knight</a> <span class="ao3-author">by Arnaav Anand</span></div><time datetime="2026-12-17">17 Dec 2026</time></div>
     <div class="ao3-fandom">Our Stories</div>
   </div>
   <div class="ao3-tags">${tags.split(', ').map(tag => `<span>${tag}</span>`).join(', ')}</div>
