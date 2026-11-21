@@ -41,7 +41,7 @@ The gift order is important: the physical cap/try-on is Gift #2 and the North Po
 
 ## Gift 16 — custom snowglobe
 
-`dist/snowglobe-gift.js` lets the user upload an image or select the Gift #14 puzzle photo (`dist/assets/gift14-photo.png`). The selected image uses centered cover cropping and preserves its aspect ratio: wide images crop top/bottom and tall images crop left/right. The upload choices disappear after selection. A custom glass sphere and warm metallic base frame the photo, with a foreground snow pile. Tapping the globe adds a temporary amber glow. Dragging creates a heavy burst of snow whose direction follows the gesture and whose momentum decays under gravity. The shared reaction camera is available. Styles are in `dist/gift-modal.css`; Gift 16 is registered in `dist/gift-modal.js`.
+`dist/snowglobe-gift.js` lets the user upload an image or select the Gift #14 puzzle photo (`dist/assets/gift14-photo.png`). The empty globe is visible beside the upload controls at first. The selected image fills the spherical opening using centered cover cropping and preserves its aspect ratio: wide images crop top/bottom and tall images crop left/right. The upload choices disappear after selection. Layered highlights and tinted reflections give the glass a translucent, three-dimensional appearance; the compact base is polished black, with a foreground snow pile. The title stays at the top. The globe can be dragged anywhere within the viewport; drag velocity also drives the existing heavy burst of snow and its momentum. Tapping the globe adds a temporary amber glow. The shared reaction camera is available. Styles are in `dist/gift-modal.css`; Gift 16 is registered in `dist/gift-modal.js`.
 
 ## Shared reaction-camera flow
 

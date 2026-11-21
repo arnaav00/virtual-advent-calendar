@@ -11,7 +11,7 @@ export function snowglobeCard() {
       <label class="snowglobe-upload">Choose a picture<input class="snowglobe-file" type="file" accept="image/*"></label>
       <label class="snowglobe-reference"><input class="snowglobe-use-reference" type="checkbox"> Use reference image from puzzle</label>
     </div>
-    <div class="snowglobe-wrap" hidden>
+    <div class="snowglobe-wrap">
       <div class="snowglobe" role="button" tabindex="0" aria-label="Drag or tap to shake the snowglobe">
         <div class="snowglobe-image"></div><canvas class="snowglobe-snow" aria-hidden="true"></canvas>
         <div class="snowglobe-pile" aria-hidden="true"></div>
@@ -36,7 +36,7 @@ export function snowglobeCard() {
   const ctx = canvas.getContext('2d');
   const particles = [];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, glowTimer = 0, objectUrl = '';
+  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, glowTimer = 0, objectUrl = '', moved = false, suppressClick = false, grabOffset = { x: 0, y: 0 };
   function sizeCanvas() {
     const rect = globe.getBoundingClientRect();
     const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -82,22 +82,31 @@ export function snowglobeCard() {
   function warmGlow() {
     globe.classList.add('is-warm'); clearTimeout(glowTimer); glowTimer = setTimeout(() => globe.classList.remove('is-warm'), 2400);
   }
-  globe.addEventListener('click', warmGlow);
+  globe.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } warmGlow(); });
   globe.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
-    pointer = event.pointerId; last = { x: event.clientX, y: event.clientY, t: performance.now() }; velocity = { x: 0, y: 0 };
+    pointer = event.pointerId; last = { x: event.clientX, y: event.clientY, t: performance.now() }; velocity = { x: 0, y: 0 }; moved = false;
+    const rect = globe.getBoundingClientRect(); grabOffset = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    globe.style.position = 'fixed'; globe.style.left = `${rect.left}px`; globe.style.top = `${rect.top}px`; globe.style.width = `${rect.width}px`; globe.style.zIndex = '1000';
     globe.setPointerCapture(pointer); globe.classList.add('is-shaking'); event.preventDefault();
   });
   globe.addEventListener('pointermove', event => {
     if (event.pointerId !== pointer) return;
     const now = performance.now(), dt = Math.max(8, now - last.t);
-    velocity = { x: (event.clientX - last.x) / dt * 16, y: (event.clientY - last.y) / dt * 16 };
+    const dx = event.clientX - last.x, dy = event.clientY - last.y;
+    if (Math.abs(dx) + Math.abs(dy) > 2) moved = true;
+    velocity = { x: dx / dt * 16, y: dy / dt * 16 };
+    const w = globe.offsetWidth, h = globe.offsetHeight, baseExtra = h * .05;
+    const left = Math.max(0, Math.min(innerWidth - w, event.clientX - grabOffset.x));
+    const top = Math.max(0, Math.min(innerHeight - h - baseExtra, event.clientY - grabOffset.y));
+    globe.style.left = `${left}px`; globe.style.top = `${top}px`;
     last = { x: event.clientX, y: event.clientY, t: now }; startSnow();
   });
   function release(event) {
     if (event.pointerId !== pointer) return;
     if (globe.hasPointerCapture(pointer)) globe.releasePointerCapture(pointer);
     pointer = null; last = null; globe.classList.remove('is-shaking');
+    if (moved) { suppressClick = true; setTimeout(() => { suppressClick = false; }, 0); }
   }
   globe.addEventListener('pointerup', release); globe.addEventListener('pointercancel', release);
   globe.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); warmGlow(); velocity = { x: 0, y: -13 }; startSnow(); } });
