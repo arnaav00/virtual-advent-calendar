@@ -107,3 +107,5 @@ The Tetris layout was refined after screenshot review: controls align with the b
 Gift 17 AO3 tags now use regular weight except “No Archive Warnings Apply,” which remains bold. This was checked in the live preview.
 
 Gift 19 is the Ghibli desk calendar gift in `dist/ghibli-gift.js`. It uses the two supplied transparent PNGs, `dist/assets/gift19-ghibli-desk-calendar.png` and `dist/assets/gift19-ghibli-calendar-set.png`. The desk calendar rotates left/right in a bounded 3D bevel when dragged; the calendar-set image enlarges on hover. Gift 19 has the shared physical-gift disclaimer before its first opening, X close, and photo-capture controls. Gift 18 now has that disclaimer too. The Gift 19 disclaimer and revealed card were visually checked in the live preview, including a drag interaction; the preview is left open on Gift 19.
+
+Gift 19 sizing follow-up: the desk-calendar image is twice its previous display size, while the calendar-set image is 25% smaller. The desktop live preview was checked after resizing.

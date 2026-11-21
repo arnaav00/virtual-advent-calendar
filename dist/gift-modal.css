@@ -428,13 +428,13 @@
 .ghibli-gift[hidden]{display:none!important}
 .ghibli-note{max-width:1000px;margin:0;color:#fff;font-size:clamp(21px,2.8vw,34px);font-weight:600;line-height:1.28;text-wrap:balance;text-shadow:0 2px 12px #0009}
 .ghibli-gallery{display:flex;width:min(1120px,100%);align-items:center;justify-content:center;gap:clamp(28px,5vw,74px);perspective:1100px}
-.ghibli-calendar-stage{position:relative;flex:0 1 min(30vw,36vh,320px);width:min(30vw,36vh,320px);aspect-ratio:1;touch-action:none;cursor:grab;perspective:1000px}
+.ghibli-calendar-stage{position:relative;flex:0 1 min(60vw,72vh,640px);width:min(60vw,72vh,640px);aspect-ratio:1;touch-action:none;cursor:grab;perspective:1000px}
 .ghibli-calendar-stage.is-dragging{cursor:grabbing}
 .ghibli-calendar-bevel{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateY(var(--calendar-turn,0deg)) rotateX(3deg);transition:transform .36s cubic-bezier(.2,.8,.25,1);filter:drop-shadow(0 15px 17px #0007)}
 .ghibli-calendar-stage.is-dragging .ghibli-calendar-bevel{transition:none}
 .ghibli-calendar-bevel:before{position:absolute;inset:0;content:"";transform:translate3d(4px,1px,-10px);background:url('./assets/gift19-ghibli-desk-calendar.png') center/100% 100% no-repeat;filter:brightness(.48)}
 .ghibli-calendar{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
-.ghibli-set-stage{flex:0 1 min(49vw,62vh,530px);width:min(49vw,62vh,530px);aspect-ratio:1;display:grid;place-items:center}
+.ghibli-set-stage{flex:0 1 min(36.75vw,46.5vh,397.5px);width:min(36.75vw,46.5vh,397.5px);aspect-ratio:1;display:grid;place-items:center}
 .ghibli-set{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 13px 15px #0006);transition:transform .22s ease;transform-origin:center}
 .ghibli-set:hover{transform:scale(1.055)}
-@media(max-width:650px){.ghibli-gift{gap:26px;padding:88px 18px 92px}.ghibli-gallery{flex-direction:column;gap:14px}.ghibli-calendar-stage{flex:none;width:min(46vw,30vh,230px)}.ghibli-set-stage{flex:none;width:min(78vw,38vh,360px)}}
+@media(max-width:650px){.ghibli-gift{gap:26px;padding:88px 12px 92px}.ghibli-gallery{flex-direction:column;gap:14px}.ghibli-calendar-stage{flex:none;width:min(92vw,60vh,460px)}.ghibli-set-stage{flex:none;width:min(58.5vw,28.5vh,270px)}}
