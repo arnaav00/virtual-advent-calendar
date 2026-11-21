@@ -401,24 +401,25 @@
 .silk-wrapper-button:focus-visible{outline:2px solid #fff;outline-offset:6px}
 .silk-wrapper{display:block;width:auto;height:auto;max-width:min(330px,70vw);max-height:64dvh;object-fit:contain}
 .silk-gift.is-playing{width:min(840px,96vw)}
-.silk-tetris{position:relative;display:grid;grid-template-columns:minmax(112px,1fr) min(38vw,36dvh) minmax(76px,.75fr);align-items:center;justify-items:center;gap:clamp(8px,2vw,23px);max-height:94dvh;padding:0 10px}
-.silk-side{display:flex;min-width:0;flex-direction:column;align-items:flex-start;justify-content:center;gap:clamp(18px,3vh,32px);color:#fff;text-shadow:0 2px 8px #0009}
+.silk-tetris{position:relative;display:grid;grid-template-columns:minmax(120px,1fr) min(38vw,36dvh) minmax(120px,1fr);align-items:start;justify-items:center;gap:clamp(20px,3vw,42px);max-height:94dvh;padding:0 10px}
+.silk-side{display:flex;min-width:0;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:clamp(18px,3vh,32px);color:#fff;text-shadow:0 2px 8px #0009}
+.silk-left{justify-self:end;padding-top:0}
 .silk-controls{display:flex;flex-direction:column;gap:9px}
 .silk-controls>div{display:flex;align-items:center;gap:7px;font:600 clamp(13px,1.5vw,18px)/1 Arial,sans-serif;white-space:nowrap}
 .silk-controls kbd{display:inline-grid;min-width:25px;height:25px;place-items:center;padding:0 5px;border:1px solid #fff8;border-radius:4px;background:#ffffff18;color:#fff;font:600 15px Arial,sans-serif;box-shadow:0 2px 4px #0004}
 .silk-controls kbd+ kbd{margin-left:-6px}
 .silk-stats{display:flex;flex-direction:column;gap:14px;font:600 clamp(20px,2vw,28px)/1.1 Arial,sans-serif;font-variant-numeric:tabular-nums}
 .silk-score{font-size:clamp(18px,1.7vw,24px)}
-.silk-board{display:grid;width:100%;grid-template-columns:repeat(10,minmax(0,1fr));grid-template-rows:repeat(20,minmax(0,1fr));aspect-ratio:1/2;overflow:hidden;border:2px solid #ead8e8;border-radius:4px;background:#1b0d23e8;box-shadow:0 10px 32px #0008}
+.silk-board{position:relative;display:grid;width:100%;grid-template-columns:repeat(10,minmax(0,1fr));grid-template-rows:repeat(20,minmax(0,1fr));aspect-ratio:1/2;overflow:hidden;border:2px solid #ead8e8;border-radius:4px;background:#1b0d23e8;box-shadow:0 10px 32px #0008}
 .silk-cell{min-width:0;min-height:0;border:1px solid #ffffff17;background:#28182e}
 .silk-cell.is-filled,.silk-preview-cell.is-filled{border:1px solid #f1d9b5;background-image:url('./assets/gift18-silk-piece.png');background-position:center;background-size:cover;background-repeat:no-repeat;box-shadow:inset 0 0 3px #fff8}
-.silk-next-label{margin-bottom:9px;font:600 clamp(15px,1.8vw,21px)/1 Arial,sans-serif}
-.silk-right{align-items:center;align-self:start;padding-top:8px}
-.silk-next{display:grid;width:min(18vw,112px);grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);aspect-ratio:1;border:1px solid #fff7;border-radius:4px;background:#1b0d2388}
-.silk-preview-cell{min-width:0;min-height:0;border:1px solid #ffffff12}
-.silk-end{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:11px 14px;border:1px solid #f5e7d9;border-radius:5px;background:#210e2aee;color:#fff;text-align:center;font:700 clamp(13px,1.8vw,20px)/1.25 Arial,sans-serif;white-space:nowrap;box-shadow:0 4px 16px #0008}
+.silk-next-label{margin-bottom:22px;font:600 clamp(15px,1.8vw,21px)/1 Arial,sans-serif;text-align:center}
+.silk-right{align-items:center;justify-self:start;padding-top:0;margin-left:clamp(2px,1vw,14px)}
+.silk-next{display:grid;width:min(18vw,120px);grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);aspect-ratio:1;place-items:center}
+.silk-preview-cell{width:100%;height:100%;min-width:0;min-height:0;border:0;background:transparent}
+.silk-end{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:max-content;max-width:calc(100% - 20px);padding:11px 14px;border:1px solid #f5e7d9;border-radius:5px;background:#210e2aee;color:#fff;text-align:center;font:700 clamp(13px,1.8vw,20px)/1.25 Arial,sans-serif;white-space:normal;box-shadow:0 4px 16px #0008}
 .silk-end[hidden]{display:none!important}
-@media(max-width:640px){.silk-gift.is-playing{width:100vw}.silk-tetris{grid-template-columns:minmax(74px,.8fr) min(49vw,40dvh) minmax(57px,.65fr);gap:5px;padding:0 5px}.silk-side{gap:16px}.silk-controls{gap:8px}.silk-controls>div{gap:4px;font-size:12px}.silk-controls kbd{min-width:19px;height:21px;font-size:12px}.silk-stats{font-size:18px}.silk-score{font-size:16px}.silk-next{width:min(16vw,76px)}.silk-end{white-space:normal;width:max-content;max-width:92vw}}
+@media(max-width:640px){.silk-gift.is-playing{width:100vw}.silk-tetris{grid-template-columns:minmax(68px,.8fr) min(49vw,40dvh) minmax(54px,.65fr);gap:clamp(7px,2vw,14px);padding:0 5px}.silk-side{gap:16px}.silk-controls{gap:8px}.silk-controls>div{gap:4px;font-size:12px}.silk-controls kbd{min-width:19px;height:21px;font-size:12px}.silk-stats{font-size:18px}.silk-score{font-size:16px}.silk-next{width:min(16vw,76px)}.silk-end{white-space:normal;width:max-content;max-width:calc(100% - 20px)}}
 .silk-intro{overflow:visible}
 .silk-wrapper-button{max-height:57dvh}
 .silk-wrapper{max-height:55dvh}

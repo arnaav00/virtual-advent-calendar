@@ -25,11 +25,10 @@ export function tetrisCard() {
     <div class="silk-tetris" hidden>
       <aside class="silk-side silk-left">
         <div class="silk-controls"><div><kbd>←</kbd><kbd>→</kbd><span>Move</span></div><div><kbd>↑</kbd><span>Rotate</span></div><div><kbd>Space</kbd><span>Drop</span></div></div>
-        <div class="silk-stats"><div class="silk-timer">00:00</div><div class="silk-score">0</div></div>
+        <div class="silk-stats"><div class="silk-timer">00:00</div><div class="silk-score">Score: 0</div></div>
       </aside>
       <div class="silk-board" role="grid" aria-label="Chocolate Tetris playfield"></div>
       <aside class="silk-side silk-right"><div class="silk-next-label">Next</div><div class="silk-next" aria-label="Next chocolate piece"></div></aside>
-      <div class="silk-end" hidden></div>
     </div>`;
 
   const camera = playlistCard(day);
@@ -45,7 +44,10 @@ export function tetrisCard() {
   const previewElement = card.querySelector('.silk-next');
   const scoreElement = card.querySelector('.silk-score');
   const timerElement = card.querySelector('.silk-timer');
-  const endElement = card.querySelector('.silk-end');
+  const endElement = document.createElement('div');
+  endElement.className = 'silk-end';
+  endElement.hidden = true;
+  boardElement.append(endElement);
   const boardNodes = Array.from({ length: WIDTH * HEIGHT }, (_, index) => {
     const cell = document.createElement('div');
     cell.className = 'silk-cell';
@@ -93,7 +95,10 @@ export function tetrisCard() {
     previewNodes.forEach(node => node.classList.remove('is-filled'));
     const cells = SHAPES[nextShape];
     const minX = Math.min(...cells.map(([x]) => x)), minY = Math.min(...cells.map(([,y]) => y));
-    cells.forEach(([x,y]) => previewNodes[(y-minY)*4 + x-minX]?.classList.add('is-filled'));
+    const width = Math.max(...cells.map(([x]) => x)) - minX + 1;
+    const height = Math.max(...cells.map(([,y]) => y)) - minY + 1;
+    const offsetX = Math.floor((4-width)/2), offsetY = Math.floor((4-height)/2);
+    cells.forEach(([x,y]) => previewNodes[(y-minY+offsetY)*4 + x-minX+offsetX]?.classList.add('is-filled'));
   }
   function render() {
     const filled = new Set();
@@ -103,7 +108,7 @@ export function tetrisCard() {
       if (py>=0&&py<HEIGHT&&px>=0&&px<WIDTH) filled.add(py*WIDTH+px);
     });
     boardNodes.forEach((node,index) => node.classList.toggle('is-filled',filled.has(index)));
-    scoreElement.textContent = String(score);
+    scoreElement.textContent = `Score: ${score}`;
   }
   function lockPiece() {
     current.cells.forEach(([x,y]) => {
