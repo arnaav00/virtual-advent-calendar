@@ -32,6 +32,7 @@ export function snowglobeCard() {
   const imageLayer = element.querySelector('.snowglobe-image');
   const wrap = element.querySelector('.snowglobe-wrap');
   const globe = element.querySelector('.snowglobe');
+  const hint = element.querySelector('.snowglobe-hint');
   const canvas = element.querySelector('.snowglobe-snow');
   const ctx = canvas.getContext('2d');
   const particles = [];
@@ -97,7 +98,8 @@ export function snowglobeCard() {
     if (Math.abs(dx) + Math.abs(dy) > 2) moved = true;
     velocity = { x: dx / dt * 16, y: dy / dt * 16 };
     const w = globe.offsetWidth, h = globe.offsetHeight, baseExtra = h * .05;
-    const left = Math.max(0, Math.min(innerWidth - w, event.clientX - grabOffset.x));
+    const edge = w * .04;
+    const left = Math.max(edge, Math.min(innerWidth - w - edge, event.clientX - grabOffset.x));
     const top = Math.max(0, Math.min(innerHeight - h - baseExtra, event.clientY - grabOffset.y));
     globe.style.left = `${left}px`; globe.style.top = `${top}px`;
     last = { x: event.clientX, y: event.clientY, t: now }; startSnow();
@@ -106,11 +108,22 @@ export function snowglobeCard() {
     if (event.pointerId !== pointer) return;
     if (globe.hasPointerCapture(pointer)) globe.releasePointerCapture(pointer);
     pointer = null; last = null; globe.classList.remove('is-shaking');
+    if (moved) hint.hidden = true;
     if (moved) { suppressClick = true; setTimeout(() => { suppressClick = false; }, 0); }
   }
   globe.addEventListener('pointerup', release); globe.addEventListener('pointercancel', release);
   globe.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); warmGlow(); velocity = { x: 0, y: -13 }; startSnow(); } });
-  window.addEventListener('resize', () => { if (!wrap.hidden) sizeCanvas(); });
+  window.addEventListener('resize', () => {
+    if (globe.style.position === 'fixed') {
+      globe.style.width = '';
+      const rect = globe.getBoundingClientRect();
+      const edge = rect.width * .04;
+      const left = Math.max(edge, Math.min(innerWidth - rect.width - edge, Number.parseFloat(globe.style.left) || rect.left));
+      const top = Math.max(0, Math.min(innerHeight - rect.height - rect.height * .05, Number.parseFloat(globe.style.top) || rect.top));
+      globe.style.width = `${rect.width}px`; globe.style.left = `${left}px`; globe.style.top = `${top}px`;
+    }
+    if (!wrap.hidden) sizeCanvas();
+  });
   return {
     element, captureButton: camera.captureButton,
     show() { element.hidden = false; camera.captureButton.hidden = false; camera.show(); if (!wrap.hidden) { sizeCanvas(); startSnow(); } },
