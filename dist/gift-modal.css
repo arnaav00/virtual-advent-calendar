@@ -366,3 +366,22 @@
 .snowglobe-retake{flex:none;margin:0 0 clamp(8px,2vh,22px);padding:9px 20px;border:1px solid #d6bd8b;border-radius:5px;background:linear-gradient(#f6e8cb,#d7c199);color:#423522;font:600 17px 'Cormorant Garamond',Georgia,serif;cursor:pointer;box-shadow:0 3px 10px #0005;transition:filter .2s,transform .2s}
 .snowglobe-retake:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .snowglobe-retake:focus-visible{outline:2px solid #f2d69b;outline-offset:4px}
+.ao3-card{position:fixed;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);width:min(1120px,90vw);max-height:min(78dvh,790px);overflow:auto;overscroll-behavior:contain;padding:13px 14px 12px;border:1px solid #d7d7d7;border-radius:2px;background:#fff;color:#292929;box-shadow:0 18px 55px #0006;font:clamp(13px,1.28vw,18px)/1.42 Arial,Helvetica,sans-serif;user-select:text;-webkit-user-select:text}
+.ao3-card[hidden]{display:none}
+.ao3-heading{position:relative;min-height:66px;padding-left:86px;padding-right:110px}
+.ao3-rating{position:absolute;left:0;top:0;width:72px;height:72px;object-fit:contain;image-rendering:auto}
+.ao3-title-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-height:27px}
+.ao3-title-line time{flex:none;color:#333;font-size:.8em;white-space:nowrap}
+.ao3-work-title{font-size:1.08em;color:#514742}
+.ao3-work-title a{color:#8c252c;text-decoration:underline;text-decoration-color:#a9383b;text-underline-offset:2px;font-weight:400}
+.ao3-work-title span{color:#4b4946}
+.ao3-fandom{margin-top:2px;color:#31475b;text-decoration:underline;text-decoration-color:#9aa8b1;text-underline-offset:2px}
+.ao3-tags{margin:10px 0 10px;font-weight:700;line-height:1.42}
+.ao3-tags span{text-decoration:underline dotted #8d8b84;text-underline-offset:3px;text-decoration-thickness:1px}
+.ao3-summary{margin:12px 0 14px;line-height:1.5;text-align:justify}
+.ao3-stats{display:flex;justify-content:flex-end;align-items:baseline;flex-wrap:wrap;column-gap:14px;row-gap:2px;color:#424242;font-size:.94em}
+.ao3-stats span{white-space:nowrap}
+.ao3-stats u{text-decoration-style:dotted;text-underline-offset:3px}
+@media(max-width:650px){.ao3-card{width:calc(100vw - 24px);max-height:78dvh;padding:11px 10px;font-size:13px}.ao3-heading{min-height:54px;padding-left:60px;padding-right:0}.ao3-rating{width:50px;height:50px}.ao3-title-line{display:block;padding-right:0}.ao3-title-line time{display:block;font-size:11px}.ao3-work-title{font-size:15px}.ao3-fandom{font-size:13px}.ao3-tags{margin-top:9px}.ao3-stats{justify-content:flex-start;column-gap:9px;font-size:12px}}
+.ao3-card{font-size:clamp(15px,1.55vw,18px);user-select:none;-webkit-user-select:none}
+.ao3-work-title{font-size:1.12em}

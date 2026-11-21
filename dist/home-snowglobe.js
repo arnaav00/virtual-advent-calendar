@@ -31,7 +31,7 @@ export function setupHomeSnowglobe(svg) {
 
   const globe = document.createElementNS(ns, 'g');
   globe.setAttribute('class', 'home-snowglobe');
-  globe.setAttribute('transform', 'translate(267 824) rotate(10)');
+  globe.setAttribute('transform', 'translate(267 824) rotate(5)');
   globe.setAttribute('role', 'img');
   globe.setAttribute('aria-label', 'Your custom snowglobe');
   globe.setAttribute('visibility', 'hidden');
@@ -45,7 +45,7 @@ export function setupHomeSnowglobe(svg) {
     <path d="M-32 -12Q0 -18 32 -12L36 -5Q38 2 30 3H-30Q-38 2 -36 -5Z" fill="url(#home-snowglobe-base-shade)" stroke="#3b4243" stroke-width="1.5"/>
     <path d="M-34 -12Q0 -18 34 -12" fill="none" stroke="#aeb9b8" stroke-opacity=".75" stroke-width="2"/>
     <path d="M-23 -2Q0 1 23 -2" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.3"/>
-    <path d="M-37 -9Q-27 -17 -14 -11Q0 -5 13 -11Q27 -17 38 -9L37 -2Q19 2 0 0Q-20 2 -38 -2Z" fill="#f5fbfc" stroke="#cbd8dc" stroke-width="1"/>`;
+    <path d="M-36 -5Q-27 -9 -17 -6Q-7 -3 0 -6Q12 -10 22 -6Q31 -3 36 -5L35 1Q22 5 9 3Q-4 2 -15 4Q-28 5 -36 1Z" fill="#f5fbfc" stroke="#cbd8dc" stroke-width="1"/>`;
   svg.append(globe);
 
   const photo = globe.querySelector('.home-snowglobe-photo');
