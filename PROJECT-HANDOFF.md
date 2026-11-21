@@ -5,6 +5,7 @@ Updated 21 November 2026. This file captures the current implementation and the 
 ## Where the project is
 
 - Project root: `C:\Users\arnaa\Desktop\adventcalendar\little-snowglobe`
+- Push policy: do not push to origin until the user explicitly asks. The user is resolving GitHub authentication on their side.
 - App files and media: `dist/`
 - Run locally from the project root with `npm run dev`; visit `http://127.0.0.1:4173/` (or `http://localhost:4173/`). The local server supports HTTP byte ranges for seekable MP4 playback. If the server reports `EADDRINUSE`, it is already listening on port 4173; use the existing preview or stop that process before starting another.
 - Checks: `npm test` (18 passing at the time of this note), `npm run check`, and `node --check dist/wrapped-stories.js` for the story module.
@@ -87,13 +88,16 @@ To make photos shared, the next implementation must explicitly initialize Fireba
 
 When altering visual positions, inspect the live page at the actual viewport after edits. The user has repeatedly requested visual iteration for image placement and will notice hovering/floating or misalignment quickly. Preserve supplied images as-is where requested; do not redraw them.
 
-## Gift 16 follow-up and Gift 18 (21 Nov 2026)
+## Gift 16 follow-up and AO3 entry Gift 17 (21 Nov 2026)
 
 The home-scene mini snowglobe now tilts 5° clockwise. Its foreground snow ridge was lowered to the bottom edge of the black pedestal so it reads as snow the globe is sitting in and partly covers the base from below. The full-size Gift 16 tap-to-toggle light was live-checked: tapping visibly activates the warm internal amber light and a second tap switches it off.
 
-Gift 18 is registered in `dist/gift-modal.js` and implemented in `dist/ao3-gift.js`. Its compact white AO3-style entry reproduces the reference’s metadata arrangement, underlined work title, fandom line, dense dotted-underlined tags, summary, rating icon, and bottom stats row. The supplied collected icon is `dist/assets/gift18-collected.png`. The title alone links to the supplied Google Doc; the shared close button, reaction photo capture, and click-outside dismissal are available. The modal was opened and visually checked in the live preview; click-outside dismissal was tested after correcting its day-18 event handling. The browser preview was left open on Gift 18.
+Gift 17 is registered in `dist/gift-modal.js` and implemented in `dist/ao3-gift.js`. Its compact white AO3-style entry reproduces the reference’s metadata arrangement, underlined work title, fandom line, dense dotted-underlined tags, summary, rating icon, and bottom stats row. The supplied collected icon is `dist/assets/gift17-collected.png`. The title alone links to the supplied Google Doc; the shared close button, reaction photo capture, and click-outside dismissal are available. The modal was opened and visually checked in the live preview; click-outside dismissal was tested after correcting its day-17 event handling. The preview was confirmed on Gift 17 before the user requested Gift 18; it is currently left on Gift 18 Tetris.
 
 
 ## Follow-up: home miniature light and AO3 metadata alignment (21 Nov 2026)
 
-The persistent home-scene miniature is now an accessible toggle button. Clicking or pressing Enter/Space switches an amber light overlay inside the snowglobe photo on and off; clicks stop before reaching the scene handlers. The toggle was tested live in the preview. Gift 18's date is aligned at the upper right using the same inset as the bottom stats row. “Arnaav Anand” now shares the title link's color and underline styling while remaining plain text. The live preview was refreshed and left showing Gift 18.
+The home-scene miniature is decorative and non-interactive. Its internal amber light toggle remains available only on opened Gift 16. Gift 17 AO3 metadata is aligned to the card inset. The author name shares the title color and underline; the byline prefix remains plain.
+
+Gift 18 is the Dairy Milk Silk Tetris gift, implemented in `dist/tetris-gift.js`. Its intro shows the supplied wrapper and congratulatory note; selecting the wrapper replaces that with a keyboard-controlled 10×20 Tetris board, seven standard tetrominoes built from the supplied individual Silk tile image, a next-piece preview (no hold piece), one-level classic line-clear scoring, and a running timer. The same photo capture and close controls remain available. The intro and game view were visually checked live; left/right movement, rotation, and hard drop were exercised. The preview is left on the running game. The AO3 entry belongs to Gift 17.
+The home-screen miniature is decorative only and has no pointer or keyboard light toggle. Gift 16 keeps its independent internal amber-light toggle. Do not change Gift 16 interaction while editing the home miniature.

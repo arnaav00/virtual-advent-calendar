@@ -27,24 +27,19 @@ export function setupHomeSnowglobe(svg) {
     <radialGradient id="home-snowglobe-glass" cx=".36" cy=".28" r=".85">
       <stop offset="0" stop-color="#f5ffff" stop-opacity=".17"/><stop offset=".68" stop-color="#d9e9ef" stop-opacity=".06"/><stop offset="1" stop-color="#091719" stop-opacity=".3"/>
     </radialGradient>
-    <radialGradient id="home-snowglobe-warm" cx=".5" cy=".76" r=".7">
-      <stop offset="0" stop-color="#ffca69" stop-opacity=".82"/><stop offset=".48" stop-color="#f7a83e" stop-opacity=".4"/><stop offset="1" stop-color="#e58b27" stop-opacity="0"/>
     </radialGradient>`;
   svg.prepend(defs);
 
   const globe = document.createElementNS(ns, 'g');
   globe.setAttribute('class', 'home-snowglobe');
   globe.setAttribute('transform', 'translate(267 824) rotate(5)');
-  globe.setAttribute('role', 'button');
-  globe.setAttribute('tabindex', '0');
+  globe.setAttribute('role', 'img');
   globe.setAttribute('aria-label', 'Your custom snowglobe');
-  globe.setAttribute('aria-pressed', 'false');
   globe.setAttribute('visibility', 'hidden');
   globe.innerHTML = `
     <ellipse cx="0" cy="-1" rx="42" ry="6" fill="#17201d" opacity=".25"/>
     <circle cx="0" cy="-47" r="37" fill="#d6e2e5" stroke="#819191" stroke-width="2"/>
     <image class="home-snowglobe-photo" x="-35" y="-82" width="70" height="70" preserveAspectRatio="xMidYMid slice" clip-path="url(#home-snowglobe-photo-clip)"/>
-    <circle class="home-snowglobe-warm" cx="0" cy="-47" r="35" fill="url(#home-snowglobe-warm)" clip-path="url(#home-snowglobe-photo-clip)" opacity="0" pointer-events="none"/>
     <circle cx="0" cy="-47" r="37" fill="url(#home-snowglobe-glass)" stroke="#eff8f5" stroke-opacity=".72" stroke-width="2.2"/>
     <path d="M-25 -71Q-31 -59 -27 -44" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3.5" stroke-linecap="round"/>
     <path d="M23 -65Q32 -54 28 -43" fill="none" stroke="#fff" stroke-opacity=".34" stroke-width="2.5" stroke-linecap="round"/>
@@ -55,17 +50,6 @@ export function setupHomeSnowglobe(svg) {
   svg.append(globe);
 
   const photo = globe.querySelector('.home-snowglobe-photo');
-  const warmLight = globe.querySelector('.home-snowglobe-warm');
-  function toggleLight() {
-    const isOn = globe.getAttribute('aria-pressed') !== 'true';
-    globe.setAttribute('aria-pressed', String(isOn));
-    warmLight.setAttribute('opacity', isOn ? '1' : '0');
-    globe.setAttribute('aria-label', `Your custom snowglobe light ${isOn ? 'on' : 'off'}`);
-  }
-  globe.addEventListener('click', event => { event.stopPropagation(); toggleLight(); });
-  globe.addEventListener('keydown', event => {
-    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); toggleLight(); }
-  });
   function update(src) {
     if (!src) return;
     photo.setAttribute('href', src);
