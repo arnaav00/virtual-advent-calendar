@@ -9,6 +9,7 @@ import { setupMariah } from './mariah.js';
 import { setupGiftModal } from './gift-modal.js';
 import { ADVENT, isDayAvailable } from './advent-time.js';
 import { initializeGiftState } from './gift-state.js';
+import { setupHomeSnowglobe } from './home-snowglobe.js';
 const svg = document.querySelector('#landscape');
 const ink = '#354d49', snow = '#fffdf3';
 const stroke = `stroke="${ink}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"`;
@@ -168,6 +169,7 @@ setupSnowballGame(svg);
 setupMariah(svg);
 setupBackgroundMusic();
 setupSpeaker(svg);
+setupHomeSnowglobe(svg);
 
 // Door coordinates share the illustration's 1440 × 900 design space.
 // Future surprises can be connected by day without changing the scene.

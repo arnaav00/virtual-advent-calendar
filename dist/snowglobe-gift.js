@@ -1,4 +1,5 @@
 import { playlistCard } from './playlist-gift.js';
+import { compressSnowglobeImage, SNOWGLOBE_IMAGE_EVENT, SNOWGLOBE_IMAGE_KEY } from './home-snowglobe.js';
 
 export function snowglobeCard() {
   const element = document.createElement('section');
@@ -37,7 +38,7 @@ export function snowglobeCard() {
   const ctx = canvas.getContext('2d');
   const particles = [];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, objectUrl = '', moved = false, suppressClick = false, grabOffset = { x: 0, y: 0 };
+  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, objectUrl = '', imageSelectionSequence = 0, moved = false, suppressClick = false, grabOffset = { x: 0, y: 0 };
   function sizeCanvas() {
     const rect = globe.getBoundingClientRect();
     const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -70,9 +71,16 @@ export function snowglobeCard() {
     };
     raf = requestAnimationFrame(frame);
   }
-  function selectImage(src) {
+  function selectImage(src, { persist = true } = {}) {
+    const sequence = ++imageSelectionSequence;
     imageLayer.style.backgroundImage = `url("${src}")`;
     picker.hidden = true; wrap.hidden = false; retakeButton.hidden = false; sizeCanvas(); particles.length = 0; startSnow();
+    if (persist) void compressSnowglobeImage(src).then(dataUrl => {
+      if (sequence !== imageSelectionSequence) return;
+      try { localStorage.setItem(SNOWGLOBE_IMAGE_KEY, dataUrl); } catch (error) { console.warn('[Snowglobe] Could not save the image for the home scene:', error.message); }
+      imageLayer.style.backgroundImage = `url("${dataUrl}")`;
+      window.dispatchEvent(new CustomEvent(SNOWGLOBE_IMAGE_EVENT, { detail: { src: dataUrl } }));
+    }).catch(error => console.warn('[Snowglobe] Could not prepare the home-scene image:', error.message));
   }
   fileInput.addEventListener('change', () => {
     const file = fileInput.files?.[0]; if (!file || !file.type.startsWith('image/')) return;
@@ -86,6 +94,7 @@ export function snowglobeCard() {
   }
   globe.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } toggleGlow(); });
   retakeButton.addEventListener('click', () => {
+    imageSelectionSequence++;
     imageLayer.style.backgroundImage = '';
     picker.hidden = false; wrap.hidden = false; retakeButton.hidden = true;
     fileInput.value = ''; useReference.checked = false; globe.classList.remove('is-warm');
@@ -95,6 +104,10 @@ export function snowglobeCard() {
     if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = ''; }
     sizeCanvas(); startSnow();
   });
+  try {
+    const savedImage = localStorage.getItem(SNOWGLOBE_IMAGE_KEY);
+    if (savedImage) selectImage(savedImage, { persist: false });
+  } catch {}
   globe.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
     pointer = event.pointerId; last = { x: event.clientX, y: event.clientY, t: performance.now() }; velocity = { x: 0, y: 0 }; moved = false;
