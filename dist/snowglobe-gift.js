@@ -12,13 +12,14 @@ export function snowglobeCard() {
       <label class="snowglobe-reference"><input class="snowglobe-use-reference" type="checkbox"> Use reference image from puzzle</label>
     </div>
     <div class="snowglobe-wrap">
-      <div class="snowglobe" role="button" tabindex="0" aria-label="Drag or tap to shake the snowglobe">
+      <div class="snowglobe" role="button" tabindex="0" aria-pressed="false" aria-label="Drag or tap to shake the snowglobe">
         <div class="snowglobe-image"></div><canvas class="snowglobe-snow" aria-hidden="true"></canvas>
         <div class="snowglobe-pile" aria-hidden="true"></div>
         <div class="snowglobe-glass" aria-hidden="true"></div>
         <div class="snowglobe-base" aria-hidden="true"><i></i></div>
       </div>
-    </div>`;
+    </div>
+    <button class="snowglobe-retake" type="button" hidden>Try another image</button>`;
   const camera = playlistCard(16);
   camera.element.remove();
   camera.captureButton.setAttribute('aria-label', 'Capture your reaction');
@@ -31,11 +32,12 @@ export function snowglobeCard() {
   const imageLayer = element.querySelector('.snowglobe-image');
   const wrap = element.querySelector('.snowglobe-wrap');
   const globe = element.querySelector('.snowglobe');
+  const retakeButton = element.querySelector('.snowglobe-retake');
   const canvas = element.querySelector('.snowglobe-snow');
   const ctx = canvas.getContext('2d');
   const particles = [];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, glowTimer = 0, objectUrl = '', moved = false, suppressClick = false, grabOffset = { x: 0, y: 0 };
+  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, objectUrl = '', moved = false, suppressClick = false, grabOffset = { x: 0, y: 0 };
   function sizeCanvas() {
     const rect = globe.getBoundingClientRect();
     const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -70,7 +72,7 @@ export function snowglobeCard() {
   }
   function selectImage(src) {
     imageLayer.style.backgroundImage = `url("${src}")`;
-    picker.hidden = true; wrap.hidden = false; sizeCanvas(); particles.length = 0; startSnow();
+    picker.hidden = true; wrap.hidden = false; retakeButton.hidden = false; sizeCanvas(); particles.length = 0; startSnow();
   }
   fileInput.addEventListener('change', () => {
     const file = fileInput.files?.[0]; if (!file || !file.type.startsWith('image/')) return;
@@ -78,10 +80,21 @@ export function snowglobeCard() {
     objectUrl = URL.createObjectURL(file); selectImage(objectUrl);
   });
   useReference.addEventListener('change', () => { if (useReference.checked) selectImage('./assets/gift14-photo.png'); });
-  function warmGlow() {
-    globe.classList.add('is-warm'); clearTimeout(glowTimer); glowTimer = setTimeout(() => globe.classList.remove('is-warm'), 2400);
+  function toggleGlow() {
+    const isOn = globe.classList.toggle('is-warm');
+    globe.setAttribute('aria-pressed', String(isOn));
   }
-  globe.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } warmGlow(); });
+  globe.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } toggleGlow(); });
+  retakeButton.addEventListener('click', () => {
+    imageLayer.style.backgroundImage = '';
+    picker.hidden = false; wrap.hidden = false; retakeButton.hidden = true;
+    fileInput.value = ''; useReference.checked = false; globe.classList.remove('is-warm');
+    globe.classList.remove('is-shaking'); globe.style.position = ''; globe.style.left = ''; globe.style.top = ''; globe.style.width = ''; globe.style.zIndex = '';
+    velocity = { x: 0, y: 0 };
+    globe.setAttribute('aria-pressed', 'false'); particles.length = 0; ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = ''; }
+    sizeCanvas(); startSnow();
+  });
   globe.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
     pointer = event.pointerId; last = { x: event.clientX, y: event.clientY, t: performance.now() }; velocity = { x: 0, y: 0 }; moved = false;
@@ -109,7 +122,7 @@ export function snowglobeCard() {
     if (moved) { suppressClick = true; setTimeout(() => { suppressClick = false; }, 0); }
   }
   globe.addEventListener('pointerup', release); globe.addEventListener('pointercancel', release);
-  globe.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); warmGlow(); velocity = { x: 0, y: -13 }; startSnow(); } });
+  globe.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleGlow(); velocity = { x: 0, y: -13 }; startSnow(); } });
   window.addEventListener('resize', () => {
     if (globe.style.position === 'fixed') {
       globe.style.width = '';
@@ -124,7 +137,7 @@ export function snowglobeCard() {
   return {
     element, captureButton: camera.captureButton,
     show() { element.hidden = false; camera.captureButton.hidden = false; camera.show(); if (!wrap.hidden) { sizeCanvas(); startSnow(); } },
-    stop() { cancelAnimationFrame(raf); raf = 0; clearTimeout(glowTimer); camera.stop(); },
+    stop() { cancelAnimationFrame(raf); raf = 0; camera.stop(); },
     hide() { cancelAnimationFrame(raf); raf = 0; particles.length = 0; camera.hide(); element.hidden = true; camera.captureButton.hidden = true; },
   };
 }

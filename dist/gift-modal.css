@@ -359,3 +359,11 @@
 .snowglobe.is-warm{filter:drop-shadow(0 18px 22px #0008)}
 .snowglobe.is-warm .snowglobe-glass{background:radial-gradient(ellipse at 50% 78%,#ffbc5c88 0,#ffc66644 24%,#ffc66610 52%,transparent 70%),radial-gradient(ellipse at 48% 49%,#e9f9ff14 0,#e9f9ff0c 55%,#14272b35 100%),radial-gradient(ellipse at 25% 12%,#fff9 0,transparent 5%),radial-gradient(ellipse at 80% 34%,#fff7 0,transparent 9%),linear-gradient(112deg,transparent 8%,#fff5 10%,#fff1 12%,transparent 15%,transparent 77%,#fff4 79%,#fff2 81%,transparent 84%);box-shadow:inset 11px 4px 17px #fff7,inset -12px -3px 20px #263b4366,inset 0 -12px 18px #74889055,inset 0 6px 9px #fff9,inset 0 0 54px #ffb7476b}
 .snowglobe.is-warm:after{content:none}
+.snowglobe-gift{padding-top:clamp(28px,5vh,56px);background:rgba(4,9,11,.66);backdrop-filter:blur(4px)}
+.snowglobe-image{filter:blur(2.4px) saturate(.78) brightness(.92) contrast(.9);transform:scale(.985)}
+.snowglobe-image:after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 47% 42%,#e5f0f51b,transparent 68%),linear-gradient(115deg,#dce8ee18,transparent 45%,#dce8ee16);pointer-events:none}
+.snowglobe.is-warm .snowglobe-image{filter:blur(2.4px) sepia(.13) saturate(.95) brightness(1.02) contrast(.9);transform:scale(.985)}
+.snowglobe.is-warm .snowglobe-glass{background:radial-gradient(ellipse at 50% 78%,#ffb84fbd 0,#ffc66670 30%,#ffc66628 55%,transparent 74%),radial-gradient(ellipse at 48% 49%,#e9f9ff14 0,#e9f9ff0c 55%,#14272b35 100%),radial-gradient(ellipse at 25% 12%,#fff9 0,transparent 5%),radial-gradient(ellipse at 80% 34%,#fff7 0,transparent 9%),linear-gradient(112deg,transparent 8%,#fff5 10%,#fff1 12%,transparent 15%,transparent 77%,#fff4 79%,#fff2 81%,transparent 84%);box-shadow:inset 11px 4px 17px #fff7,inset -12px -3px 20px #263b4366,inset 0 -12px 18px #74889055,inset 0 6px 9px #fff9,inset 0 0 68px #ffb74799}
+.snowglobe-retake{flex:none;margin:0 0 clamp(8px,2vh,22px);padding:9px 20px;border:1px solid #d6bd8b;border-radius:5px;background:linear-gradient(#f6e8cb,#d7c199);color:#423522;font:600 17px 'Cormorant Garamond',Georgia,serif;cursor:pointer;box-shadow:0 3px 10px #0005;transition:filter .2s,transform .2s}
+.snowglobe-retake:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.snowglobe-retake:focus-visible{outline:2px solid #f2d69b;outline-offset:4px}
