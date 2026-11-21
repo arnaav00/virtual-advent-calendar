@@ -160,6 +160,18 @@ art += `<g class="ambient santa-flight"><g class="santa-float" transform="scale(
   ${circle(-2,-49,10,'#e7c8a1')}${path('M-11 -47Q-12 -28 3 -34Q12 -40 7 -49L2 -45Z',snow,'stroke-width="1.2"')}${path('M-13 -54Q-7 -80 9 -65L16 -55Q5 -65 -3 -54Z','#b75d50','stroke-width="1.5"')}${path('M-13 -53H8','none',`stroke="${snow}" stroke-width="5"`)}${circle(16,-55,4,snow)}${circle(4,-50,1,ink)}
   ${path('M-57 -21Q-30 -13 24 -18Q39 -19 39 -32Q54 -31 48 -12Q44 8 18 10H-35Q-53 7 -57 -21Z','#ad594e','stroke-width="2"')}${path('M-50 -11Q-11 -3 30 -10','none','stroke="#edc98d" stroke-width="2"')}${path('M-35 12v8M21 11l6 9M-54 21H39Q56 21 57 11Q57 4 51 8','none','stroke="#b4935e" stroke-width="4"')}
 </g></g>`;
+// Ghibli GIFs sit around the village and keep their native animation.
+art += `<g class="ghibli-home-characters" aria-hidden="true">
+  <image href="./assets/ghibli-gifs/calcifer.gif" x="48" y="34" width="150" height="150" preserveAspectRatio="xMidYMid meet"/>
+  <image href="./assets/ghibli-gifs/kiki.gif" x="1172" y="22" width="250" height="148" preserveAspectRatio="xMidYMid meet"/>
+  <image href="./assets/ghibli-gifs/haru.gif" x="22" y="660" width="250" height="100" preserveAspectRatio="xMidYMax meet"/>
+  <g transform="translate(1370 680) scale(-1 1)"><image href="./assets/ghibli-gifs/howls.gif" x="0" y="0" width="220" height="220" preserveAspectRatio="xMidYMax meet"/></g>
+  <image href="./assets/ghibli-gifs/spiritedaway.gif" x="835" y="685" width="220" height="215" preserveAspectRatio="xMidYMax meet"/>
+  <image href="./assets/ghibli-gifs/soot%20sprite.gif" x="505" y="750" width="145" height="145" preserveAspectRatio="xMidYMax meet"/>
+  <image href="./assets/ghibli-gifs/totoro.gif" x="565" y="725" width="350" height="176" preserveAspectRatio="xMidYMax meet"/>
+  <image href="./assets/ghibli-gifs/ponyo.gif" x="710" y="780" width="150" height="100" preserveAspectRatio="xMidYMax meet"/>
+  <image href="./assets/ghibli-gifs/noface.gif" x="1080" y="735" width="140" height="142" preserveAspectRatio="xMidYMax meet"/>
+</g>`;
 svg.innerHTML=art;
 // The flying team and presents sit behind the village; chimney cats sit above it.
 svg.insertBefore(svg.querySelector('.santa-flight'),svg.querySelector('.chimney'));
