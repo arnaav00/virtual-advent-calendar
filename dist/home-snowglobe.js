@@ -31,7 +31,7 @@ export function setupHomeSnowglobe(svg) {
 
   const globe = document.createElementNS(ns, 'g');
   globe.setAttribute('class', 'home-snowglobe');
-  globe.setAttribute('transform', 'translate(267 824)');
+  globe.setAttribute('transform', 'translate(267 824) rotate(10)');
   globe.setAttribute('role', 'img');
   globe.setAttribute('aria-label', 'Your custom snowglobe');
   globe.setAttribute('visibility', 'hidden');
@@ -39,13 +39,13 @@ export function setupHomeSnowglobe(svg) {
     <ellipse cx="0" cy="-1" rx="42" ry="6" fill="#17201d" opacity=".25"/>
     <circle cx="0" cy="-47" r="37" fill="#d6e2e5" stroke="#819191" stroke-width="2"/>
     <image class="home-snowglobe-photo" x="-35" y="-82" width="70" height="70" preserveAspectRatio="xMidYMid slice" clip-path="url(#home-snowglobe-photo-clip)"/>
-    <path d="M-33 -29Q-22 -34 -13 -25Q0 -15 14 -24Q23 -33 33 -29L35 -16Q18 -9 0 -10Q-19 -9 -35 -17Z" fill="#f5fbfc" stroke="#cbd8dc" stroke-width="1"/>
     <circle cx="0" cy="-47" r="37" fill="url(#home-snowglobe-glass)" stroke="#eff8f5" stroke-opacity=".72" stroke-width="2.2"/>
     <path d="M-25 -71Q-31 -59 -27 -44" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3.5" stroke-linecap="round"/>
     <path d="M23 -65Q32 -54 28 -43" fill="none" stroke="#fff" stroke-opacity=".34" stroke-width="2.5" stroke-linecap="round"/>
     <path d="M-32 -12Q0 -18 32 -12L36 -5Q38 2 30 3H-30Q-38 2 -36 -5Z" fill="url(#home-snowglobe-base-shade)" stroke="#3b4243" stroke-width="1.5"/>
     <path d="M-34 -12Q0 -18 34 -12" fill="none" stroke="#aeb9b8" stroke-opacity=".75" stroke-width="2"/>
-    <path d="M-23 -2Q0 1 23 -2" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.3"/>`;
+    <path d="M-23 -2Q0 1 23 -2" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.3"/>
+    <path d="M-37 -9Q-27 -17 -14 -11Q0 -5 13 -11Q27 -17 38 -9L37 -2Q19 2 0 0Q-20 2 -38 -2Z" fill="#f5fbfc" stroke="#cbd8dc" stroke-width="1"/>`;
   svg.append(globe);
 
   const photo = globe.querySelector('.home-snowglobe-photo');

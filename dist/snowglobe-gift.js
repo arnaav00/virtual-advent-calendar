@@ -38,7 +38,7 @@ export function snowglobeCard() {
   const ctx = canvas.getContext('2d');
   const particles = [];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, objectUrl = '', imageSelectionSequence = 0, moved = false, suppressClick = false, grabOffset = { x: 0, y: 0 };
+  let raf = 0, pointer = null, last = null, velocity = { x: 0, y: 0 }, lastFrame = 0, objectUrl = '', imageSelectionSequence = 0, moved = false, suppressClick = false, suppressClickTimer = 0, grabOffset = { x: 0, y: 0 };
   function sizeCanvas() {
     const rect = globe.getBoundingClientRect();
     const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -92,7 +92,10 @@ export function snowglobeCard() {
     const isOn = globe.classList.toggle('is-warm');
     globe.setAttribute('aria-pressed', String(isOn));
   }
-  globe.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } toggleGlow(); });
+  globe.addEventListener('click', () => {
+    if (suppressClick) { suppressClick = false; clearTimeout(suppressClickTimer); return; }
+    toggleGlow();
+  });
   retakeButton.addEventListener('click', () => {
     imageSelectionSequence++;
     imageLayer.style.backgroundImage = '';
@@ -110,6 +113,7 @@ export function snowglobeCard() {
   } catch {}
   globe.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
+    suppressClick = false; clearTimeout(suppressClickTimer);
     pointer = event.pointerId; last = { x: event.clientX, y: event.clientY, t: performance.now() }; velocity = { x: 0, y: 0 }; moved = false;
     const rect = globe.getBoundingClientRect(); grabOffset = { x: event.clientX - rect.left, y: event.clientY - rect.top };
     globe.style.position = 'fixed'; globe.style.left = `${rect.left}px`; globe.style.top = `${rect.top}px`; globe.style.width = `${rect.width}px`; globe.style.zIndex = '1000';
@@ -132,7 +136,11 @@ export function snowglobeCard() {
     if (event.pointerId !== pointer) return;
     if (globe.hasPointerCapture(pointer)) globe.releasePointerCapture(pointer);
     pointer = null; last = null; globe.classList.remove('is-shaking');
-    if (moved) { suppressClick = true; setTimeout(() => { suppressClick = false; }, 0); }
+    if (event.type === 'pointerup') {
+      suppressClick = true; clearTimeout(suppressClickTimer);
+      suppressClickTimer = setTimeout(() => { suppressClick = false; }, 400);
+      if (!moved) toggleGlow();
+    }
   }
   globe.addEventListener('pointerup', release); globe.addEventListener('pointercancel', release);
   globe.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleGlow(); velocity = { x: 0, y: -13 }; startSnow(); } });
