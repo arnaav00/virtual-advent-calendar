@@ -376,7 +376,8 @@
 .ao3-work-title a{color:#8c252c;text-decoration:underline;text-decoration-color:#a9383b;text-underline-offset:2px;font-weight:400}
 .ao3-work-title span{color:#4b4946}
 .ao3-fandom{margin-top:2px;color:#31475b;text-decoration:underline;text-decoration-color:#9aa8b1;text-underline-offset:2px}
-.ao3-tags{margin:10px 0 10px;font-weight:700;line-height:1.42}
+.ao3-tags{margin:10px 0 10px;font-weight:400;line-height:1.42}
+.ao3-tags .ao3-warning{font-weight:700}
 .ao3-tags span{text-decoration:underline dotted #8d8b84;text-underline-offset:3px;text-decoration-thickness:1px}
 .ao3-summary{margin:12px 0 14px;line-height:1.5;text-align:justify}
 .ao3-stats{display:flex;justify-content:flex-end;align-items:baseline;flex-wrap:wrap;column-gap:14px;row-gap:2px;color:#424242;font-size:.94em}

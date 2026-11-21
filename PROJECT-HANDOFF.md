@@ -103,3 +103,5 @@ Gift 18 is the Dairy Milk Silk Tetris gift, implemented in `dist/tetris-gift.js`
 The home-screen miniature is decorative only and has no pointer or keyboard light toggle. Gift 16 keeps its independent internal amber-light toggle. Do not change Gift 16 interaction while editing the home miniature.
 
 The Tetris layout was refined after screenshot review: controls align with the board top, the next-piece preview has more separation and no visible preview grid, each piece is centered beneath “Next,” the score label reads “Score:”, and the game-over message is centered relative to the board. The live preview was left open on Gift 18’s game.
+
+Gift 17 AO3 tags now use regular weight except “No Archive Warnings Apply,” which remains bold. This was checked in the live preview.
