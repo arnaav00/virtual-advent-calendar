@@ -149,3 +149,205 @@
 @media(min-width:761px) and (max-width:900px){.jigsaw-board{height:min(58dvh,calc(100vw - 40px),calc(100dvh - 400px))}}
 @media(max-width:500px){.jigsaw-header{height:132px}.jigsaw-reference{width:116px;height:116px}.jigsaw-header h1{left:60%;font-size:clamp(17.5px,5vw,25px)}.jigsaw-clock-controls{right:60px;top:auto;bottom:4px;transform:none;gap:3px}.jigsaw-time{min-width:52px;font-size:18.75px}.jigsaw-timer-toggle{font-size:13px;padding:7px 7px}.jigsaw-play-area{inset:144px 0 52px}.jigsaw-board{bottom:46px;height:min(58dvh,calc(100vw - 16px),calc(100dvh - 250px));border-width:4px}.jigsaw-finish-board{height:min(53dvh,calc(100vw - 24px),calc(100dvh - 205px));border-width:4px}}
 @media(prefers-reduced-motion:reduce){.jigsaw-piece,.jigsaw-timer-toggle,.jigsaw-reset,.jigsaw-play-again{transition:none}.jigsaw-celebrate .jigsaw-finish-board::after,.jigsaw-confetti i{animation:none}}
+
+/* Gift 15: old-world eggnog cookbook */
+.cookbook-gift{position:fixed;inset:0;z-index:2;display:grid;place-items:center;width:100vw;height:100dvh;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#765538 0,#4b3022 56%,#241812 100%);color:#382819;user-select:none;-webkit-user-select:none}
+.cookbook-gift[hidden]{display:none}
+.cookbook-stage{position:relative;width:min(1240px,96vw);height:min(800px,91dvh);perspective:1800px;filter:drop-shadow(0 28px 35px #0906039c)}
+.cookbook-cover{position:absolute;z-index:5;left:50%;top:50%;width:50%;height:100%;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);cursor:pointer;filter:drop-shadow(0 12px 14px #120b07a8);transition:filter .25s}
+.cookbook-cover:hover{filter:brightness(1.08) drop-shadow(0 16px 17px #120b07c0)}
+.cookbook-cover:focus-visible{outline:3px solid #e6c78a;outline-offset:8px}
+.cookbook-cover-art{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.cookbook-cover[hidden]{display:none!important}
+.cookbook-spread{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr);transform-style:preserve-3d;border:1px solid #82623d;border-radius:9px 15px 15px 9px;overflow:hidden;background:#2e1d12;box-shadow:0 14px 30px #140d08a6}
+.cookbook-spread.is-opening{transform-origin:left center;animation:cookbook-book-open .56s cubic-bezier(.18,.76,.24,1) both}
+@keyframes cookbook-book-open{0%{transform:scaleX(.025);filter:brightness(.65)}72%{transform:scaleX(1.015);filter:brightness(1.05)}100%{transform:scaleX(1);filter:brightness(1)}}
+.cookbook-spread[hidden],.cookbook-page-turn[hidden],.cookbook-gift [hidden]{display:none!important}
+.cookbook-spine{position:absolute;z-index:2;left:50%;top:0;bottom:0;width:16px;transform:translateX(-50%);pointer-events:none;background:linear-gradient(90deg,#9b7e54,#e8d9b9 42%,#a58a61);box-shadow:0 0 9px #57432b35}
+.cookbook-page{position:relative;min-width:0;overflow:hidden;background:linear-gradient(90deg,#e6dcc4 0,#f8f1e3 12%,#f3ead8 89%,#ded1b5 100%);box-shadow:inset 0 0 22px #846d4a28}
+.cookbook-spread.is-page-flipping .cookbook-page-content{visibility:hidden}
+.cookbook-left-page{border-right:1px solid #b8a687;background:linear-gradient(90deg,#d9cbb0 0,#f7efdf 8%,#f2ead9 100%)}
+.cookbook-right-page{background:linear-gradient(90deg,#e3d8c1 0,#f7efdf 10%,#f5ecda 90%,#d7c8aa 100%)}
+.cookbook-page::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.19;background:repeating-linear-gradient(0deg,transparent 0 4px,#8d755022 5px,transparent 6px 8px);mix-blend-mode:multiply}
+.cookbook-page-content{position:relative;z-index:1;height:100%;box-sizing:border-box;padding:clamp(26px,4vw,54px) clamp(24px,4vw,54px) clamp(30px,4vw,52px);font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;color:#443320}
+.cookbook-page-content h1{margin:0 0 11px;color:#3a2819;font:600 clamp(26px,3vw,38px)/1.08 'Cormorant Garamond',Georgia,serif;text-align:center;letter-spacing:.025em}
+.cookbook-rule{height:1px;width:82%;margin:0 auto clamp(20px,3vh,32px);background:linear-gradient(90deg,transparent,#9e8056 15%,#9e8056 85%,transparent);position:relative}
+.cookbook-rule::after{content:"✦";position:absolute;left:50%;top:50%;padding:0 8px;transform:translate(-50%,-50%);background:#f4ecdc;color:#9d7a4b;font-size:12px}
+.cookbook-note p{margin:0;font:500 clamp(17px,1.6vw,21px)/1.53 'Cormorant Garamond',Georgia,serif;text-align:left;text-indent:1.4em}
+.cookbook-ingredient-list{display:grid;gap:clamp(8px,1.4vh,14px);padding:0 0 42px}
+.cookbook-ingredient{display:grid;grid-template-columns:25px minmax(0,1fr);align-items:center;gap:10px;min-height:31px;color:#493723;font:500 clamp(16px,1.55vw,21px)/1.25 'Cormorant Garamond',Georgia,serif;cursor:pointer;transition:color .2s,transform .2s}
+.cookbook-ingredient:hover{color:#7c542e;transform:translateX(2px)}
+.cookbook-ingredient input{position:absolute;width:1px;height:1px;opacity:0}
+.cookbook-checkbox{display:grid;place-items:center;width:19px;height:19px;border:1px solid #9c8666;border-radius:3px;background:#fffaf0;box-shadow:inset 0 1px 3px #6a4c2820;transition:background .2s,border-color .2s,transform .18s}
+.cookbook-checkbox svg{width:17px;height:17px;fill:none;stroke:#fff8e7;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;transform:scale(.3);opacity:0;transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .18s}
+.cookbook-ingredient input:checked+.cookbook-checkbox{background:#68804f;border-color:#536b3c;transform:scale(1.04)}
+.cookbook-ingredient input:checked+.cookbook-checkbox svg{transform:scale(1);opacity:1}
+.cookbook-ingredient input:focus-visible+.cookbook-checkbox{outline:2px solid #8d6136;outline-offset:3px}
+.cookbook-ingredient input:checked~.cookbook-ingredient-text{text-decoration:line-through;text-decoration-color:#93816480;color:#8b806b}
+.cookbook-ingredient a{color:#655132;text-decoration:none}
+.cookbook-ingredient a:hover{color:#8c482c}
+.cookbook-ingredient.is-optional{margin-top:4px;padding-top:8px;border-top:1px dashed #aa9674}
+.cookbook-optional-note{font-size:.82em;font-style:italic;color:#897653}
+.cookbook-next{position:absolute;right:clamp(24px,3.8vw,52px);bottom:clamp(20px,3vh,34px);display:flex;align-items:center;gap:14px;padding:9px 19px;border:1px solid #8b6b43;border-radius:3px;background:linear-gradient(#8e6b43,#705331);color:#fff6e4;font:600 19px/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.06em;cursor:pointer;box-shadow:0 4px 10px #4d371e35;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s,filter .2s}
+.cookbook-next[hidden]{display:none!important}
+.cookbook-next.is-visible{opacity:1;transform:translateY(0)}
+.cookbook-next:hover{filter:brightness(1.13);transform:translateY(-2px)}
+.cookbook-next span{font:22px/1 Georgia,serif}
+.cookbook-page-turn{position:absolute;z-index:4;top:0;right:0;width:50%;height:100%;transform-origin:left center;transform-style:preserve-3d;box-shadow:0 0 18px #3c2c1d40}
+.cookbook-page-turn.is-turning{animation:cookbook-page-flip .78s cubic-bezier(.35,.05,.24,1) both}
+.cookbook-page-front,.cookbook-page-back{position:absolute;inset:0;backface-visibility:hidden;border-left:1px solid #b6a181;background:linear-gradient(90deg,#dfd3bc,#f8f0df 10%,#f5ecda 90%,#d6c6a6);box-shadow:inset 7px 0 14px #59452b20}
+.cookbook-page-front::after,.cookbook-page-back::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#49361f40,transparent 22%,transparent 78%,#725b3b16)}
+.cookbook-page-back{transform:rotateY(180deg);background:linear-gradient(90deg,#d6c6a6,#f4ecdc 12%,#efe4d0 88%,#d7c8ad)}
+@keyframes cookbook-page-flip{0%{transform:rotateY(0)}100%{transform:rotateY(-180deg)}}
+.cookbook-step-copy{display:flex;flex-direction:column;justify-content:center}
+.cookbook-step-copy h1{font-size:clamp(29px,3.2vw,42px)}
+.cookbook-step-copy p{margin:0 auto;max-width:25em;text-align:center;font:500 clamp(21px,2.15vw,29px)/1.45 'Cormorant Garamond',Georgia,serif}
+.cookbook-activity-page{display:flex;flex-direction:column;justify-content:center;padding:clamp(16px,2vw,28px) clamp(18px,2.5vw,32px) 48px}
+.cookbook-activity-heading{margin:0 0 4px;text-align:center;color:#745a37;font:600 clamp(19px,2vw,25px)/1.1 'Cormorant Garamond',Georgia,serif;letter-spacing:.06em}
+.cookbook-activity{position:relative;flex:1;width:100%;height:100%;min-height:0;overflow:hidden}
+.cookbook-egg{position:absolute;z-index:6;left:50%;top:18%;width:61px;height:79px;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer;filter:drop-shadow(0 5px 4px #523a201f);animation:cookbook-egg-hover 2.8s ease-in-out infinite}
+.cookbook-egg svg{display:block;width:100%;height:100%;overflow:visible}
+.cookbook-egg:disabled{pointer-events:none}
+.cookbook-egg.is-cracking{animation:cookbook-egg-crack .48s ease-in both}
+.cookbook-egg-crack,.cookbook-egg-yolk{opacity:0;transition:opacity .1s}
+.cookbook-egg.is-cracking .cookbook-egg-whole{transform:scaleY(.8) rotate(-3deg);transform-origin:center bottom;transition:transform .15s}
+.cookbook-egg.is-cracking .cookbook-egg-crack,.cookbook-egg.is-cracking .cookbook-egg-yolk{opacity:1}
+.cookbook-egg[hidden],.cookbook-sugar-cup[hidden],.cookbook-whisk[hidden]{display:none!important}
+@keyframes cookbook-egg-hover{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@keyframes cookbook-egg-crack{0%{transform:translateX(-50%) scale(1)}35%{transform:translateX(-50%) scale(1.08,.82) rotate(-4deg)}65%{transform:translateX(-50%) scale(.94,1.05) rotate(4deg)}100%{transform:translateX(-50%) scale(.6,1.2);opacity:0}}
+.cookbook-sugar-cup{position:absolute;z-index:6;left:50%;top:17%;width:86px;height:73px;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer;filter:drop-shadow(0 5px 4px #523a201f);animation:cookbook-cup-hover 2.9s ease-in-out infinite}
+.cookbook-sugar-cup svg{width:100%;height:100%;overflow:visible}
+.cookbook-sugar-cup.is-pouring{animation:cookbook-sugar-pour .78s cubic-bezier(.3,.75,.3,1) both}
+.cookbook-sugar-pile{transform-origin:50% 50%;transition:opacity 1.2s .12s,transform 1.2s .12s}
+.cookbook-sugar-cup.is-emptying .cookbook-sugar-pile{opacity:0;transform:translateY(22px) scale(.35)}
+@keyframes cookbook-cup-hover{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes cookbook-sugar-pour{0%{transform:translateX(-50%) rotate(0)}35%{transform:translateX(-50%) rotate(42deg) translateY(8px)}75%{transform:translateX(-50%) rotate(42deg) translateY(8px)}100%{transform:translateX(-50%) rotate(0)}}
+.cookbook-bowl{position:absolute;z-index:1;left:50%;top:38%;width:min(350px,92%);height:min(230px,40%);transform:translateX(-50%);--stir-turn:0deg}
+.cookbook-bowl-glass,.cookbook-mixture,.cookbook-bowl-glass-overlay{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cookbook-bowl-glass{z-index:1}
+.cookbook-mixture{z-index:3;pointer-events:none}
+.cookbook-bowl-glass-overlay{z-index:4;pointer-events:none}
+.cookbook-liquid{transition:filter .35s}
+.cookbook-yolks ellipse{filter:drop-shadow(0 2px 2px #bd751d38)}
+.cookbook-yolk-blob{animation:cookbook-yolk-land .55s cubic-bezier(.17,.7,.3,1) both}
+.cookbook-yolk-drop{position:absolute;z-index:7;width:15px;height:20px;border-radius:60% 45% 62% 42%;background:radial-gradient(ellipse at 36% 30%,#ffd867,#efa11f 70%,#d98415);box-shadow:0 1px 3px #84531645;transform:translateX(-50%);animation:cookbook-yolk-drop .48s cubic-bezier(.4,.04,.7,.4) both}
+@keyframes cookbook-yolk-land{0%{transform:translateY(-9px) scale(.5);opacity:.4}72%{transform:translateY(2px) scale(1.16,.82)}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes cookbook-yolk-drop{0%{opacity:1;transform:translateX(-50%) translateY(0) scale(.7,1.15)}65%{opacity:1;transform:translateX(-50%) translateY(calc(var(--drop-distance)*.72)) scale(.9,1.15)}100%{opacity:.85;transform:translateX(-50%) translateY(var(--drop-distance)) scale(1,.72)}}
+.cookbook-sugar-grain{fill:#fff9e9;filter:drop-shadow(0 0 .7px #c8b68d);animation:cookbook-sugar-fall .6s var(--grain-delay) cubic-bezier(.25,.7,.35,1) both}
+@keyframes cookbook-sugar-fall{0%{transform:translateY(-7px);opacity:0}100%{transform:translateY(0);opacity:.98}}
+.cookbook-sugar-falling,.cookbook-pan-pour{position:absolute;z-index:7;width:var(--grain-size,2px);height:var(--grain-size,2px);border-radius:50%;pointer-events:none;background:#fffaf0;animation:cookbook-sugar-stream .95s var(--grain-delay) cubic-bezier(.35,.1,.7,.8) both}
+@keyframes cookbook-sugar-stream{0%{transform:translate(0,0) scale(.4);opacity:0}18%{opacity:.96}100%{transform:translate(var(--grain-dx),var(--grain-distance)) scale(1);opacity:.9}}
+.cookbook-fluid-swirl{opacity:0;transform-origin:center;transition:opacity .2s;transform:rotate(var(--stir-turn))}
+.cookbook-bowl.is-mixing .cookbook-fluid-swirl{opacity:1;animation:cookbook-fluid-slosh .55s ease-in-out infinite alternate}
+.cookbook-bowl.is-mixing .cookbook-liquid{filter:saturate(1.1) brightness(1.04)}
+@keyframes cookbook-fluid-slosh{from{transform:rotate(-6deg) translateX(-7px)}to{transform:rotate(8deg) translateX(8px)}}
+.cookbook-mix-target{position:absolute;z-index:5;left:8%;right:8%;top:38%;bottom:0;border-radius:0 0 50% 50%;pointer-events:none}
+.cookbook-whisk{position:absolute;z-index:2;left:18%;top:-23%;width:112px;height:176px;padding:0;border:0;background:transparent;transform:rotate(-35deg);transform-origin:50% 20%;cursor:grab;touch-action:none;filter:drop-shadow(0 4px 4px #513e2822);transition:filter .2s,opacity .45s}
+.cookbook-whisk img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.cookbook-whisk-head{position:absolute;inset:57% 16% 0;pointer-events:none}
+.cookbook-whisk.is-dragging{z-index:2;cursor:grabbing;filter:drop-shadow(0 5px 7px #49341d55)}
+.cookbook-whisk.is-finished{cursor:default;filter:drop-shadow(0 2px 2px #49341d20);opacity:0;pointer-events:none}
+.cookbook-whisk:focus-visible{outline:2px solid #7e6039;outline-offset:3px}
+.cookbook-ingredient-tool{position:absolute;z-index:6;left:50%;top:13%;display:grid;place-items:center;width:96px;height:92px;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer;filter:drop-shadow(0 5px 5px #51432e25);animation:cookbook-tool-hover 2.8s ease-in-out infinite;transform-origin:50% 85%}
+.cookbook-ingredient-tool svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
+.cookbook-cream-tool{width:88px;height:84px}
+.cookbook-milk-tool{width:110px;height:91px}
+.cookbook-nutmeg-tool{width:106px;height:80px}
+.cookbook-salt-tool{width:70px;height:83px}
+.cookbook-ingredient-tool.is-pouring{animation:cookbook-tool-pour .82s cubic-bezier(.25,.7,.3,1) both}
+.cookbook-ingredient-tool:disabled{pointer-events:none}
+@keyframes cookbook-tool-hover{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes cookbook-tool-pour{0%{transform:translateX(-50%) rotate(0)}35%{transform:translateX(-50%) translateY(10px) rotate(45deg)}72%{transform:translateX(-50%) translateY(10px) rotate(45deg)}100%{transform:translateX(-50%) rotate(0)}}
+.cookbook-pan{position:absolute;z-index:1;left:50%;top:28%;width:min(320px,82%);height:56%;transform:translateX(-50%);--stir-turn:0deg}
+.cookbook-pan-base,.cookbook-pan-mixture,.cookbook-pan-glass{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.cookbook-pan-base{z-index:1}
+.cookbook-pan-mixture{z-index:5}
+.cookbook-pan-glass{z-index:6}
+.cookbook-pan-liquid{transition:r .6s cubic-bezier(.2,.8,.2,1),fill .5s,filter .3s}
+.cookbook-pan.is-mixing .cookbook-pan-liquid{filter:saturate(1.08) brightness(1.025)}
+.cookbook-pan-swirl{opacity:0;transform-origin:center;transition:opacity .2s}
+.cookbook-pan.is-mixing .cookbook-pan-swirl{opacity:1;animation:cookbook-fluid-slosh .5s ease-in-out infinite alternate}
+.cookbook-pan-spice{animation:cookbook-spice-settle .58s cubic-bezier(.2,.7,.3,1) both}
+@keyframes cookbook-spice-settle{0%{opacity:0;transform:translateY(-24px) scale(.4)}70%{opacity:1;transform:translateY(2px) scale(1.2)}100%{opacity:.94;transform:translateY(0) scale(1)}}
+.cookbook-pan-whisk{z-index:4;left:65%;top:-3%;width:104px;height:168px;transform:rotate(45deg);transform-origin:50% 20%}
+.cookbook-pan-whisk.is-dragging{z-index:4}
+.cookbook-pan .cookbook-mix-target{left:21%;right:21%;top:23%;bottom:23%;border-radius:50%}
+.cookbook-pan-pour{width:var(--grain-size,2px);height:var(--grain-size,2px)}
+.cookbook-temper-spoon{position:absolute;z-index:6;left:50%;top:5%;width:190px;height:132px;padding:0;border:0;background:transparent;transform:translateX(-50%);transform-origin:77% 54%;cursor:pointer;filter:drop-shadow(0 5px 5px #51432e25);transition:opacity .25s,filter .2s}
+.cookbook-temper-spoon svg{display:block;width:100%;height:100%;overflow:visible}
+.cookbook-temper-spoon:hover{filter:drop-shadow(0 7px 7px #51432e42)}
+.cookbook-temper-spoon.is-pouring{animation:cookbook-spoon-pour .92s cubic-bezier(.25,.7,.3,1) both}
+@keyframes cookbook-spoon-pour{0%{transform:translateX(-50%) rotate(0)}32%{transform:translateX(-50%) translateY(18px) rotate(40deg)}74%{transform:translateX(-50%) translateY(18px) rotate(40deg)}100%{transform:translateX(-50%) rotate(0)}}
+.cookbook-temper-bowl{position:absolute;left:50%;top:39%;width:min(350px,92%);height:min(230px,40%);transform:translateX(-50%);--stir-turn:0deg}
+.cookbook-temper-bowl .cookbook-whisk{left:18%;top:-23%}
+.cookbook-return-bowl{position:absolute;z-index:7;left:50%;top:0;width:min(210px,62%);height:35%;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer;transition:opacity .38s,transform .78s cubic-bezier(.2,.75,.2,1)}
+.cookbook-return-bowl svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 5px 4px #55402b25)}
+.cookbook-return-bowl-liquid{transform-box:fill-box;transform-origin:center bottom;transition:transform .85s cubic-bezier(.2,.75,.2,1),opacity .7s}
+.cookbook-return-bowl.is-emptied .cookbook-return-bowl-liquid{transform:scaleY(.02);opacity:0}
+.cookbook-return-bowl:hover{filter:brightness(1.05)}
+.cookbook-return-bowl.is-pouring{transform:translate(-42%,25%) rotate(27deg)}
+.cookbook-return-bowl.is-emptied{opacity:0;pointer-events:none;transform:translate(-42%,25%) rotate(27deg) scale(.82)}
+.cookbook-return-pan{top:29%;width:min(320px,82%);height:56%}
+.cookbook-return-pan .cookbook-mix-target{left:21%;right:21%;top:23%;bottom:23%;border-radius:50%}
+.cookbook-return-whisk{left:65%;top:-3%;width:104px;height:168px;transform:rotate(45deg);transform-origin:50% 20%}
+.cookbook-return-whisk.is-dragging{z-index:4}
+.cookbook-return-activity .cookbook-activity-status{bottom:54px}
+.cookbook-return-activity .cookbook-step-next{right:0;bottom:0}
+.snowglobe-gift{position:absolute;z-index:8;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:clamp(15px,3vh,30px);color:#f8edda;text-align:center;background:radial-gradient(ellipse at 50% 38%,#314a4a 0,#192d30 64%,#112124 100%);font-family:'Cormorant Garamond',Georgia,serif}.snowglobe-gift[hidden],.snowglobe-wrap[hidden],.snowglobe-picker[hidden]{display:none}.snowglobe-gift h1{margin:0;color:#f4deb0;font-size:clamp(27px,4vw,43px);font-weight:600;text-shadow:0 2px 12px #e6b65b55}.snowglobe-picker{display:flex;flex-direction:column;align-items:center;gap:10px}.snowglobe-upload{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:190px;padding:9px 20px;border:1px solid #d6bd8b;border-radius:5px;background:linear-gradient(#f6e8cb,#d7c199);color:#423522;font:600 17px 'Cormorant Garamond',Georgia,serif;cursor:pointer;box-shadow:0 3px 10px #0005}.snowglobe-upload:hover{filter:brightness(1.08)}.snowglobe-file{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.snowglobe-reference{display:flex;align-items:center;gap:7px;color:#e8ddc8;font:16px 'Cormorant Garamond',Georgia,serif;cursor:pointer}.snowglobe-reference input{accent-color:#d4ae62}.snowglobe-wrap{display:flex;min-height:0;flex-direction:column;align-items:center;justify-content:center;gap:8px}.snowglobe{position:relative;width:min(56vw,390px,45vh);aspect-ratio:1;isolation:isolate;border-radius:50%;touch-action:none;cursor:grab;user-select:none;filter:drop-shadow(0 20px 22px #0009);transition:transform .25s,filter .35s}.snowglobe:active,.snowglobe.is-shaking{cursor:grabbing;transform:rotate(-2deg) scale(1.015)}.snowglobe-image,.snowglobe-snow,.snowglobe-pile,.snowglobe-glass{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;overflow:hidden}.snowglobe-image{inset:7.2%;width:85.6%;height:85.6%;background-position:center;background-size:cover;background-repeat:no-repeat;clip-path:circle(50%)}.snowglobe-snow{z-index:2;pointer-events:none}.snowglobe-pile{z-index:3;inset:auto 9% 6%;width:82%;height:34%;border-radius:0 0 50% 50%;background:radial-gradient(ellipse at 51% 18%,#fff 0,#f7fcff 30%,#cfdae0 58%,#a8b9c1 71%,transparent 73%);clip-path:ellipse(50% 50% at 50% 100%);filter:drop-shadow(0 -2px 4px #fff9)}.snowglobe-pile:before,.snowglobe-pile:after{content:"";position:absolute;bottom:10%;width:55%;height:48%;border-radius:50%;background:linear-gradient(#fff,#dce8ee);filter:blur(.5px)}.snowglobe-pile:before{left:0}.snowglobe-pile:after{right:0;width:48%;height:39%}.snowglobe-glass{z-index:4;inset:0;background:radial-gradient(ellipse at 31% 16%,#fff7 0,transparent 4%),radial-gradient(ellipse at 77% 27%,#fff8 0,transparent 7%),linear-gradient(116deg,transparent 10%,#fff4 12%,transparent 15%,transparent 77%,#fff5 80%,transparent 84%);box-shadow:inset 9px 2px 13px #fff5,inset -9px 0 14px #fff7,inset 0 -9px 15px #94a9b655,inset 0 5px 7px #fff9;pointer-events:none}.snowglobe-glass:before{content:"";position:absolute;inset:1.5%;border:2px solid #f9ffff9c;border-right-color:#fff6;border-bottom-color:#aabdc766;border-radius:50%;box-shadow:inset 2px 1px 3px #fff8}.snowglobe-base{position:absolute;z-index:5;left:-4%;right:-4%;bottom:-23%;height:32%;border-radius:8% 8% 28% 28%/12% 12% 25% 25%;background:linear-gradient(90deg,#493a28,#b28a4e 12%,#dfc28a 27%,#a77b43 49%,#e1c890 72%,#715432 91%,#322a24);box-shadow:inset 0 5px 6px #fff8,inset 0 -9px 10px #2b201c99,0 6px 7px #0007;border:2px solid #e5d3aa}.snowglobe-base:before{content:"";position:absolute;left:-1%;right:-1%;top:-7%;height:17%;border-radius:50%;background:linear-gradient(#fff8,#887451 60%,#342b22);box-shadow:0 2px 3px #0008}.snowglobe-base:after{content:"❄  ✧  ❄  ✧  ❄";position:absolute;inset:31% 0 auto;color:#6b4c2b;font-size:clamp(10px,1.6vw,15px);letter-spacing:.12em;text-shadow:0 1px #f8dda4}.snowglobe-base i{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,transparent 6%,#fff3 10%,transparent 14%,transparent 85%,#fff3 89%,transparent 94%)}.snowglobe.is-warm{filter:drop-shadow(0 0 25px #ffc76d99) drop-shadow(0 20px 22px #0009)}.snowglobe.is-warm .snowglobe-image{filter:sepia(.2) saturate(1.15) brightness(1.11)}.snowglobe.is-warm:after{content:"";position:absolute;z-index:3;inset:7%;border-radius:50%;background:radial-gradient(ellipse at 50% 68%,#ffc35c2e,transparent 72%);pointer-events:none}.snowglobe-hint{margin:22px 0 0;color:#d5c9b4;font:italic 15px 'Cormorant Garamond',Georgia,serif}@media(max-width:650px){.snowglobe{width:min(66vw,330px,37vh)}.snowglobe-gift{gap:9px}.snowglobe-hint{margin-top:18px}}
+.cookbook-activity-status{white-space:pre-line}
+.cookbook-step5-pan{position:absolute;z-index:6;left:50%;top:0;width:min(375px,50%);height:29%;padding:0;border:0;background:transparent;transform:translateX(-50%);transform-origin:50% 78%;cursor:pointer;filter:drop-shadow(0 6px 6px #493c2828);transition:opacity .3s}
+.cookbook-step5-pan svg{display:block;width:100%;height:100%;overflow:visible}
+.cookbook-step5-pan.is-pouring{animation:cookbook-pan-pour-into-pitcher .95s ease-in-out both}
+@keyframes cookbook-pan-pour-into-pitcher{0%{transform:translateX(-50%)}35%,72%{transform:translateX(-50%) perspective(620px) rotateX(32deg) translateY(20px)}100%{opacity:0;transform:translateX(-50%) perspective(620px) rotateX(32deg) translateY(32px)}}
+.cookbook-step5-pitcher{position:absolute;z-index:2;left:50%;top:35%;width:min(190px,58%);height:59%;transform:translateX(-50%)}
+.cookbook-step5-pitcher>svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 7px 5px #51432e21)}
+.cookbook-pitcher-liquid,.cookbook-pitcher-surface{transition:d 1.1s cubic-bezier(.2,.75,.25,1)}
+.cookbook-vanilla-vial{position:absolute;z-index:6;left:50%;top:3%;width:54px;height:92px;padding:0;border:0;background:transparent;cursor:pointer;transform:translateX(-50%);transform-origin:65% 55%;filter:drop-shadow(0 4px 4px #51432e28);animation:cookbook-tool-hover 2.8s ease-in-out infinite}
+.cookbook-vanilla-vial svg{display:block;width:100%;height:100%}
+.cookbook-vanilla-vial.is-pouring{animation:cookbook-tool-pour .72s cubic-bezier(.25,.7,.3,1) both}
+.cookbook-jim-beam{position:absolute;z-index:5;right:0;bottom:calc(19.2% - min(40.8px,7.7%));width:min(310px,44%);height:min(404px,76%);object-fit:cover;object-position:center;filter:drop-shadow(0 7px 6px #49372030);animation:cookbook-bottle-in .42s ease-out both}
+@keyframes cookbook-bottle-in{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.cookbook-jim-beam.is-empty{filter:grayscale(.35) drop-shadow(0 7px 6px #49372030);transform:rotate(8deg)}
+.cookbook-step5-activity .cookbook-activity-status{bottom:58px}
+.cookbook-step5-activity .cookbook-step-next{right:0;bottom:0}
+.cookbook-activity-status{position:absolute;z-index:6;left:50%;bottom:78px;width:90%;transform:translateX(-50%);text-align:center;color:#705a3b;font:italic 20px/1.25 'Cormorant Garamond',Georgia,serif}
+.cookbook-step-next{right:0;bottom:0}
+.cookbook-love-word{color:#c52e38}
+.cookbook-step6-activity{overflow:visible}
+.cookbook-love-heart{position:absolute;z-index:8;left:50%;top:5%;width:70px;height:64px;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer;filter:drop-shadow(0 6px 9px #bf2d3d44);animation:cookbook-heart-float 2.6s ease-in-out infinite}
+.cookbook-love-heart svg{display:block;width:100%;height:100%;overflow:visible;transition:transform .24s}
+.cookbook-love-heart:hover svg{transform:scale(1.12)}
+@keyframes cookbook-heart-float{50%{translate:0 -7px}}
+.cookbook-love-heart.is-exploding svg{animation:cookbook-heart-pop .5s ease-in both}
+@keyframes cookbook-heart-pop{35%{transform:scale(1.28)}100%{opacity:0;transform:scale(.2)}}
+.cookbook-heart-fragment{position:absolute;z-index:2;left:50%;top:50%;color:#d72f3a;font:700 18px/1 Georgia,serif;text-shadow:0 1px 2px #8d1d2c44;pointer-events:none;animation:cookbook-heart-burst .65s cubic-bezier(.12,.7,.23,1) var(--heart-delay) both}
+@keyframes cookbook-heart-burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.15)}18%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--heart-x)),calc(-50% + var(--heart-y))) scale(.65) rotate(22deg)}}
+.cookbook-serving-pitcher{position:absolute;z-index:4;left:50%;top:26%;width:min(210px,54%);height:56%;padding:0;border:0;background:transparent;transform:translateX(-50%);transform-origin:82% 90%;transition:transform .9s cubic-bezier(.25,.72,.2,1),opacity .4s;cursor:pointer}
+.cookbook-serving-pitcher svg,.cookbook-serving-glass svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 6px 5px #51432e20)}
+.cookbook-serving-pitcher:disabled{cursor:default;pointer-events:none}
+.cookbook-serving-pitcher.is-serving{transform:translateX(-50%) rotate(-65deg) translateY(18px);opacity:0}
+.cookbook-serving-pitcher-liquid,.cookbook-serving-pitcher-surface,.cookbook-serving-glass-liquid{transition:d 1s cubic-bezier(.25,.72,.2,1)}
+.cookbook-serving-glass{position:absolute;z-index:3;left:calc(50% - 174px);bottom:18%;width:90px;height:112px;padding:0;border:0;background:transparent;cursor:default}
+.cookbook-serving-glass.is-appearing{animation:cookbook-glass-appear .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cookbook-glass-appear{from{opacity:0;transform:translateY(9px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+.cookbook-serving-glass.is-filling{animation:cookbook-glass-fill .85s ease-in-out both}
+@keyframes cookbook-glass-fill{50%{transform:translateY(-5px) scale(1.04)}}
+.cookbook-completion-result{position:absolute;z-index:4;left:50%;top:47%;width:100%;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%)}
+.cookbook-completion-result[hidden]{display:none!important}
+.cookbook-final-glass{position:relative;z-index:4;left:auto;top:auto;width:90px;height:112px;margin:0 0 64px;transform:none;filter:drop-shadow(0 0 25px #f5db8caa);opacity:0;overflow:visible}
+.cookbook-final-glass svg{position:relative;z-index:1;width:100%;height:100%;display:block;overflow:visible}
+.cookbook-final-glass.is-revealed{animation:cookbook-final-glass-in .7s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes cookbook-final-glass-in{0%{opacity:0;transform:scale(.72)}100%{opacity:1;transform:scale(1.5)}}
+.cookbook-final-glass::before{content:"";position:absolute;z-index:0;inset:-35%;border-radius:50%;background:radial-gradient(circle,#fff1b4aa 0,transparent 68%);animation:cookbook-final-glow 2.6s ease-in-out infinite alternate}
+@keyframes cookbook-final-glow{to{opacity:.58;transform:scale(1.15)}}
+.cookbook-final-message{position:relative;width:100%;margin:0;transform:translateY(8px);color:#4e3823;text-align:center;font:700 clamp(22px,3.1vw,32px)/1.08 'Cormorant Garamond',Georgia,serif;opacity:0;text-wrap:balance}
+.cookbook-final-message.is-visible{animation:cookbook-final-message-in .65s .15s ease-out forwards}
+@keyframes cookbook-final-message-in{to{opacity:1;transform:translateY(0)}}
+.cookbook-gift.is-turning .cookbook-page-content{animation:cookbook-content-in .42s .3s ease both}
+@keyframes cookbook-content-in{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.cookbook-stage{width:96vw;height:88dvh}.cookbook-page-content{padding:22px 18px 32px}.cookbook-note p{font-size:clamp(15px,2.6vw,19px);line-height:1.42}.cookbook-ingredient-list{gap:8px}.cookbook-ingredient{grid-template-columns:21px 1fr;gap:7px;font-size:clamp(14px,2.4vw,18px)}.cookbook-checkbox{width:17px;height:17px}.cookbook-activity-page{padding:14px 12px 42px}.cookbook-bowl{width:94%;height:min(230px,40%)}.cookbook-whisk{width:112px;height:176px}.cookbook-activity-status{bottom:66px;font-size:18px}.cookbook-pan{width:min(290px,78%)}.cookbook-pan-whisk{width:104px;height:168px}.cookbook-next{right:16px;bottom:15px;padding:8px 13px;font-size:17px}}
+@media(max-width:560px){.cookbook-stage{height:94dvh;width:96vw}.cookbook-spread{grid-template-columns:1fr;grid-template-rows:1fr 1fr;border-radius:8px}.cookbook-page{min-height:0}.cookbook-left-page{border-right:0;border-bottom:1px solid #b8a687}.cookbook-page-content{padding:15px 16px}.cookbook-page-content h1{font-size:clamp(20px,5vw,27px);margin-bottom:5px}.cookbook-rule{margin-bottom:10px}.cookbook-note p{font-size:clamp(13px,3.2vw,16px);line-height:1.3;text-indent:1em}.cookbook-ingredient-list{gap:4px;padding-bottom:35px}.cookbook-ingredient{min-height:23px;font-size:clamp(12px,3.1vw,15px)}.cookbook-checkbox{width:15px;height:15px}.cookbook-page-turn{top:50%;right:0;width:100%;height:50%;transform-origin:center top}.cookbook-page-turn.is-turning{animation:cookbook-page-flip-mobile .78s cubic-bezier(.35,.05,.24,1) both}.cookbook-activity-page{padding:9px 12px 38px}.cookbook-activity{min-height:0}.cookbook-egg{top:18%;width:45px;height:59px}.cookbook-sugar-cup{top:17%;width:65px;height:56px}.cookbook-bowl{top:38%;width:min(300px,96%);height:40%}.cookbook-whisk{width:96px;height:152px}.cookbook-activity-status{bottom:60px;font-size:17px}.cookbook-ingredient-tool{top:13%;width:74px;height:72px}.cookbook-cream-tool{width:66px;height:64px}.cookbook-milk-tool{width:86px;height:70px}.cookbook-nutmeg-tool{width:82px;height:62px}.cookbook-salt-tool{width:56px;height:67px}.cookbook-pan{top:28%;width:min(250px,80%);height:56%}.cookbook-pan-whisk{width:92px;height:146px}.cookbook-step-next{right:6px;bottom:0}}
+@keyframes cookbook-page-flip-mobile{0%{transform:rotateX(0)}100%{transform:rotateX(180deg)}}
+@media(prefers-reduced-motion:reduce){.cookbook-cover,.cookbook-checkbox,.cookbook-checkbox svg,.cookbook-next,.cookbook-egg,.cookbook-sugar-cup,.cookbook-yolk-blob,.cookbook-sugar-grain,.cookbook-sugar-falling,.cookbook-pan-pour,.cookbook-ingredient-tool,.cookbook-temper-spoon,.cookbook-return-bowl,.cookbook-return-bowl-liquid,.cookbook-pan-spice,.cookbook-step5-pan,.cookbook-vanilla-vial,.cookbook-jim-beam,.cookbook-page-turn.is-turning,.cookbook-spread.is-opening{animation:none!important;transition:none!important}.cookbook-egg.is-cracking{opacity:0}}
+@media(max-width:560px){.cookbook-step5-pan{width:min(250px,72%);height:29%}.cookbook-serving-pitcher{top:28%;width:58%;height:52%}.cookbook-serving-glass{left:4%;width:min(70px,22%);height:88px;bottom:20%}.cookbook-completion-result{top:45%}.cookbook-final-glass{width:min(70px,22%);height:88px;margin-bottom:52px}.cookbook-final-message{font-size:clamp(20px,5vw,27px)}}
+@media(prefers-reduced-motion:reduce){.cookbook-love-heart,.cookbook-love-heart svg,.cookbook-heart-fragment,.cookbook-serving-pitcher,.cookbook-serving-glass,.cookbook-final-glass,.cookbook-final-glass::before,.cookbook-final-message{animation:none!important;transition:none!important}.cookbook-final-glass.is-revealed{opacity:1;transform:scale(1.5)}.cookbook-final-message.is-visible{opacity:1;transform:translateY(0)}}

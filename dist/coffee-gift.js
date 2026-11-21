@@ -20,7 +20,7 @@ export function coffeeCard() {
 
   const questionArea = element.querySelector('.coffee-question-area');
   const choices = element.querySelector('.coffee-choices');
-  const prompt = (number, text) => `<p class="coffee-copy coffee-question">${number}) ${text}</p>`;
+  const prompt = text => `<p class="coffee-copy coffee-question">${text}</p>`;
 
   function finish(tooBad = false) {
     questionArea.innerHTML = `<p class="coffee-copy coffee-final-heading">${tooBad ? 'Too bad! Here\'s a Starbucks gift card.' : 'Splendid! Here\'s a Starbucks gift card just for you.'}</p>
@@ -73,7 +73,7 @@ export function coffeeCard() {
         break;
     }
 
-    questionArea.innerHTML = prompt(number, text);
+    questionArea.innerHTML = prompt(text);
     choices.replaceChildren(...options.map(([label, action]) => {
       const button = document.createElement('button');
       button.type = 'button';
