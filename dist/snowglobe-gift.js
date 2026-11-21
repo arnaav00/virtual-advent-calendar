@@ -18,7 +18,6 @@ export function snowglobeCard() {
         <div class="snowglobe-glass" aria-hidden="true"></div>
         <div class="snowglobe-base" aria-hidden="true"><i></i></div>
       </div>
-      <p class="snowglobe-hint">Drag to shake · Tap for a warm glow</p>
     </div>`;
   const camera = playlistCard(16);
   camera.element.remove();
@@ -32,7 +31,6 @@ export function snowglobeCard() {
   const imageLayer = element.querySelector('.snowglobe-image');
   const wrap = element.querySelector('.snowglobe-wrap');
   const globe = element.querySelector('.snowglobe');
-  const hint = element.querySelector('.snowglobe-hint');
   const canvas = element.querySelector('.snowglobe-snow');
   const ctx = canvas.getContext('2d');
   const particles = [];
@@ -108,7 +106,6 @@ export function snowglobeCard() {
     if (event.pointerId !== pointer) return;
     if (globe.hasPointerCapture(pointer)) globe.releasePointerCapture(pointer);
     pointer = null; last = null; globe.classList.remove('is-shaking');
-    if (moved) hint.hidden = true;
     if (moved) { suppressClick = true; setTimeout(() => { suppressClick = false; }, 0); }
   }
   globe.addEventListener('pointerup', release); globe.addEventListener('pointercancel', release);
