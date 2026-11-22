@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="662" height="1370" viewBox="0 0 331 685" fill="none">
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#717679"/><stop offset=".025" stop-color="#f7f8f7"/><stop offset=".055" stop-color="#b9bdbe"/><stop offset=".09" stop-color="#fff"/><stop offset=".14" stop-color="#a5aaac"/><stop offset=".2" stop-color="#f8f9f8"/><stop offset=".8" stop-color="#e4e6e6"/><stop offset=".92" stop-color="#a5aaac"/><stop offset=".965" stop-color="#f9fafa"/><stop offset=".99" stop-color="#b4b8ba"/><stop offset="1" stop-color="#666b6e"/>
+    </linearGradient>
+    <linearGradient id="metalY" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#fafbfa"/><stop offset=".02" stop-color="#8a8e90"/><stop offset=".045" stop-color="#f1f2f1"/><stop offset=".1" stop-color="#afb3b4"/><stop offset=".5" stop-color="#f7f8f7"/><stop offset=".91" stop-color="#aeb2b4"/><stop offset=".97" stop-color="#f8f9f8"/><stop offset="1" stop-color="#555a5d"/>
+    </linearGradient>
+    <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#080a0b"/><stop offset=".035" stop-color="#34393b"/><stop offset=".08" stop-color="#101314"/><stop offset=".5" stop-color="#080a0b"/><stop offset=".92" stop-color="#111516"/><stop offset=".97" stop-color="#3b4042"/><stop offset="1" stop-color="#080a0b"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".9"/><stop offset=".08" stop-color="#fff" stop-opacity=".18"/><stop offset=".86" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#050607" stop-opacity=".8"/></linearGradient>
+    <radialGradient id="lens" cx="35%" cy="30%"><stop stop-color="#58636c"/><stop offset=".4" stop-color="#11171b"/><stop offset=".8" stop-color="#050708"/><stop offset="1" stop-color="#92999b"/></radialGradient>
+    <mask id="window"><rect width="331" height="685" fill="white"/><rect x="17" y="19" width="297" height="647" rx="29" fill="black"/></mask>
+  </defs>
+  <g mask="url(#window)">
+    <rect x="1" y="1" width="329" height="683" rx="44" fill="url(#metal)"/>
+    <rect x="2.5" y="2.5" width="326" height="680" rx="43" stroke="url(#metalY)" stroke-width="2"/>
+    <rect x="5.2" y="5.5" width="320.6" height="674" rx="40" fill="#131719" stroke="#52585a" stroke-width="1"/>
+    <rect x="8.2" y="8.5" width="314.6" height="668" rx="37" stroke="url(#metalY)" stroke-width="2.2"/>
+    <rect x="11.5" y="12" width="308" height="661" rx="34" fill="url(#bezel)" stroke="#090b0c" stroke-width="1.2"/>
+    <rect x="14" y="15" width="303" height="655" rx="31" stroke="url(#edge)" stroke-width="1.2" opacity=".8"/>
+    <path d="M328 142c1.4 0 2.5 1.2 2.5 2.6v47c0 1.4-1.1 2.6-2.5 2.6h-1v-52.2h1ZM328 215c1.4 0 2.5 1.2 2.5 2.6v52c0 1.4-1.1 2.6-2.5 2.6h-1v-57.2h1Z" fill="url(#metalY)" stroke="#686d6f" stroke-width=".8"/>
+  </g>
+  <circle cx="165.5" cy="35" r="10.2" fill="#070a0c" stroke="#7b8286" stroke-width="1.8"/>
+  <circle cx="165.5" cy="35" r="7.3" fill="url(#lens)" stroke="#050607" stroke-width=".8"/>
+  <circle cx="163" cy="32.5" r="1.3" fill="#a8c4d8" opacity=".55"/>
+  <circle cx="165.5" cy="35" r="4.1" stroke="#29343a" stroke-width=".7"/>
+</svg>

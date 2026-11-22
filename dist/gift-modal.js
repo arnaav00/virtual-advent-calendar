@@ -11,6 +11,9 @@ import { snowglobeCard } from './snowglobe-gift.js';
 import { ao3Card } from './ao3-gift.js';
 import { tetrisCard } from './tetris-gift.js';
 import { ghibliCard } from './ghibli-gift.js';
+import { goodreadsCard } from './goodreads-gift.js';
+import { slothBookCard } from './sloth-book-gift.js';
+import { musicBoxCard } from './musicbox-gift.js';
 export function setupGiftModal(){
   const dialog=document.createElement('dialog');dialog.id='day-gift';dialog.className='gift-dialog';dialog.setAttribute('aria-label','Open your present');
   dialog.innerHTML=`<button class="gift-close" aria-label="Close gift"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button>
@@ -68,7 +71,7 @@ export function setupGiftModal(){
     </g>
   </svg></div>`;
   document.body.append(dialog);
-  const cards={1:playlistCard(1),2:playlistCard(2,3),3:playlistCard(3,2),4:playlistCard(4),5:playlistCard(5),6:playlistCard(6),7:playlistCard(7),8:playlistCard(8),9:christmillionCard(),10:btsCard(),12:snoopyCard(),13:coffeeCard(),14:jigsawCard(),15:cookbookCard(),16:snowglobeCard(),17:ao3Card(),18:tetrisCard(),19:ghibliCard()};Object.values(cards).forEach(item=>dialog.append(item.element,item.captureButton));let card=cards[1],currentDay=0;
+  const cards={1:playlistCard(1),2:playlistCard(2,3),3:playlistCard(3,2),4:playlistCard(4),5:playlistCard(5),6:playlistCard(6),7:playlistCard(7),8:playlistCard(8),9:christmillionCard(),10:btsCard(),12:snoopyCard(),13:coffeeCard(),14:jigsawCard(),15:cookbookCard(),16:snowglobeCard(),17:ao3Card(),18:tetrisCard(),19:slothBookCard(),20:goodreadsCard(),21:musicBoxCard(),22:ghibliCard()};Object.values(cards).forEach(item=>dialog.append(item.element,item.captureButton));let card=cards[1],currentDay=0;
   const physicalInstruction=dialog.querySelector('.gift-physical-instruction');
   dialog.querySelector('.gift-close').addEventListener('click',()=>close());
   const art=dialog.querySelector('.gift-art'),handle=dialog.querySelector('.ribbon-handle'),left=dialog.querySelector('.bow-left'),right=dialog.querySelector('.bow-right');
@@ -157,13 +160,13 @@ export function setupGiftModal(){
   handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',event=>{release(event);suppressClick=false;});
   handle.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();unwrap();}});
   dialog.addEventListener('pointerdown',event=>{if(!event.target.closest('.ribbon-handle'))suppressClick=false;});
-  dialog.addEventListener('click',event=>{if(suppressClick){suppressClick=false;return;}if(currentDay===17||currentDay===18||currentDay===19){if(event.target===dialog)close();return;}if(currentDay===10||currentDay===13||currentDay===14||currentDay===16)return;if(!event.target.closest('.present-interactive,.playlist-card,.reaction-start,.bts-gift-card,.snoopy-gift,.coffee-gift,.jigsaw-gift,.cookbook-gift'))close();});
+  dialog.addEventListener('click',event=>{if(suppressClick){suppressClick=false;return;}if(currentDay===17||currentDay===18||currentDay===19||currentDay===20||currentDay===21||currentDay===22){if(event.target===dialog)close();return;}if(currentDay===10||currentDay===13||currentDay===14||currentDay===16)return;if(!event.target.closest('.present-interactive,.playlist-card,.reaction-start,.bts-gift-card,.snoopy-gift,.coffee-gift,.jigsaw-gift,.cookbook-gift'))close();});
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(currentDay!==10)close();});
   dialog.addEventListener('keydown',event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();if(currentDay!==10)close();}});
   return{
     open(day,source){
       ++session;reset();currentDay=day;card=cards[day]||cards[1];trigger=source;state='wrapped';dialog.dataset.state=state;
-      const physicalGift=day===2||day===5||day===6||day===8||day===18||day===19;dialog.classList.toggle('physical-gift',physicalGift);physicalInstruction.textContent=`Please physically open Gift Box #${day} first before opening it here.`;physicalInstruction.hidden=!physicalGift;
+      const physicalGift=day===2||day===5||day===6||day===8||day===18||day===19||day===21||day===22;dialog.classList.toggle('physical-gift',physicalGift);physicalInstruction.textContent=`Please physically open Gift Box #${day} first before opening it here.`;physicalInstruction.hidden=!physicalGift;
       const colors=giftPalette(day);for(const [name,color]of Object.entries(colors))dialog.style.setProperty(`--gift-${name}`,color);
       dialog.querySelector('.gift-day').textContent=day;dialog.setAttribute('aria-label',`Gift for day ${day}`);
       document.body.classList.add('gift-open');if(!dialog.open)dialog.showModal();

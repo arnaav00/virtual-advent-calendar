@@ -21,10 +21,41 @@ export function btsCard() {
   status.setAttribute('role', 'status');
   const membersLayer = document.createElement('div');
   membersLayer.className = 'bts-members';
+  const soundClips = new Map();
+  let activeSound = null;
+  let audioContext = null;
+  let soundboardUnlocked = false;
   for (const [name, position] of members) {
-    const button = document.createElement('div');
+    const button = document.createElement('button');
+    button.type = 'button';
     button.className = `bts-member bts-member-${position}`;
-    button.setAttribute('aria-label', name);
+    button.setAttribute('aria-label', `Play ${name}'s Christmas soundbyte`);
+    button.disabled = true;
+    const filename = name === 'jhope' ? 'jhope-xmas.mp3' : `${name}_xmas.mp3`;
+    const sound = new Audio(`./assets/bts-members/soundbytes/${filename}`);
+    sound.preload = 'none';
+    soundClips.set(button, { sound, gain: name === 'rm' ? 2 : name === 'jin' ? 1.5 : 1, source: null, gainNode: null });
+    button.addEventListener('click', () => {
+      if (!element.classList.contains('bts-members-ready')) return;
+      if (activeSound) {
+        activeSound.pause();
+        activeSound.currentTime = 0;
+      }
+      const clip = soundClips.get(button);
+      if (clip.gain > 1 && window.AudioContext) {
+        audioContext ||= new AudioContext();
+        if (!clip.source) {
+          clip.source = audioContext.createMediaElementSource(sound);
+          clip.gainNode = audioContext.createGain();
+          clip.gainNode.gain.value = clip.gain;
+          clip.source.connect(clip.gainNode).connect(audioContext.destination);
+        }
+        audioContext.resume().catch(() => {});
+      }
+      activeSound = sound;
+      const playback = sound.play();
+      playback?.catch(() => {});
+    });
     const image = document.createElement('img');
     image.src = `./assets/bts-members/trimmed/${name}-removebg-preview.png`;
     image.alt = name;
@@ -35,6 +66,20 @@ export function btsCard() {
   frame.className = 'bts-video-frame';
   frame.append(video, status);
   element.append(membersLayer, frame);
+
+  const unlockSoundboard = () => {
+    if (soundboardUnlocked) return;
+    soundboardUnlocked = true;
+    element.classList.add('bts-members-ready');
+    membersLayer.querySelectorAll('.bts-member').forEach(button => { button.disabled = false; });
+  };
+  const unlockAtEndOfVideo = () => {
+    const remaining = video.duration - video.currentTime;
+    if (video.ended || (Number.isFinite(remaining) && remaining <= 1)) unlockSoundboard();
+  };
+  video.addEventListener('timeupdate', unlockAtEndOfVideo);
+  video.addEventListener('seeked', unlockAtEndOfVideo);
+  video.addEventListener('ended', unlockSoundboard);
 
   const captureButton = document.createElement('button');
   captureButton.type = 'button';
@@ -57,6 +102,11 @@ export function btsCard() {
     element, captureButton,
     show() {
       element.hidden = false;
+      soundboardUnlocked = false;
+      element.classList.remove('bts-members-ready');
+      membersLayer.querySelectorAll('.bts-member').forEach(button => { button.disabled = true; });
+      for (const { sound } of soundClips.values()) { sound.pause(); sound.currentTime = 0; }
+      activeSound = null;
       captureButton.hidden = false;
       status.textContent = '';
       priorMusicPaused = true;
@@ -64,10 +114,19 @@ export function btsCard() {
       if (!video.hasAttribute('src')) video.src = './assets/bts_xmas.mp4';
       play();
     },
-    stop() { video.pause(); },
+    stop() {
+      video.pause();
+      for (const { sound } of soundClips.values()) { sound.pause(); sound.currentTime = 0; }
+      activeSound = null;
+    },
     hide() {
       video.pause();
       video.currentTime = 0;
+      soundboardUnlocked = false;
+      element.classList.remove('bts-members-ready');
+      membersLayer.querySelectorAll('.bts-member').forEach(button => { button.disabled = true; });
+      for (const { sound } of soundClips.values()) { sound.pause(); sound.currentTime = 0; }
+      activeSound = null;
       element.hidden = true;
       captureButton.hidden = true;
       if (priorMusicPaused) {

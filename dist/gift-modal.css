@@ -33,14 +33,14 @@
 .christmillion-gift[hidden]{display:none}
 .christmillion-gift iframe{display:block;width:100%;height:100%;border:0;background:#050a14}
 .gift-close{z-index:5}
-.bts-gift-card{position:fixed;inset:0;z-index:2;width:100vw;height:100dvh;overflow:hidden;background:#07121c;user-select:none}
+.bts-gift-card{position:fixed;inset:0;z-index:2;width:100vw;height:100dvh;overflow:hidden;background:#07121c url('./assets/bts-members/bts-bg.jpeg') center/cover no-repeat;user-select:none}
 .bts-gift-card[hidden]{display:none}
 .bts-video-frame{position:absolute;left:50%;top:31%;width:min(47vw,850px);aspect-ratio:16/9;transform:translate(-50%,-50%);z-index:2}
 .bts-gift-video{display:block;width:100%;height:100%;object-fit:contain;background:#000;box-shadow:0 12px 42px #000a;border:1px solid #e9d9bb88}
 .bts-members{position:absolute;inset:0;z-index:3;pointer-events:none}
-.bts-member{position:absolute;display:flex;align-items:end;pointer-events:auto;transform:translateX(-50%) rotate(var(--tilt,0deg));transform-origin:50% 85%;transition:transform .28s ease,filter .28s ease;filter:drop-shadow(0 5px 10px #0006);height:40vh;width:auto}
+.bts-member{position:absolute;display:flex;align-items:end;pointer-events:auto;appearance:none;border:0;padding:0;background:transparent;color:inherit;font:inherit;cursor:default;transform:translateX(-50%) rotate(var(--tilt,0deg));transform-origin:50% 85%;transition:transform .28s ease,filter .28s ease;filter:drop-shadow(0 5px 10px #0006);height:40vh;width:auto}
+.bts-members-ready .bts-member{cursor:pointer}
 .bts-member img{display:block;width:auto;height:100%;max-width:none;object-fit:contain;object-position:center bottom}
-.bts-member-left-top img,.bts-member-right-top img,.bts-member-left-mid img,.bts-member-right-mid img{-webkit-mask-image:linear-gradient(to bottom,#000 64%,transparent 100%);mask-image:linear-gradient(to bottom,#000 64%,transparent 100%)}
 .bts-member:hover,.bts-member:focus-visible{z-index:4;transform:translateX(-50%) rotate(var(--tilt,0deg)) scale(1.08);filter:drop-shadow(0 0 10px #ffe5b8) drop-shadow(0 0 20px #fff1d866);outline:0}
 .bts-member-left-top{left:0%;top:2%;--tilt:65deg}
 .bts-member-right-top{left:100%;top:1%;--tilt:-65deg}
@@ -448,9 +448,199 @@
 .ghibli-calendar-stage.is-dragging{cursor:grabbing}
 .ghibli-calendar-bevel{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateY(var(--calendar-turn,0deg)) rotateX(3deg);transition:transform .36s cubic-bezier(.2,.8,.25,1);filter:drop-shadow(0 15px 17px #0007)}
 .ghibli-calendar-stage.is-dragging .ghibli-calendar-bevel{transition:none}
-.ghibli-calendar-bevel:before{position:absolute;inset:0;content:"";transform:translate3d(4px,1px,-10px);background:url('./assets/gift19-ghibli-desk-calendar.png') center/100% 100% no-repeat;filter:brightness(.48)}
+.ghibli-calendar-bevel:before{position:absolute;inset:0;content:"";transform:translate3d(4px,1px,-10px);background:url('./assets/gift22-ghibli-desk-calendar.png') center/100% 100% no-repeat;filter:brightness(.48)}
 .ghibli-calendar{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
 .ghibli-set-stage{flex:0 1 min(36.75vw,46.5vh,397.5px);width:min(36.75vw,46.5vh,397.5px);aspect-ratio:1;display:grid;place-items:center}
 .ghibli-set{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 13px 15px #0006);transition:transform .22s ease;transform-origin:center}
 .ghibli-set:hover{transform:scale(1.055)}
 @media(max-width:650px){.ghibli-gift{gap:26px;padding:88px 12px 92px}.ghibli-content{gap:26px}.ghibli-gallery{flex-direction:column;gap:14px}.ghibli-calendar-stage{flex:none;width:min(92vw,60vh,460px)}.ghibli-set-stage{flex:none;width:min(58.5vw,28.5vh,270px)}.ghibli-ponyo{top:18%;left:0}.ghibli-haru{width:clamp(248px,71.4vw,336px);height:clamp(103px,35.7vw,172px);left:-5%;bottom:1%}.ghibli-spiritedaway{left:0;bottom:18%;width:clamp(108px,33vw,156px);height:clamp(108px,33vw,156px)}.ghibli-soot{left:43%;bottom:1%}.ghibli-totoro{right:15%;bottom:1%;width:clamp(270px,77vw,326px);height:clamp(137px,41vw,166px)}.ghibli-noface{left:38%;bottom:16%;width:clamp(179px,53.5vw,235px);height:clamp(179px,53.5vw,235px)}.ghibli-howls{right:0;bottom:15%;width:clamp(141px,40.5vw,177px);height:clamp(141px,40.5vw,177px)}}
+
+/* Gift 19: rotatable hardback */
+.sloth-book-gift{position:absolute;z-index:3;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:clamp(21px,4.2vh,44px);padding:clamp(90px,12vh,130px) 22px 38px;overflow:auto;overscroll-behavior:contain;color:#fff;text-align:center;background:transparent}
+.sloth-book-gift[hidden]{display:none!important}
+.sloth-book-note{max-width:850px;margin:0;font:clamp(17px,2.25vw,28.5px)/1.28 'Patrick Hand','Comic Sans MS',cursive;text-shadow:0 2px 12px #0009}
+.sloth-book-greeting{position:fixed;z-index:10;top:8px;left:50%;width:clamp(112.5px,13.75vw,187.5px);height:auto;pointer-events:none;filter:drop-shadow(0 5px 8px #0006)}
+.sloth-book-greeting[hidden]{display:none!important}
+.sloth-book-greeting.is-sliding{animation:sloth-greeting-flight 2.6s cubic-bezier(.2,.8,.25,1) both}
+@keyframes sloth-greeting-flight{0%{opacity:0;transform:translate(-50%,-125vh) rotate(-18deg) scale(.72)}24%{opacity:1;transform:translate(-50%,0) rotate(5deg) scale(1)}34%,65%{opacity:1;transform:translate(-50%,0) rotate(-4deg) scale(1)}76%{opacity:1;transform:translate(-50%,0) rotate(5deg) scale(1)}100%{opacity:0;transform:translate(-50%,-125vh) rotate(18deg) scale(.72)}}
+.sloth-book-stage{--book-w:min(35.25vw,345px,39vh);--book-h:calc(var(--book-w)*1.405);--book-d:24px;position:relative;flex:none;width:min(80vw,650px);height:min(70vh,650px);display:grid;place-items:center;perspective:1250px;touch-action:none;cursor:grab}
+.sloth-book-stage.is-dragging{cursor:grabbing}
+.sloth-book-model{position:relative;width:var(--book-w);height:var(--book-h);transform-style:preserve-3d;transform:rotateX(2deg) rotateY(-18deg);transition:transform .25s ease}
+.sloth-book-stage.is-dragging .sloth-book-model{transition:none}
+.sloth-book-face{position:absolute;inset:0;overflow:hidden;background:#f7dce9;border:1px solid #d8a9bd;backface-visibility:hidden}
+.sloth-book-face>img{display:block;width:100%;height:100%;object-fit:fill;backface-visibility:hidden;user-select:none;-webkit-user-drag:none}
+.sloth-book-sloth-trigger{position:absolute;left:20%;top:49%;width:61%;height:29%;padding:0;border:0;background:transparent;cursor:pointer;pointer-events:auto}
+.sloth-book-sloth-trigger:hover{background:radial-gradient(ellipse,#fff2,transparent 75%)}
+.sloth-book-sloth-trigger:focus-visible{outline:2px solid #b56b80;outline-offset:-3px;border-radius:35%}
+.sloth-book-front{transform:translateZ(calc(var(--book-d)/2));box-shadow:0 24px 24px #0008}
+.sloth-book-back{transform:rotateY(180deg) translateZ(calc(var(--book-d)/2))}
+.sloth-book-pages{position:absolute;inset:3px 0 3px 5px;transform:translateZ(-3px);background:repeating-linear-gradient(180deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px);box-shadow:inset -5px 0 6px #a59f9455,0 0 0 1px #c78298}
+.sloth-book-edge{position:absolute;background:linear-gradient(90deg,#d991a8,#f4cbd7 30%,#eab1c2 70%,#cb839b);backface-visibility:hidden}
+.sloth-book-spine,.sloth-book-foreedge{top:0;width:var(--book-d);height:var(--book-h)}
+.sloth-book-spine{left:0;transform:rotateY(-90deg) translateZ(calc(var(--book-d)/2));transform-origin:left center;background:linear-gradient(90deg,#d493aa,#f1c6d4 18%,#f7dce9 50%,#c17f99)}
+.sloth-book-foreedge{right:0;transform:rotateY(90deg) translateZ(calc(var(--book-d)/2));transform-origin:right center;background:repeating-linear-gradient(180deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px),linear-gradient(90deg,#c5c1bc,#fffefa 24%,#f5f2eb 58%,#d2cec5);background-blend-mode:multiply;box-shadow:inset 2px 0 3px #a59f9455}
+.sloth-book-top,.sloth-book-bottom{left:0;width:var(--book-w);height:var(--book-d)}
+.sloth-book-top{top:0;transform:rotateX(90deg) translateZ(calc(var(--book-d)/2));transform-origin:top center;background:repeating-linear-gradient(90deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px)}
+.sloth-book-bottom{bottom:0;transform:rotateX(-90deg) translateZ(calc(var(--book-d)/2));transform-origin:bottom center;background:repeating-linear-gradient(90deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px)}
+@media(max-width:650px){.sloth-book-gift{padding:82px 16px 76px;gap:23px}.sloth-book-note{font-size:clamp(15.75px,4.5vw,21.75px)}.sloth-book-stage{--book-w:min(43.5vw,225px,28.5vh);--book-h:calc(var(--book-w)*1.405);height:52vh;width:95vw}}
+
+/* Gift 21: the opened Christmas music box and its hand-turned crank. */
+.musicbox-gift{position:fixed;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:clamp(4px,1.2vh,14px);padding:clamp(88px,12vh,126px) 20px 22px;overflow:auto;overscroll-behavior:contain;background:transparent;color:#fff;text-align:center}
+.musicbox-gift[hidden]{display:none!important}
+.musicbox-note{max-width:min(900px,92vw);margin:0;font:clamp(20px,2.5vw,32px)/1.3 'Patrick Hand','Comic Sans MS',cursive;text-shadow:0 2px 12px #000b}
+.musicbox-stage{position:relative;flex:none;width:min(74vw,390px);height:min(70vh,694px);aspect-ratio:473/841;display:grid;place-items:center;filter:drop-shadow(0 14px 20px #0008)}
+.musicbox-image-button,.musicbox-open{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent}
+.musicbox-image-button{cursor:pointer}
+.musicbox-image-button img,.musicbox-open-image{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.musicbox-open[hidden],.musicbox-image-button[hidden]{display:none!important}
+.musicbox-open.is-opening{animation:musicbox-open-arrive .48s cubic-bezier(.2,.8,.2,1) both}
+@keyframes musicbox-open-arrive{from{opacity:.25;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.musicbox-crank{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.musicbox-crank-metal{fill:none;stroke:#61462e;stroke-width:13;stroke-linecap:round;stroke-linejoin:round}
+.musicbox-crank-highlight{fill:none;stroke:url(#musicbox-steel);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.musicbox-crank-grip{fill:url(#musicbox-brass);stroke:#76512e;stroke-width:1.4}
+.musicbox-grip-highlight{fill:none;stroke:#fff0c3;stroke-width:2;stroke-linecap:round;opacity:.78}
+.musicbox-crank-hub{fill:url(#musicbox-brass);stroke:#684728;stroke-width:2}
+.musicbox-crank-hub-core{fill:#694827;stroke:#f2d99a;stroke-width:1.5}
+.musicbox-crank-grab{position:absolute;left:91%;top:54%;width:34px;height:34px;transform:translate(-50%,-50%);border:0;border-radius:50%;padding:0;background:transparent;cursor:grab;touch-action:none;user-select:none}
+.musicbox-crank-grab:hover{background:transparent}
+.musicbox-crank-grab:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.musicbox-crank-grab.is-grabbing{cursor:grabbing}
+@media(max-width:650px){.musicbox-gift{padding:78px 12px 76px;gap:12px}.musicbox-note{font-size:clamp(18px,5vw,25px)}.musicbox-stage{width:min(88vw,360px);height:min(68vh,590px)}}
+
+/* Gift 20: Goodreads-style book entry and Android incoming call contained by the supplied S23 frame. */
+.goodreads-gift{position:fixed;inset:0;z-index:2;display:grid;place-items:center;overflow:hidden;pointer-events:none}
+.goodreads-gift[hidden],.goodreads-screen[hidden],.android-call[hidden]{display:none!important}
+.s23-device{position:relative;width:min(88vw,43.5dvh,367px);aspect-ratio:331/685;pointer-events:auto;filter:drop-shadow(0 18px 34px #0009)}
+.s23-screen{position:absolute;inset:2.5% 4.2% 2.2%;z-index:1;overflow:hidden;border-radius:8.5% / 4.3%;background:#f7f6f2;isolation:isolate}
+.s23-frame{position:absolute;z-index:4;inset:0;display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.goodreads-screen{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:32px 15px 18px;background:#f7f6f2;color:#382f2c;font-family:Roboto,'Segoe UI',Arial,sans-serif;scrollbar-width:none}
+.goodreads-screen::-webkit-scrollbar{display:none}
+.goodreads-status,.call-status{position:absolute;z-index:2;top:7px;left:15px;right:15px;display:flex;justify-content:space-between;color:#f6f5f5;font:500 11px/1 Roboto,'Segoe UI',Arial,sans-serif;text-shadow:0 1px 3px #0008}
+.goodreads-status{color:#403936;text-shadow:none}
+.goodreads-book{display:flex;flex-direction:column;gap:11px}
+.goodreads-book-head{display:grid;grid-template-columns:minmax(75px,36%) 1fr;gap:12px;align-items:start}
+.goodreads-cover{display:block;width:100%;height:auto;aspect-ratio:336/500;object-fit:cover;box-shadow:0 3px 9px #241b1938}
+.goodreads-book-meta{min-width:0;padding-top:2px}
+.goodreads-book-meta h1{margin:0 0 4px;color:#382b26;font:700 clamp(18px,5vw,23px)/1.06 Roboto,'Segoe UI',Arial,sans-serif;letter-spacing:-.35px}
+.goodreads-series{margin:0 0 9px;color:#5d5550;font:500 12px/1.25 Roboto,'Segoe UI',Arial,sans-serif}
+.goodreads-author{margin:0 0 8px;color:#514947;font:400 12px/1.3 Roboto,'Segoe UI',Arial,sans-serif}
+.goodreads-author strong{color:#2c2524;font-weight:700}
+.goodreads-published{margin:0;color:#77706c;font:400 10px/1.35 Roboto,'Segoe UI',Arial,sans-serif}
+.goodreads-rating{position:relative;width:min(198px,100%);height:30px;margin:-1px auto 0}
+.goodreads-stars{position:absolute;inset:0 auto 0 50%;width:128px;transform:translateX(-50%);overflow:hidden;white-space:nowrap;color:#b9b4af;font:29px/30px Arial,sans-serif;letter-spacing:1px;text-align:center}
+.goodreads-stars-base{display:block}
+.goodreads-stars-fill{position:absolute;inset:0;width:100%;overflow:hidden;color:#e6a52b;white-space:nowrap;clip-path:inset(0 100% 0 0)}
+.goodreads-rating-hits{position:absolute;left:50%;top:0;bottom:0;width:128px;transform:translateX(-50%);display:grid;grid-template-columns:repeat(10,1fr)}
+.goodreads-rating-hit{min-width:0;height:100%;padding:0;border:0;background:transparent;cursor:pointer}
+.goodreads-rating-hit:focus-visible{outline:2px solid #6f4a22;outline-offset:-2px}
+.goodreads-genres{margin:-4px 0 0;color:#4d403c;text-align:center;font:400 11px/1.35 Roboto,'Segoe UI',Arial,sans-serif}
+.goodreads-genres strong{color:#5a7891;font-weight:600}
+.goodreads-synopsis{margin:0;color:#393532;font:400 clamp(12px,3.4vw,14px)/1.42 Roboto,'Segoe UI',Arial,sans-serif;text-align:left}
+.android-call{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse 90% 43% at 51% 83%,#a077b8 0%,transparent 100%),radial-gradient(ellipse 100% 43% at 16% 78%,#39a9b5 0%,transparent 100%),linear-gradient(165deg,#0d1520 0%,#121d2b 41%,#263343 64%,#18202d 100%);color:#fff;font-family:Roboto,'Segoe UI',Arial,sans-serif}
+.android-call.is-connected{background:radial-gradient(ellipse 90% 43% at 51% 83%,#79578e 0%,transparent 100%),radial-gradient(ellipse 100% 43% at 16% 78%,#2f8992 0%,transparent 100%),linear-gradient(165deg,#0d1520 0%,#121d2b 41%,#263343 64%,#18202d 100%)}
+.call-status{top:25px;left:19px;right:19px;font-size:12px}
+.call-kicker{position:absolute;top:9%;left:0;right:0;margin:0;text-align:center;font:400 13px/1.2 Roboto,'Segoe UI',Arial,sans-serif}
+.call-contact{position:absolute;top:18%;left:8%;right:8%;display:flex;flex-direction:column;align-items:center;text-align:center}
+.call-contact h2{margin:0;color:#fff;font:500 clamp(21px,6vw,26px)/1.18 Roboto,'Segoe UI',Arial,sans-serif;letter-spacing:.1px}
+.call-contact p{margin:4px 0 17px;color:#e1e4e9;font:400 14px/1.2 Roboto,'Segoe UI',Arial,sans-serif}
+.call-contact img{display:block;width:clamp(78px,25vw,104px);height:clamp(78px,25vw,104px);border:2px solid #ffffffd9;border-radius:50%;object-fit:cover;object-position:center 35%;box-shadow:0 3px 15px #0005}
+.call-actions{position:absolute;left:0;right:0;bottom:17%;display:flex;align-items:center;justify-content:space-evenly}
+.call-actions[hidden],.call-end[hidden]{display:none!important}
+.call-actions button,.call-end{display:grid;place-items:center;width:62px;height:62px;padding:0;border:1px solid #ffffffd9;border-radius:50%;background:#f8f8fa;color:#099e64;box-shadow:0 4px 12px #0003;cursor:pointer;transition:transform .16s,box-shadow .16s}
+.call-actions button:hover,.call-end:hover{transform:scale(1.07);box-shadow:0 5px 16px #0005}
+.call-actions svg,.call-end svg{width:25px;height:25px;fill:currentColor}
+.call-actions .call-decline,.call-end{color:#e53535}
+.call-actions .call-answer svg{transform:rotate(-5deg)}
+.call-actions .call-decline svg,.call-end svg{transform:rotate(135deg)}
+.call-end{position:absolute;left:50%;bottom:17%;transform:translateX(-50%)}
+.call-end:hover{transform:translateX(-50%) scale(1.07)}
+@media(max-height:700px){.goodreads-screen{padding:27px 12px 12px}.goodreads-book{gap:8px}.goodreads-book-head{grid-template-columns:minmax(70px,32%) 1fr;gap:10px}.goodreads-book-meta h1{font-size:19px}.goodreads-series{margin-bottom:6px}.goodreads-author{margin-bottom:5px}.goodreads-synopsis{font-size:12px;line-height:1.34}.goodreads-rating{height:27px}.goodreads-stars{font-size:26px;line-height:27px}}
+
+/* Gift 20 refined Goodreads reader view and clean Android-style status chrome. */
+.goodreads-screen{padding:0;background:#fff;color:#252321}
+.goodreads-status,.call-status{top:7px;left:18px;right:18px;align-items:center;height:17px;color:#fff;text-shadow:0 1px 3px #0009}
+.status-time{font:600 11px/1 Roboto,'Segoe UI',Arial,sans-serif;letter-spacing:.05px}
+.status-icons{display:flex;align-items:center;gap:4px;height:16px;color:inherit}
+.status-wifi,.status-signal{display:block;width:15px;height:13px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.status-signal{width:13px}
+.status-battery{position:relative;display:flex;align-items:center;justify-content:center;gap:1px;width:34px;height:15px;padding-right:3px;border:1.4px solid currentColor;border-radius:4px;font:600 9px/1 Roboto,'Segoe UI',Arial,sans-serif;box-sizing:border-box}
+.status-battery i{position:absolute;right:-3.5px;width:2px;height:6px;border-radius:0 2px 2px 0;background:currentColor}
+.battery-percent{font-size:7px}
+.goodreads-book{height:100%;min-height:100%;gap:0;background:#fff}
+.goodreads-hero{position:relative;display:flex;flex:0 0 51%;min-height:0;align-items:flex-end;justify-content:center;overflow:hidden;padding:0 18px 29px;background:#39302e}
+.goodreads-hero:before{position:absolute;inset:-14px;content:"";background:linear-gradient(#2d1f1daa,#6a5551aa),url('./assets/gift20-dance-of-shadows-cover.png') center 43%/cover;filter:blur(15px) brightness(.72);transform:scale(1.08)}
+.goodreads-hero:after{position:absolute;inset:0;content:"";background:linear-gradient(180deg,#1d131433,#261d1d20 72%,#1d171729);pointer-events:none}
+.book-back{position:absolute;z-index:1;top:49px;left:12px;display:grid;width:36px;height:36px;place-items:center;padding:0;border:1px solid #ffffff36;border-radius:50%;background:#ffffffd9;color:#262321}
+.book-share{position:absolute;z-index:1;top:49px;right:12px;display:grid;width:36px;height:36px;place-items:center;padding:0;border:1px solid #ffffff36;border-radius:50%;background:#ffffffd9;color:#262321}
+.book-back svg,.book-share svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.goodreads-cover{position:relative;z-index:1;width:auto;height:auto;max-width:72%;max-height:calc(100% - 2px);aspect-ratio:336/500;object-fit:contain;box-shadow:0 5px 18px #0006}
+.cover-pages{position:absolute;z-index:2;bottom:10px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:7px}
+.cover-pages i{width:7px;height:7px;border-radius:50%;background:#ffffff76}
+.cover-pages i.is-current{background:#fff}
+.goodreads-details{display:flex;min-height:0;flex:1;flex-direction:column;align-items:center;justify-content:flex-start;padding:12px 12px 7px;background:#fff;text-align:center}
+.goodreads-details h1{margin:0;color:#171615;font:500 clamp(22px,6.1vw,27px)/1.16 Georgia,'Times New Roman',serif;letter-spacing:-.45px}
+.goodreads-series{margin:5px 0 3px;color:#76706d;font:400 clamp(14px,4.2vw,17px)/1.2 Georgia,'Times New Roman',serif}
+.goodreads-author{margin:3px 0 8px;color:#5d5a58;font:400 14px/1.25 Roboto,'Segoe UI',Arial,sans-serif}
+.goodreads-rating-summary{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% + 24px);min-height:28px;margin:0 -12px 8px;border-bottom:1px solid #d3d0ce;color:#777;font:400 10px/1.2 Roboto,'Segoe UI',Arial,sans-serif;white-space:nowrap}
+.goodreads-rating-summary>span:first-child{color:#e66c5c;font:700 17px/1 Arial,sans-serif;letter-spacing:-1.2px}
+.goodreads-rating-summary>span:first-child i{color:#d8d7d5;font-style:normal}
+.goodreads-read{display:flex;flex:none;align-items:center;justify-content:center;gap:10px;width:88%;height:39px;margin:0 0 7px;border:1.5px solid #777;border-radius:24px;color:#292725;font:500 16px/1 Roboto,'Segoe UI',Arial,sans-serif}
+.goodreads-read svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.goodreads-rating{flex:none;width:100%;height:37px;margin:0}
+.goodreads-stars{width:166px;height:34px;color:#5b5b5b;font:38px/34px Arial,sans-serif;letter-spacing:2px}
+.goodreads-stars-fill{color:#e66c5c;clip-path:inset(0 100% 0 0)}
+.goodreads-rating-hits{width:166px;height:35px}
+.rate-label{margin:1px 0 0;color:#777;font:400 12px/1.2 Roboto,'Segoe UI',Arial,sans-serif}
+.call-status{top:9px}
+.call-actions{left:17%;right:17%;bottom:16%;justify-content:space-between}
+.call-actions button,.call-end{box-sizing:border-box;width:64px;height:64px;flex:0 0 64px}
+.call-actions svg,.call-end svg{width:27px;height:27px}
+.call-end{margin-left:-32px}
+.s23-screen{inset:2.77% 5.14%;border-radius:8.75% / 4.25%}
+.status-icons{gap:4px}
+.status-wifi{width:17px;height:15px;stroke-width:1.8}
+.status-signal{width:14px;height:13px}
+.status-percent{font:500 10px/1 Roboto,'Segoe UI',Arial,sans-serif;letter-spacing:-.1px}
+.status-battery-icon{display:block;width:17px;height:12px}
+.goodreads-read{margin-bottom:17px}
+.call-actions .call-decline{border-color:#aeb2b6;background:#fff;color:#ed3138;box-shadow:0 3px 9px #0003}
+.call-actions .call-decline svg{transform:none}
+.call-video-stage,.call-post-actions,.call-conversation{position:absolute;inset:0;overflow:hidden}
+.call-video-stage[hidden],.call-post-actions[hidden],.call-conversation[hidden]{display:none!important}
+.call-video-stage{inset:24px 8px 24px;display:flex;align-items:center;justify-content:center;background:#030507;border-radius:19px}
+.call-video{display:block;width:100%;height:100%;object-fit:contain;background:#030507}
+.call-video-controls{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:6px;padding:22px 9px 11px;background:linear-gradient(transparent,#000b);color:#fff;font:10px/1 Roboto,'Segoe UI',Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .16s ease}
+.call-video-stage:hover .call-video-controls,.call-video-stage:focus-within .call-video-controls{opacity:1;pointer-events:auto}
+.video-play{display:grid;flex:0 0 24px;width:24px;height:24px;place-items:center;padding:0;border:0;background:transparent;color:#fff;cursor:pointer}
+.video-play svg{width:17px;height:17px;fill:currentColor}
+.video-seek{min-width:0;flex:1;height:3px;accent-color:#fff;cursor:pointer}
+.video-current,.video-duration{flex:none;font:9px/1 Roboto,'Segoe UI',Arial,sans-serif;font-variant-numeric:tabular-nums}
+.call-post-actions{display:flex;align-items:center;justify-content:center;gap:28px;background:radial-gradient(ellipse at 55% 82%,#9266a2 0%,transparent 65%),linear-gradient(165deg,#111a27,#293344 65%,#1b2430);color:#fff}
+.call-post-actions button{display:flex;min-width:95px;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px;border:0;background:transparent;color:#fff;font:500 13px/1 Roboto,'Segoe UI',Arial,sans-serif;cursor:pointer}
+.call-post-actions svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.call-post-actions .call-see-chat svg{width:27px;height:27px;stroke:currentColor;stroke-width:2.1}
+.call-post-actions .call-see-chat circle{fill:currentColor;stroke:none}
+.call-conversation{background:#fff;color:#111;font-family:Roboto,'Segoe UI',Arial,sans-serif}
+.android-call.is-conversation .call-status{color:#292b30;text-shadow:none}
+.conversation-header{position:absolute;z-index:2;top:27px;left:0;right:0;display:flex;height:55px;align-items:center;gap:6px;padding:0 7px;background:#ffffffed;box-shadow:0 2px 8px #1b1f2a14}
+.conversation-back{display:grid;flex:0 0 34px;width:34px;height:34px;place-items:center;padding:0;border:1px solid #d9dadd;border-radius:50%;background:#fff;color:#16191d}
+.conversation-back svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.conversation-header>img{display:block;flex:0 0 36px;width:36px;height:36px;border:2px solid #e58b59;border-radius:50%;object-fit:cover;object-position:center 35%}
+.conversation-person{display:flex;min-width:0;flex:1;flex-direction:column;gap:2px;overflow:hidden;white-space:nowrap}
+.conversation-person strong{overflow:hidden;color:#111;font:700 11px/1.1 Roboto,'Segoe UI',Arial,sans-serif;text-overflow:ellipsis}
+.conversation-person strong i{display:inline-grid;width:12px;height:12px;place-items:center;border-radius:50%;background:#22a8e2;color:#fff;font:700 9px/1 Arial,sans-serif;font-style:normal;vertical-align:1px}
+.conversation-person span{overflow:hidden;color:#26272b;font:400 9px/1.1 Roboto,'Segoe UI',Arial,sans-serif;text-overflow:ellipsis}
+.conversation-phone,.conversation-video{display:grid;flex:0 0 31px;width:31px;height:31px;place-items:center;border:1px solid #e0e1e3;border-radius:50%;color:#111}
+.conversation-phone svg,.conversation-video svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.conversation-scroll{position:absolute;inset:82px 0 49px;overflow:auto;overscroll-behavior:contain;background:#fff;scrollbar-width:none;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.conversation-scroll::-webkit-scrollbar{display:none}
+.conversation-scroll.is-dragging{cursor:grabbing;touch-action:none}
+.conversation-scroll img{display:block;width:100%;height:auto;margin:0;padding:0;border:0;pointer-events:none;-webkit-user-drag:none}
+.conversation-composer{position:absolute;z-index:2;right:7px;bottom:5px;left:7px;display:flex;height:37px;align-items:center;gap:7px;padding:0 7px;border-radius:22px;background:linear-gradient(100deg,#f1f1f4,#e1d8ff);color:#191b20}
+.conversation-composer>svg{display:block;flex:0 0 16px;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.composer-camera{display:grid;flex:0 0 28px;width:28px;height:28px;place-items:center;border-radius:50%;background:#5649ed;color:#fff}
+.composer-camera svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.composer-placeholder{min-width:0;flex:1;color:#8a8c94;font:400 12px/1 Roboto,'Segoe UI',Arial,sans-serif}
+@media(max-height:700px){.goodreads-read{margin-bottom:12px}}
+@media(max-height:700px){.goodreads-hero{flex-basis:49%;padding-bottom:25px}.goodreads-details{padding-top:8px}.goodreads-details h1{font-size:22px}.goodreads-series{margin-top:3px}.goodreads-author{margin:1px 0 5px}.goodreads-rating-summary{min-height:25px;margin-bottom:5px}.goodreads-read{height:34px;margin-bottom:4px}.goodreads-rating{height:33px}.goodreads-stars{height:31px;font-size:34px;line-height:31px}.goodreads-rating-hits{height:31px}.rate-label{font-size:11px}}

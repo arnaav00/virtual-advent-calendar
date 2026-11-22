@@ -1,7 +1,7 @@
 import { playlistCard } from './playlist-gift.js';
 
 export function ghibliCard() {
-  const day = 19;
+  const day = 22;
   const theme = new Audio('./assets/totoro_theme.mp3');
   theme.loop = true;
   theme.preload = 'auto';
@@ -37,10 +37,10 @@ export function ghibliCard() {
     <div class="ghibli-gallery">
       <div class="ghibli-calendar-stage" aria-label="Drag left or right to turn the wooden-base calendar">
         <div class="ghibli-calendar-bevel">
-          <img class="ghibli-calendar" src="./assets/gift19-ghibli-desk-calendar.png" alt="A wooden-base Ghibli January desk calendar">
+          <img class="ghibli-calendar" src="./assets/gift22-ghibli-desk-calendar.png" alt="A wooden-base Ghibli January desk calendar">
         </div>
       </div>
-      <div class="ghibli-set-stage"><img class="ghibli-set" src="./assets/gift19-ghibli-calendar-set.png" alt="A collection of illustrated Ghibli desk calendars"></div>
+      <div class="ghibli-set-stage"><img class="ghibli-set" src="./assets/gift22-ghibli-calendar-set.png" alt="A collection of illustrated Ghibli desk calendars"></div>
     </div>
     </div>`;
 
