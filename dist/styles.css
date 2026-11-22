@@ -2,11 +2,36 @@
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;overflow:hidden}
 body{background:#b6dce9}
-main{width:100%;height:100%;height:100dvh;position:relative;overflow:hidden;background:linear-gradient(180deg,#97cde4 0%,#c5e5ed 55%,#edf2e8 100%)}
+main{width:100%;height:100%;height:100dvh;position:relative;overflow:hidden;background:linear-gradient(180deg,#97cde4 0%,#c5e5ed 55%,#edf2e8 100%);transition:background 1s ease}
+body.night-mode main{background:linear-gradient(180deg,#0b1834 0%,#1d3150 55%,#202e3c 100%)}
 main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23566a5d' filter='url(%23n)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
 .scene{position:absolute;width:min(100vw,160vh);width:min(100vw,160dvh);aspect-ratio:8/5;left:50%;top:50%;transform:translate(-50%,-50%);isolation:isolate}
-.landscape,.doors{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none}
-.landscape{overflow:visible}
+.landscape,.doors,.night-sky{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none}
+.landscape{overflow:visible;transition:filter 1s ease}
+body.night-mode .landscape{filter:brightness(.52)}
+.night-sky{z-index:1;overflow:visible;opacity:0;pointer-events:none;transition:opacity .8s ease}
+body.night-mode .night-sky{opacity:1}
+.doors{z-index:2}
+.night-star{fill:#f9efbd;stroke:#f9efbd;stroke-width:.7;opacity:.75;transform-box:fill-box;transform-origin:center;animation:night-twinkle 2.6s ease-in-out var(--twinkle) infinite alternate}
+.winter-moon{pointer-events:auto;cursor:pointer;transform-box:view-box;transform-origin:1116px 168px}
+.moon-halo{fill:#e5e9ff;opacity:.12;filter:blur(8px)}
+.moon-crescent{fill:#fff3c7;stroke:#fff9e2;stroke-width:1.5;filter:drop-shadow(0 0 9px #fff0b277)}
+.winter-sun,.winter-moon{cursor:pointer;transform-box:view-box;transform-origin:1116px 168px;transition:filter .25s ease}
+.winter-moon{visibility:hidden}
+body.night-mode .landscape .winter-moon,body.night-switching-to-day .landscape .winter-moon{visibility:visible}
+body.night-mode .landscape .winter-moon{filter:brightness(1.9)}
+.winter-sun:hover,.winter-moon:hover{filter:brightness(1.1)}
+.celestial-toggle:focus{outline:0!important}
+.celestial-toggle:focus-visible{outline:0!important;filter:drop-shadow(0 0 7px #fff3c7)}
+.attic-window-glows{mix-blend-mode:screen}
+body.night-mode .winter-sun{visibility:hidden;pointer-events:none}
+body.night-switching-to-night .winter-sun{visibility:visible;animation:celestial-out .72s cubic-bezier(.45,0,.8,.3) both}
+body.night-switching-to-night .winter-moon{animation:celestial-in .72s cubic-bezier(.16,1,.3,1) both}
+body.night-switching-to-day .winter-moon{animation:celestial-out .72s cubic-bezier(.45,0,.8,.3) both}
+body.night-switching-to-day .winter-sun{visibility:visible;animation:celestial-in .72s cubic-bezier(.16,1,.3,1) both}
+@keyframes night-twinkle{from{opacity:.35;scale:.72}to{opacity:1;scale:1.18}}
+@keyframes celestial-out{to{translate:0 -115vh;opacity:0}}
+@keyframes celestial-in{from{translate:0 -115vh;opacity:0}to{translate:0 0;opacity:1}}
 .doors{pointer-events:none}
 .door{position:absolute;pointer-events:auto;appearance:none;padding:0;border:2px solid var(--ink);border-radius:var(--radius,45% 45% 2px 2px);background:radial-gradient(ellipse at 50% 65%,#fff4bc 0%,#f4c576 45%,#bd7839 100%);cursor:pointer;perspective:650px;box-shadow:0 3px 0 #354d4920,inset 0 0 14px #f5cb79;-webkit-tap-highlight-color:transparent;outline:none}
 .door::before{content:"";position:absolute;inset:-6px;border:1.5px solid var(--ink);border-radius:inherit;pointer-events:none;opacity:.8}
@@ -58,6 +83,16 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 @keyframes nose-glow{0%,100%{opacity:.25}50%{opacity:.65}}
 .bulb-glass{opacity:.45;animation:bulb-pulse 2s steps(1,end) var(--phase) infinite}
 .light-halo{opacity:0;animation:halo-pulse 2s steps(1,end) var(--phase) infinite}
+body.night-mode .rudolph-glow{opacity:1;animation:night-nose-glow .8s ease-in-out infinite alternate;filter:brightness(2.1) drop-shadow(0 0 7px #ff2433)}
+body.night-mode .appa-nose{fill:#fa1428;stroke:#ffc1b4;filter:brightness(3.4) drop-shadow(0 0 8px #ff172c)}
+body.night-mode .landscape .festive-light{visibility:hidden}
+body.night-mode .festive-light{filter:none}
+body.night-mode .festive-light .bulb-glass{animation-name:night-bulb-pulse;filter:brightness(1.6) saturate(1.8) drop-shadow(0 0 8px currentColor)}
+body.night-mode .festive-light .light-halo{filter:brightness(1.8) blur(4px);animation-name:night-halo-pulse}
+body.night-mode .door{filter:brightness(.94)}
+@keyframes night-nose-glow{from{opacity:.78}to{opacity:1}}
+@keyframes night-bulb-pulse{0%{opacity:1}25%,100%{opacity:.32}}
+@keyframes night-halo-pulse{0%{opacity:.9}25%,100%{opacity:.1}}
 .skater-travel{transform-box:view-box}
 .santa-flight{transform-box:view-box}
 .santa-float{animation:sleigh-bob 3.4s ease-in-out infinite}
@@ -74,4 +109,4 @@ main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
 @keyframes appa-stride{0%,100%{transform:rotate(-24deg)}50%{transform:rotate(27deg)}}
 @keyframes appa-knee{0%,100%{transform:rotate(8deg)}35%{transform:rotate(35deg)}75%{transform:rotate(-12deg)}}
 @media(min-aspect-ratio:8/5){.number{font-size:3.33vh}}
-@media(prefers-reduced-motion:reduce){.panel{transition:none}.ambient,.ambient *{animation:none!important}.santa-flight{display:none}.light-halo{opacity:.2}}
+@media(prefers-reduced-motion:reduce){.panel,.landscape,.night-sky,main{transition:none}.ambient,.ambient *,.night-star,.night-mode .rudolph-glow,.night-mode .festive-light .bulb-glass,.night-mode .festive-light .light-halo,.night-switching-to-night .winter-sun,.night-switching-to-night .winter-moon,.night-switching-to-day .winter-moon,.night-switching-to-day .winter-sun{animation:none!important}.santa-flight{display:none}.light-halo{opacity:.2}body.night-mode .festive-light .bulb-glass{opacity:1}body.night-mode .festive-light .light-halo{opacity:.65}}

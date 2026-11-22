@@ -7,7 +7,7 @@ export function goodreadsCard() {
     <div class="s23-device">
       <div class="s23-screen">
         <section class="goodreads-screen">
-          <div class="goodreads-status"><span class="status-time">1:18</span><span class="status-icons" aria-label="Wi-Fi, mobile signal, battery 77 percent"><svg class="status-wifi" viewBox="0 0 20 16" aria-hidden="true"><path d="M1 5.5a13.5 13.5 0 0 1 18 0M4 8.5a9 9 0 0 1 12 0M7.2 11.5a4.2 4.2 0 0 1 5.6 0M9.2 14a1.1 1.1 0 1 1 1.6 0"/></svg><svg class="status-signal" viewBox="0 0 16 14" aria-hidden="true"><path d="M1 13h2V9H1zM5 13h2V6H5zM9 13h2V3H9zM13 13h2V0h-2z" fill="currentColor" stroke="none"/></svg><span class="status-percent">77%</span><svg class="status-battery-icon" viewBox="0 0 19 13" aria-hidden="true"><path d="M2 1h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Z" fill="currentColor"/><path d="M17 4h1.5v5H17z" fill="currentColor"/><path d="M3 3h9.5v7H3z" fill="#253037" opacity=".38"/></svg></span></div>
+          <div class="goodreads-status"><span class="status-time">--:--</span><span class="status-icons" aria-label="Wi-Fi, mobile signal, battery 77 percent"><svg class="status-wifi" viewBox="0 0 20 16" aria-hidden="true"><path d="M1 5.5a13.5 13.5 0 0 1 18 0M4 8.5a9 9 0 0 1 12 0M7.2 11.5a4.2 4.2 0 0 1 5.6 0M9.2 14a1.1 1.1 0 1 1 1.6 0"/></svg><svg class="status-signal" viewBox="0 0 16 14" aria-hidden="true"><path d="M1 13h2V9H1zM5 13h2V6H5zM9 13h2V3H9zM13 13h2V0h-2z" fill="currentColor" stroke="none"/></svg><span class="status-percent">77%</span><svg class="status-battery-icon" viewBox="0 0 19 13" aria-hidden="true"><path d="M2 1h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Z" fill="currentColor"/><path d="M17 4h1.5v5H17z" fill="currentColor"/><path d="M3 3h9.5v7H3z" fill="#253037" opacity=".38"/><path d="M3 3h7.32v7H3z" fill="currentColor"/></svg></span></div>
           <article class="goodreads-book">
             <div class="goodreads-hero">
               <button class="book-back" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -30,7 +30,7 @@ export function goodreadsCard() {
           </article>
         </section>
         <section class="android-call" hidden aria-label="Incoming call">
-          <div class="call-status"><span class="status-time">1:18</span><span class="status-icons" aria-label="Wi-Fi, mobile signal, battery 77 percent"><svg class="status-wifi" viewBox="0 0 20 16" aria-hidden="true"><path d="M1 5.5a13.5 13.5 0 0 1 18 0M4 8.5a9 9 0 0 1 12 0M7.2 11.5a4.2 4.2 0 0 1 5.6 0M9.2 14a1.1 1.1 0 1 1 1.6 0"/></svg><svg class="status-signal" viewBox="0 0 16 14" aria-hidden="true"><path d="M1 13h2V9H1zM5 13h2V6H5zM9 13h2V3H9zM13 13h2V0h-2z" fill="currentColor" stroke="none"/></svg><span class="status-percent">77%</span><svg class="status-battery-icon" viewBox="0 0 19 13" aria-hidden="true"><path d="M2 1h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Z" fill="currentColor"/><path d="M17 4h1.5v5H17z" fill="currentColor"/><path d="M3 3h9.5v7H3z" fill="#253037" opacity=".38"/></svg></span></div>
+          <div class="call-status"><span class="status-time">--:--</span><span class="status-icons" aria-label="Wi-Fi, mobile signal, battery 77 percent"><svg class="status-wifi" viewBox="0 0 20 16" aria-hidden="true"><path d="M1 5.5a13.5 13.5 0 0 1 18 0M4 8.5a9 9 0 0 1 12 0M7.2 11.5a4.2 4.2 0 0 1 5.6 0M9.2 14a1.1 1.1 0 1 1 1.6 0"/></svg><svg class="status-signal" viewBox="0 0 16 14" aria-hidden="true"><path d="M1 13h2V9H1zM5 13h2V6H5zM9 13h2V3h-2zM13 13h2V0h-2z" fill="currentColor" stroke="none"/></svg><span class="status-percent">77%</span><svg class="status-battery-icon" viewBox="0 0 19 13" aria-hidden="true"><path d="M2 1h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Z" fill="currentColor"/><path d="M17 4h1.5v5H17z" fill="currentColor"/><path d="M3 3h9.5v7H3z" fill="#253037" opacity=".38"/><path d="M3 3h7.32v7H3z" fill="currentColor"/></svg></span></div>
           <p class="call-kicker">Incoming call</p>
           <div class="call-contact">
             <h2>Gourav Mohanty</h2>
@@ -67,7 +67,10 @@ export function goodreadsCard() {
               <img src="./assets/gm_ss1-scroll.jpeg?v=4" alt="Conversation messages, first section">
               <img src="./assets/gm_ss2.jpeg?v=4" alt="Conversation messages, second section">
               <img src="./assets/gm_ss3.jpeg?v=4" alt="Conversation messages, third section">
-              <img src="./assets/gm_ss4.jpeg?v=4" alt="Conversation messages, final section">
+              <div class="conversation-final-shot">
+                <img src="./assets/gm_ss4.jpeg?v=4" alt="Conversation messages, final section">
+                <button class="conversation-video-play" type="button" aria-label="Play Gourav's video message"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button>
+              </div>
             </div>
             <div class="conversation-composer" aria-hidden="true"><span class="composer-camera"><svg viewBox="0 0 24 24"><path d="M4 7h4l2-2h4l2 2h4v12H4z"/><circle cx="12" cy="13" r="3.2"/></svg></span><span class="composer-placeholder">Message...</span><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3ZM6 11v1a6 6 0 0 0 12 0v-1M12 18v4m-4 0h8"/></svg><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m4 18 5-5 3 3 3-4 5 6"/></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 13s1.4 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10m-5-5h10"/></svg></div>
           </section>
@@ -102,6 +105,20 @@ export function goodreadsCard() {
   let rating = 0;
   let hoverRating = 0;
   let incomingTimer = 0;
+  let statusClockTimer = 0;
+
+  function updateStatusClock() {
+    const now = new Date();
+    const parts = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' }).formatToParts(now);
+    const hour = parts.find(part => part.type === 'hour')?.value ?? '';
+    const minute = parts.find(part => part.type === 'minute')?.value ?? '';
+    element.querySelectorAll('.status-time').forEach(label => { label.textContent = `${hour}:${minute}`; });
+  }
+  function startStatusClock() {
+    clearInterval(statusClockTimer);
+    updateStatusClock();
+    statusClockTimer = window.setInterval(updateStatusClock, 15000);
+  }
 
   const paintRating = value => { starsFill.style.clipPath = `inset(0 ${100 - value * 20}% 0 0)`; };
   for (let half = 1; half <= 10; half++) {
@@ -123,7 +140,7 @@ export function goodreadsCard() {
       // remains eligible for autoplay in browsers that require user activation.
       ringtone.volume = 0;
       const priming = ringtone.play();
-      priming?.then(() => { ringtone.pause(); ringtone.currentTime = 0; ringtone.volume = 1; }).catch(() => { ringtone.volume = 1; });
+      priming?.then(() => { ringtone.pause(); ringtone.currentTime = 1; ringtone.volume = 1; }).catch(() => { ringtone.volume = 1; });
       incomingTimer = window.setTimeout(showIncomingCall, 1000);
     });
     ratingHits.append(hit);
@@ -132,7 +149,7 @@ export function goodreadsCard() {
 
   function stopRingtone() {
     ringtone.pause();
-    ringtone.currentTime = 0;
+    ringtone.currentTime = 1;
     ringtone.volume = 1;
   }
   function showIncomingCall() {
@@ -150,6 +167,7 @@ export function goodreadsCard() {
     conversation.hidden = true;
     video.pause();
     video.currentTime = 0;
+    ringtone.currentTime = 1;
     const playback = ringtone.play();
     playback?.catch(() => {});
   }
@@ -203,7 +221,6 @@ export function goodreadsCard() {
       videoSeek.value = String(Math.round((video.currentTime / duration) * 1000));
       element.querySelector('.video-duration').textContent = formatTime(duration);
       element.querySelector('.video-current').textContent = formatTime(video.currentTime);
-      if (video.currentTime >= duration - 1) finishVideo();
     }
     videoPlay.setAttribute('aria-label', video.paused ? 'Play video' : 'Pause video');
   }
@@ -232,6 +249,7 @@ export function goodreadsCard() {
     if (Number.isFinite(video.duration)) video.currentTime = (Number(videoSeek.value) / 1000) * video.duration;
   });
   postActions.querySelector('.call-replay').addEventListener('click', answerCall);
+  conversation.querySelector('.conversation-video-play').addEventListener('click', answerCall);
   postActions.querySelector('.call-see-chat').addEventListener('click', () => {
     video.pause();
     postActions.hidden = true;
@@ -249,6 +267,7 @@ export function goodreadsCard() {
   let draggingChat = false;
   conversationScroll.addEventListener('pointerdown', event => {
     if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    if (event.target.closest('.conversation-video-play')) return;
     draggingChat = true;
     dragStartY = event.clientY;
     dragStartScroll = conversationScroll.scrollTop;
@@ -272,6 +291,7 @@ export function goodreadsCard() {
   return {
     element, captureButton,
     show() {
+      startStatusClock();
       clearTimeout(incomingTimer);
       stopRingtone();
       video.pause();
@@ -293,6 +313,8 @@ export function goodreadsCard() {
       paintRating(0);
     },
     hide() {
+      clearInterval(statusClockTimer);
+      statusClockTimer = 0;
       clearTimeout(incomingTimer);
       stopRingtone();
       video.pause();

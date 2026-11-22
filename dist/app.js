@@ -47,7 +47,7 @@ function roof(x,y,w,h,color){return `${path(`M${x-13} ${y+7}L${x+w/2} ${y-h}L${x
 function attic(x,y,r=18){return `${circle(x,y,r,'#f0d79b')}${path(`M${x-r+2} ${y}h${r*2-4}M${x} ${y-r+2}v${r*2-4}`)}${circle(x,y,r+5,'none')}`;}
 let art = `<defs><radialGradient id="sun"><stop stop-color="#fff2b0"/><stop offset="1" stop-color="#f3d179"/></radialGradient><linearGradient id="ground" x2="0" y2="1"><stop stop-color="#fffdf3"/><stop offset="1" stop-color="#e9ede4"/></linearGradient></defs>`;
 // A sunny winter sky and distant snowy hills.
-art += `<g class="winter-sun"><circle cx="1116" cy="168" r="61" fill="#fff1b7" opacity=".15"/><circle cx="1116" cy="168" r="49" fill="#ffe9a2" opacity=".22"/><circle cx="1116" cy="168" r="39" fill="url(#sun)" stroke="#e4bc69" stroke-width="1.5"/></g>`;
+art += `<g class="winter-sun celestial-toggle" role="button" tabindex="0" aria-label="Switch to night-time" transform-origin="1116px 168px"><circle cx="1116" cy="168" r="61" fill="#fff1b7" opacity=".15"/><circle cx="1116" cy="168" r="49" fill="#ffe9a2" opacity=".22"/><circle cx="1116" cy="168" r="39" fill="url(#sun)" stroke="#e4bc69" stroke-width="1.5"/></g>`;
 art += path('M-1440 590H0Q85 455 205 525Q337 359 470 501Q596 414 722 495Q914 405 1042 502Q1207 393 1440 556H2880V1800H-1440Z','#dce4d9','stroke="none"');
 art += path('M-1440 650H0Q163 547 293 610Q446 513 575 601Q804 479 995 584Q1217 518 1440 617H2880V1800H-1440Z','#ceddce','stroke="none"');
 art += [tree(137,683,.9,'#8ba493'),tree(1271,689,.95,'#8ba493'),tree(345,605,.72,'#a5b7a1'),tree(1018,595,.8,'#9aaf9c')].join('');
@@ -161,8 +161,40 @@ art += `<g class="ambient santa-flight"><g class="santa-float" transform="scale(
   ${path('M-57 -21Q-30 -13 24 -18Q39 -19 39 -32Q54 -31 48 -12Q44 8 18 10H-35Q-53 7 -57 -21Z','#ad594e','stroke-width="2"')}${path('M-50 -11Q-11 -3 30 -10','none','stroke="#edc98d" stroke-width="2"')}${path('M-35 12v8M21 11l6 9M-54 21H39Q56 21 57 11Q57 4 51 8','none','stroke="#b4935e" stroke-width="4"')}
 </g></g>`;
 svg.innerHTML=art;
+const nightSky=document.querySelector('#night-sky');
+const stars=[[92,102,2.2],[178,215,1.5],[260,115,1.8],[342,255,2.3],[418,102,1.6],[506,190,2.1],[587,93,1.4],[678,196,2.4],[761,112,1.7],[844,244,1.8],[940,92,2.2],[1012,247,1.5],[1262,101,1.9],[1348,220,2.3],[127,330,1.6],[286,362,2.1],[487,310,1.4],[656,365,1.8],[836,330,2.2],[976,376,1.6],[1236,338,1.5],[1378,392,1.8],[218,185,1.3],[565,248,1.4],[884,160,1.5],[1305,288,1.4]];
+nightSky.innerHTML=`<defs><radialGradient id="attic-amber-glow"><stop offset="0" stop-color="#ffc45b" stop-opacity=".9"/><stop offset=".34" stop-color="#ffb83f" stop-opacity=".52"/><stop offset="1" stop-color="#ffb83f" stop-opacity="0"/></radialGradient></defs><g class="attic-window-glows" aria-hidden="true">${[[278,397,68],[493,321,76],[728,252,88],[956,338,72],[1152,421,65]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#attic-amber-glow)"/>`).join('')}</g><g class="night-stars" aria-hidden="true">${stars.map(([x,y,r],i)=>`<g class="night-star" style="--twinkle:${(i%7)*.31}s"><circle cx="${x}" cy="${y}" r="${r}"/><path d="M${x} ${y-r*2.6}V${y+r*2.6}M${x-r*2.6} ${y}H${x+r*2.6}"/></g>`).join('')}</g>`;
+svg.querySelectorAll('.festive-light').forEach(light=>nightSky.appendChild(light.cloneNode(true)));
+const celestialSun=svg.querySelector('.winter-sun');
+const celestialMoon=document.createElementNS('http://www.w3.org/2000/svg','g');
+celestialMoon.setAttribute('class','winter-moon celestial-toggle');
+celestialMoon.setAttribute('role','button');
+celestialMoon.setAttribute('tabindex','0');
+celestialMoon.setAttribute('aria-label','Switch to daytime');
+celestialMoon.innerHTML='<circle class="moon-halo" cx="1116" cy="168" r="62"/><path class="moon-crescent" d="M1148 168A32 32 0 1 1 1116 136A24 24 0 0 0 1148 168Z"/>';
+svg.insertBefore(celestialMoon,svg.querySelector('.santa-flight'));
+let nightMode=false,celestialBusy=false;
+celestialMoon.setAttribute('aria-hidden','true');celestialMoon.setAttribute('tabindex','-1');
+function toggleNight(){
+  if(celestialBusy)return;
+  celestialBusy=true;
+  const enteringNight=!nightMode;
+  document.body.classList.toggle('night-mode',enteringNight);
+  document.body.classList.add(enteringNight?'night-switching-to-night':'night-switching-to-day');
+  celestialSun.setAttribute('aria-label',enteringNight?'Switch to daytime':'Switch to night-time');
+  celestialMoon.setAttribute('aria-label',enteringNight?'Switch to daytime':'Switch to night-time');
+  celestialSun.setAttribute('aria-hidden',String(enteringNight));celestialSun.setAttribute('tabindex',enteringNight?'-1':'0');
+  celestialMoon.setAttribute('aria-hidden',String(!enteringNight));celestialMoon.setAttribute('tabindex',enteringNight?'0':'-1');
+  window.setTimeout(()=>{document.body.classList.remove('night-switching-to-night','night-switching-to-day');celestialBusy=false;},760);
+  nightMode=enteringNight;
+}
+for(const body of [celestialSun,celestialMoon]){
+  body.addEventListener('click',event=>{event.stopPropagation();toggleNight();});
+  body.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();toggleNight();}});
+}
 // The flying team and presents sit behind the village; chimney cats sit above it.
 svg.insertBefore(svg.querySelector('.santa-flight'),svg.querySelector('.chimney'));
+svg.insertBefore(celestialMoon,svg.querySelector('.santa-flight'));
 const eggs=setupEasterEggs(svg);
 setupSantaGifts(svg);
 setupSnowballGame(svg);

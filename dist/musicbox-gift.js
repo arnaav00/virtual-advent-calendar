@@ -56,6 +56,7 @@ export function musicBoxCard() {
   let baseTime = 0;
   let currentRate = 1;
   let drag = null;
+  let starting = false;
   let idleTimer = 0;
   let angle = 0;
   let shown = false;
@@ -82,38 +83,48 @@ export function musicBoxCard() {
 
   function stopSong() {
     clearTimeout(idleTimer);
+    element.dataset.musicPlaying = 'false';
     if (!audioContext || !source) return;
+    // Persist the exact loop position so the next crank movement resumes here.
     offset = songPosition();
     baseOffset = offset;
     baseTime = audioContext.currentTime;
     const oldSource = source;
     source = null;
-    element.dataset.musicPlaying = 'false';
     try { oldSource.stop(); } catch {}
     oldSource.disconnect();
   }
 
   async function startSong() {
-    const buffer = await loadSong();
-    if (!shown || !drag || !buffer || source) return;
-    await audioContext.resume();
-    const end = buffer.duration - 1;
-    if (end <= 1) return;
-    if (offset < 1 || offset >= end) offset = 1;
-    const next = audioContext.createBufferSource();
-    next.buffer = buffer;
-    next.loop = true;
-    next.loopStart = 1;
-    next.loopEnd = end;
-    next.playbackRate.value = currentRate;
-    next.connect(audioContext.destination);
-    source = next;
-    element.dataset.musicPlaying = 'true';
-    element.dataset.musicPlayed = 'true';
-    element.dataset.musicRate = String(currentRate);
-    baseOffset = offset;
-    baseTime = audioContext.currentTime;
-    next.start(0, offset);
+    if (!shown || !drag || source || starting) return;
+    starting = true;
+    try {
+      const buffer = await loadSong();
+      if (!shown || !drag || !buffer || source) return;
+      await audioContext.resume();
+      // The pointer may have been released while the audio was loading or
+      // while the browser resumed its audio context. Never start afterward.
+      if (!shown || !drag || !buffer || source) return;
+      const end = buffer.duration - 1;
+      if (end <= 1) return;
+      if (offset < 1 || offset >= end) offset = 1;
+      const next = audioContext.createBufferSource();
+      next.buffer = buffer;
+      next.loop = true;
+      next.loopStart = 1;
+      next.loopEnd = end;
+      next.playbackRate.value = currentRate;
+      next.connect(audioContext.destination);
+      source = next;
+      element.dataset.musicPlaying = 'true';
+      element.dataset.musicPlayed = 'true';
+      element.dataset.musicRate = String(currentRate);
+      baseOffset = offset;
+      baseTime = audioContext.currentTime;
+      next.start(0, offset);
+    } finally {
+      starting = false;
+    }
   }
 
   function setRate(rate) {
@@ -171,7 +182,7 @@ export function musicBoxCard() {
     renderCrank();
     const elapsed = Math.max(1, now - drag.lastTime) / 1000;
     const speed = Math.abs(delta) / elapsed;
-    setRate(speed < 1.05 ? 0.75 : speed < 4.5 ? 1 : 1.5);
+    setRate(speed > 4.5 ? 1.5 : 1);
     drag.lastTime = now;
     clearTimeout(idleTimer);
     void startSong().catch(() => {});
@@ -186,6 +197,15 @@ export function musicBoxCard() {
   }
   crankGrab.addEventListener('pointerup', releaseCrank);
   crankGrab.addEventListener('pointercancel', releaseCrank);
+  crankGrab.addEventListener('lostpointercapture', releaseCrank);
+  window.addEventListener('blur', () => {
+    if (!drag) return;
+    const pointerId = drag.id;
+    drag = null;
+    crankGrab.classList.remove('is-grabbing');
+    if (crankGrab.hasPointerCapture(pointerId)) crankGrab.releasePointerCapture(pointerId);
+    stopSong();
+  });
 
   function resetView() {
     stopSong();

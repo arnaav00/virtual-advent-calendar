@@ -474,14 +474,14 @@
 .sloth-book-sloth-trigger:focus-visible{outline:2px solid #b56b80;outline-offset:-3px;border-radius:35%}
 .sloth-book-front{transform:translateZ(calc(var(--book-d)/2));box-shadow:0 24px 24px #0008}
 .sloth-book-back{transform:rotateY(180deg) translateZ(calc(var(--book-d)/2))}
-.sloth-book-pages{position:absolute;inset:3px 0 3px 5px;transform:translateZ(-3px);background:repeating-linear-gradient(180deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px);box-shadow:inset -5px 0 6px #a59f9455,0 0 0 1px #c78298}
+.sloth-book-pages{position:absolute;inset:0;transform:translateZ(0);background:repeating-linear-gradient(180deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px);box-shadow:inset -5px 0 6px #a59f9455}
 .sloth-book-edge{position:absolute;background:linear-gradient(90deg,#d991a8,#f4cbd7 30%,#eab1c2 70%,#cb839b);backface-visibility:hidden}
 .sloth-book-spine,.sloth-book-foreedge{top:0;width:var(--book-d);height:var(--book-h)}
-.sloth-book-spine{left:0;transform:rotateY(-90deg) translateZ(calc(var(--book-d)/2));transform-origin:left center;background:linear-gradient(90deg,#d493aa,#f1c6d4 18%,#f7dce9 50%,#c17f99)}
-.sloth-book-foreedge{right:0;transform:rotateY(90deg) translateZ(calc(var(--book-d)/2));transform-origin:right center;background:repeating-linear-gradient(180deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px),linear-gradient(90deg,#c5c1bc,#fffefa 24%,#f5f2eb 58%,#d2cec5);background-blend-mode:multiply;box-shadow:inset 2px 0 3px #a59f9455}
+.sloth-book-spine{left:0;transform:translateZ(calc(var(--book-d)/-2)) rotateY(-90deg);transform-origin:left center;background:linear-gradient(90deg,#d493aa,#f1c6d4 18%,#f7dce9 50%,#c17f99)}
+.sloth-book-foreedge{right:0;transform:translateZ(calc(var(--book-d)/-2)) rotateY(90deg);transform-origin:right center;background:repeating-linear-gradient(180deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px),linear-gradient(90deg,#c5c1bc,#fffefa 24%,#f5f2eb 58%,#d2cec5);background-blend-mode:multiply;box-shadow:inset 2px 0 3px #a59f9455}
 .sloth-book-top,.sloth-book-bottom{left:0;width:var(--book-w);height:var(--book-d)}
-.sloth-book-top{top:0;transform:rotateX(90deg) translateZ(calc(var(--book-d)/2));transform-origin:top center;background:repeating-linear-gradient(90deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px)}
-.sloth-book-bottom{bottom:0;transform:rotateX(-90deg) translateZ(calc(var(--book-d)/2));transform-origin:bottom center;background:repeating-linear-gradient(90deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px)}
+.sloth-book-top{top:0;transform:translateZ(calc(var(--book-d)/-2)) rotateX(90deg);transform-origin:top center;background:repeating-linear-gradient(90deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px)}
+.sloth-book-bottom{bottom:0;transform:translateZ(calc(var(--book-d)/-2)) rotateX(-90deg);transform-origin:bottom center;background:repeating-linear-gradient(90deg,#fffefa 0 2.1px,#b6b2a9 2.2px,#f5f2eb 2.7px)}
 @media(max-width:650px){.sloth-book-gift{padding:82px 16px 76px;gap:23px}.sloth-book-note{font-size:clamp(15.75px,4.5vw,21.75px)}.sloth-book-stage{--book-w:min(43.5vw,225px,28.5vh);--book-h:calc(var(--book-w)*1.405);height:52vh;width:95vw}}
 
 /* Gift 21: the opened Christmas music box and its hand-turned crank. */
@@ -608,8 +608,8 @@
 .call-actions .call-decline svg{transform:none}
 .call-video-stage,.call-post-actions,.call-conversation{position:absolute;inset:0;overflow:hidden}
 .call-video-stage[hidden],.call-post-actions[hidden],.call-conversation[hidden]{display:none!important}
-.call-video-stage{inset:24px 8px 24px;display:flex;align-items:center;justify-content:center;background:#030507;border-radius:19px}
-.call-video{display:block;width:100%;height:100%;object-fit:contain;background:#030507}
+.call-video-stage{inset:0;display:flex;align-items:center;justify-content:center;background:#030507;border-radius:0}
+.call-video{display:block;width:100%;height:100%;object-fit:cover;background:#030507}
 .call-video-controls{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:6px;padding:22px 9px 11px;background:linear-gradient(transparent,#000b);color:#fff;font:10px/1 Roboto,'Segoe UI',Arial,sans-serif;opacity:0;pointer-events:none;transition:opacity .16s ease}
 .call-video-stage:hover .call-video-controls,.call-video-stage:focus-within .call-video-controls{opacity:1;pointer-events:auto}
 .video-play{display:grid;flex:0 0 24px;width:24px;height:24px;place-items:center;padding:0;border:0;background:transparent;color:#fff;cursor:pointer}
@@ -637,6 +637,12 @@
 .conversation-scroll::-webkit-scrollbar{display:none}
 .conversation-scroll.is-dragging{cursor:grabbing;touch-action:none}
 .conversation-scroll img{display:block;width:100%;height:auto;margin:0;padding:0;border:0;pointer-events:none;-webkit-user-drag:none}
+.conversation-final-shot{position:relative;width:100%;line-height:0}
+.conversation-video-play{position:absolute;left:13.93%;top:8.77%;width:40.8%;height:53.5%;display:grid;place-items:center;padding:0;border:0;border-radius:21%/9%;background:transparent;cursor:pointer}
+.conversation-video-play>span{display:grid;width:56px;height:56px;place-items:center;border:1px solid #ffffffd9;border-radius:50%;background:#17202b7a;color:#fff;opacity:0;transform:scale(.92);transition:opacity .18s,transform .18s}
+.conversation-video-play svg{width:25px;height:25px;fill:currentColor}
+.conversation-video-play:hover>span,.conversation-video-play:focus-visible>span{opacity:1;transform:scale(1)}
+.conversation-video-play:focus-visible{outline:2px solid #7342dd;outline-offset:-2px}
 .conversation-composer{position:absolute;z-index:2;right:7px;bottom:5px;left:7px;display:flex;height:37px;align-items:center;gap:7px;padding:0 7px;border-radius:22px;background:linear-gradient(100deg,#f1f1f4,#e1d8ff);color:#191b20}
 .conversation-composer>svg{display:block;flex:0 0 16px;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .composer-camera{display:grid;flex:0 0 28px;width:28px;height:28px;place-items:center;border-radius:50%;background:#5649ed;color:#fff}

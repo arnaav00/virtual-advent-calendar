@@ -1,6 +1,6 @@
 // Timing and hit geometry live independently of drawing and browser input.
 export const CHIMNEYS=[{x:229,y:306},{x:554,y:260},{x:805,y:185},{x:1014,y:278},{x:1187,y:326}];
-export const CAT_RISE=.2, CAT_STAY=1.5, CAT_FALL=.2, CAT_LIFETIME=CAT_RISE+CAT_STAY+CAT_FALL;
+export const CAT_RISE=.2, CAT_STAY=2, CAT_FALL=.2, CAT_LIFETIME=CAT_RISE+CAT_STAY+CAT_FALL;
 export const CAT_HIDDEN_OFFSET=82;
 const smooth=t=>t*t*(3-2*t);
 export function catOffset(age){
