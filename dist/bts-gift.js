@@ -1,3 +1,5 @@
+import { playlistCard } from './playlist-gift.js';
+
 const members = [
   ['jungkook', 'left-top'], ['rm', 'right-top'], ['jin', 'right-mid'], ['v', 'left-mid'],
   ['jhope', 'bottom-left'], ['suga', 'bottom-center'], ['jimin', 'bottom-right']
@@ -81,13 +83,13 @@ export function btsCard() {
   video.addEventListener('seeked', unlockAtEndOfVideo);
   video.addEventListener('ended', unlockSoundboard);
 
-  const captureButton = document.createElement('button');
-  captureButton.type = 'button';
-  captureButton.className = 'reaction-start';
-  captureButton.hidden = true;
-  captureButton.setAttribute('aria-label', 'Capture your reaction');
-  captureButton.dataset.tooltip = 'Capture your reaction';
-  captureButton.innerHTML = '<svg class="reaction-orbit" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="43"/><g class="reaction-camera-icon" transform="translate(50 50) scale(1.2)"><path d="M-14 -7h5l3-5h12l3 5h5v17h-28z"/><circle r="5"/></g></svg>';
+  // Use the shared camera implementation so Gift 10 has the same working
+  // capture modal and Firebase save flow as the other gifts.
+  const camera = playlistCard(10);
+  camera.element.remove();
+  camera.captureButton.setAttribute('aria-label', 'Capture your reaction');
+  camera.captureButton.dataset.tooltip = 'Capture your reaction';
+  camera.reactionDialog.setAttribute('aria-label', 'Gift #10 photo capture');
 
   let priorMusicPaused = false;
   const play = () => {
@@ -99,7 +101,7 @@ export function btsCard() {
   };
 
   return {
-    element, captureButton,
+    element, captureButton: camera.captureButton,
     show() {
       element.hidden = false;
       soundboardUnlocked = false;
@@ -107,7 +109,8 @@ export function btsCard() {
       membersLayer.querySelectorAll('.bts-member').forEach(button => { button.disabled = true; });
       for (const { sound } of soundClips.values()) { sound.pause(); sound.currentTime = 0; }
       activeSound = null;
-      captureButton.hidden = false;
+      camera.captureButton.hidden = false;
+      void camera.show();
       status.textContent = '';
       priorMusicPaused = true;
       window.dispatchEvent(new Event('pause-calendar-music'));
@@ -116,10 +119,12 @@ export function btsCard() {
     },
     stop() {
       video.pause();
+      camera.stop();
       for (const { sound } of soundClips.values()) { sound.pause(); sound.currentTime = 0; }
       activeSound = null;
     },
     hide() {
+      camera.hide();
       video.pause();
       video.currentTime = 0;
       soundboardUnlocked = false;
@@ -128,7 +133,7 @@ export function btsCard() {
       for (const { sound } of soundClips.values()) { sound.pause(); sound.currentTime = 0; }
       activeSound = null;
       element.hidden = true;
-      captureButton.hidden = true;
+      camera.captureButton.hidden = true;
       if (priorMusicPaused) {
         priorMusicPaused = false;
         window.dispatchEvent(new Event('resume-calendar-music'));

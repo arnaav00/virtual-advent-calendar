@@ -1,4 +1,5 @@
 import { playlistCard } from './playlist-gift.js';
+import { christmasTreeImage, saveChristmasTreeImage } from './gift-state.js';
 
 export function gift23Card() {
   const day = 23;
@@ -14,6 +15,7 @@ export function gift23Card() {
         <img src="./assets/elf_upload.gif" alt="">
         <input type="file" accept="image/*">
       </label>
+      <p class="gift23-sync-status" role="status" aria-live="polite"></p>
     </div>
     <figure class="gift23-polaroid" hidden>
       <img class="gift23-tree-image" alt="Your decorated Christmas tree">
@@ -34,13 +36,16 @@ export function gift23Card() {
   const intro = element.querySelector('.gift23-intro');
   const polaroid = element.querySelector('.gift23-polaroid');
   const image = element.querySelector('.gift23-tree-image');
+  const syncStatus = element.querySelector('.gift23-sync-status');
   const inputs = [...element.querySelectorAll('input[type="file"]')];
   const smallElf = element.querySelector('.gift23-upload-again');
   let imageUrl = '';
 
   async function useImage(file) {
     if (!file?.type.startsWith('image/')) return;
+    syncStatus.textContent = 'Saving your Christmas tree…';
     const sourceUrl = URL.createObjectURL(file);
+    let treeBlob = file;
     try {
       const source = new Image();
       source.src = sourceUrl;
@@ -61,20 +66,24 @@ export function gift23Card() {
       canvas.width = Math.round(sw);
       canvas.height = Math.round(sh);
       canvas.getContext('2d').drawImage(source, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
-      const cropped = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-      const nextUrl = URL.createObjectURL(cropped || file);
-
-      if (imageUrl) URL.revokeObjectURL(imageUrl);
-      imageUrl = nextUrl;
-      image.src = imageUrl;
+      treeBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png')) || file;
     } catch (error) {
       console.error('Could not crop the uploaded tree image:', error);
-      if (imageUrl) URL.revokeObjectURL(imageUrl);
-      imageUrl = sourceUrl;
-      image.src = imageUrl;
-      return;
     } finally {
-      if (imageUrl !== sourceUrl) URL.revokeObjectURL(sourceUrl);
+      URL.revokeObjectURL(sourceUrl);
+    }
+    try {
+      await saveChristmasTreeImage(treeBlob);
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+      imageUrl = URL.createObjectURL(treeBlob);
+      image.src = imageUrl;
+      syncStatus.textContent = 'Your tree is saved for Christmas Day.';
+    } catch (error) {
+      console.error('Could not save the Christmas tree to Firebase:', error);
+      syncStatus.textContent = error?.code === 'permission-denied'
+        ? 'Firebase rejected the tree save. Publish the latest firebase.rules, then upload the tree again.'
+        : error?.message || 'Could not save your Christmas tree. Please try again.';
+      return;
     }
     intro.hidden = true;
     polaroid.hidden = false;
@@ -89,13 +98,29 @@ export function gift23Card() {
   return {
     element,
     captureButton: camera.captureButton,
-    show() { element.hidden = false; camera.captureButton.hidden = false; void camera.show(); },
+    async show() {
+      element.hidden = false; camera.captureButton.hidden = false; void camera.show();
+      syncStatus.textContent = 'Loading your saved Christmas tree…';
+      try {
+        const saved = await christmasTreeImage();
+        if (saved) {
+          if (imageUrl) URL.revokeObjectURL(imageUrl);
+          imageUrl = URL.createObjectURL(saved); image.src = imageUrl;
+          intro.hidden = true; polaroid.hidden = false; smallElf.hidden = false;
+          syncStatus.textContent = 'Your tree is saved for Christmas Day.';
+        } else syncStatus.textContent = '';
+      } catch (error) {
+        console.error('Could not load the saved Christmas tree:', error);
+        syncStatus.textContent = '';
+      }
+    },
     hide() {
       element.hidden = true;
       camera.hide();
       intro.hidden = false;
       polaroid.hidden = true;
       smallElf.hidden = true;
+      syncStatus.textContent = '';
       polaroid.classList.remove('is-arriving');
       image.removeAttribute('src');
       if (imageUrl) URL.revokeObjectURL(imageUrl);

@@ -1,3 +1,5 @@
+import { playlistCard } from './playlist-gift.js';
+
 export function goodreadsCard() {
   const element = document.createElement('section');
   element.className = 'goodreads-gift';
@@ -79,13 +81,12 @@ export function goodreadsCard() {
       <img class="s23-frame" src="./assets/gift20-phone-frame.svg" alt="">
     </div>`;
 
-  const captureButton = document.createElement('button');
-  captureButton.type = 'button';
-  captureButton.className = 'reaction-start';
-  captureButton.hidden = true;
-  captureButton.setAttribute('aria-label', 'Capture your reaction');
-  captureButton.dataset.tooltip = 'Capture your reaction';
-  captureButton.innerHTML = '<svg class="reaction-orbit" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="43"/><g class="reaction-camera-icon" transform="translate(50 50) scale(1.2)"><path d="M-14 -7h5l3-5h12l3 5h5v17h-28z"/><circle r="5"/></g></svg>';
+  // Share the calendar camera modal and Firebase photo-saving flow.
+  const camera = playlistCard(20);
+  camera.element.remove();
+  camera.captureButton.setAttribute('aria-label', 'Capture your reaction');
+  camera.captureButton.dataset.tooltip = 'Capture your reaction';
+  camera.reactionDialog.setAttribute('aria-label', 'Gift #20 photo capture');
 
   const synopsisScreen = element.querySelector('.goodreads-screen');
   const callScreen = element.querySelector('.android-call');
@@ -289,7 +290,7 @@ export function goodreadsCard() {
   callScreen.querySelector('.call-end').addEventListener('click', returnToBook);
 
   return {
-    element, captureButton,
+    element, captureButton: camera.captureButton,
     show() {
       startStatusClock();
       clearTimeout(incomingTimer);
@@ -301,7 +302,8 @@ export function goodreadsCard() {
       conversation.hidden = true;
       callScreen.classList.remove('is-conversation');
       element.hidden = false;
-      captureButton.hidden = false;
+      camera.captureButton.hidden = false;
+      void camera.show();
       synopsisScreen.hidden = false;
       callScreen.hidden = true;
       callScreen.classList.remove('is-connected');
@@ -313,6 +315,7 @@ export function goodreadsCard() {
       paintRating(0);
     },
     hide() {
+      camera.hide();
       clearInterval(statusClockTimer);
       statusClockTimer = 0;
       clearTimeout(incomingTimer);
@@ -320,9 +323,10 @@ export function goodreadsCard() {
       video.pause();
       video.currentTime = 0;
       element.hidden = true;
-      captureButton.hidden = true;
+      camera.captureButton.hidden = true;
     },
     stop() {
+      camera.stop();
       clearTimeout(incomingTimer);
       stopRingtone();
       video.pause();

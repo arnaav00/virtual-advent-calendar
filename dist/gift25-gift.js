@@ -1,4 +1,5 @@
 import { playlistCard } from './playlist-gift.js';
+import { christmasTreeImage } from './gift-state.js';
 
 export function gift25Card() {
   const element = document.createElement('section');
@@ -8,6 +9,17 @@ export function gift25Card() {
   element.innerHTML = `
     <img class="gift25-table" src="./assets/table25.png" alt="">
     <img class="gift25-couple" src="./assets/arnangshi.png" alt="Arnaav and Devangshi">
+    <div class="gift25-greeting gift25-greeting-left" role="img" aria-label="Merry Christmas, baby">
+      <svg class="gift25-handwriting" viewBox="0 0 430 205" aria-hidden="true">
+        <g class="gift25-writing-ink"><text x="8" y="64">Merry</text><text x="8" y="126">Christmas,</text><text x="8" y="184">baby</text></g>
+      </svg>
+    </div>
+    <div class="gift25-greeting gift25-greeting-right" role="img" aria-label="I love you with a red heart">
+      <svg class="gift25-handwriting" viewBox="0 0 430 300" aria-hidden="true">
+        <g class="gift25-writing-ink"><text x="8" y="76">I love you</text></g>
+        <path class="gift25-heart-path" transform="translate(-110 55)" d="M215 174C200 160 160 137 161 115C162 93 190 87 215 113C240 87 268 93 269 115C270 137 230 160 215 174Z"/>
+      </svg>
+    </div>
     <button class="gift25-doll gift25-doll-dev" type="button" aria-label="Drag the reindeer doll toward the center">
       <img src="./assets/devdoll.png" alt="Reindeer Santa doll">
     </button>
@@ -29,15 +41,36 @@ export function gift25Card() {
   const couple = element.querySelector('.gift25-couple');
   const table = element.querySelector('.gift25-table');
   let activeDrag = null;
-  let centerGap = 32;
+  let centerGap = 0;
+  let hasCelebrated = false;
+  let backgroundUrl = '';
+
+  async function loadTreeBackground() {
+    element.style.backgroundImage = '';
+    if (backgroundUrl) URL.revokeObjectURL(backgroundUrl);
+    backgroundUrl = '';
+    try {
+      const tree = await christmasTreeImage();
+      if (!tree || element.hidden) return;
+      backgroundUrl = URL.createObjectURL(tree);
+      element.style.backgroundImage = `url("${backgroundUrl}")`;
+    } catch (error) {
+      // The card's dark base remains visible whenever Firebase or the photo fails.
+      console.warn('Could not load the Gift 23 Christmas tree for Gift 25:', error);
+    }
+  }
 
   function tableBaseline() {
-    // Feet rest toward the front edge of the tabletop, not its distant back edge.
-    return window.innerWidth * (45 / 857);
+    // Keep the dolls on the usable wood plane, just above the front lip.
+    return window.innerWidth * (80 / 857);
+  }
+
+  function tableBackEdge() {
+    return window.innerWidth * (75/ 857);
   }
 
   function placeInitial() {
-    const margin = Math.max(12, window.innerWidth * .035);
+    const margin = Math.max(12, window.innerWidth * .07);
     const baseline = tableBaseline();
     for (const { node, side } of dolls) {
       const figureHeight = node.getBoundingClientRect().height;
@@ -49,7 +82,7 @@ export function gift25Card() {
       node.style.right = side === 'right' ? `${margin}px` : 'auto';
       node.dataset.startX = side === 'left' ? String(margin) : String(window.innerWidth - margin - width);
     }
-    couple.style.bottom = `${baseline - couple.getBoundingClientRect().height * (42 / 468)}px`;
+    couple.style.bottom = `${tableBackEdge() - couple.getBoundingClientRect().height * (42 / 468)}px`;
     couple.classList.remove('is-visible');
     element.classList.remove('is-complete');
   }
@@ -83,6 +116,11 @@ export function gift25Card() {
     const complete = dolls.every(atCenter);
     element.classList.toggle('is-complete', complete);
     couple.classList.toggle('is-visible', complete);
+    if (complete && !hasCelebrated) {
+      hasCelebrated = true;
+      element.classList.add('is-celebrated');
+      window.dispatchEvent(new CustomEvent('gift25:complete'));
+    }
   }
 
   function onPointerDown(item, event) {
@@ -124,13 +162,19 @@ export function gift25Card() {
     captureButton: camera.captureButton,
     show() {
       element.hidden = false;
+      element.classList.remove('is-celebrated');
+      hasCelebrated = false;
       placeInitial();
       camera.captureButton.hidden = false;
       void camera.show();
+      void loadTreeBackground();
     },
     hide() {
       activeDrag = null;
       element.hidden = true;
+      element.style.backgroundImage = '';
+      if (backgroundUrl) URL.revokeObjectURL(backgroundUrl);
+      backgroundUrl = '';
       placeInitial();
       camera.hide();
     },

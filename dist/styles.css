@@ -6,11 +6,23 @@ main{width:100%;height:100%;height:100dvh;position:relative;overflow:hidden;back
 body.night-mode main{background:linear-gradient(180deg,#0b1834 0%,#1d3150 55%,#202e3c 100%)}
 main::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23566a5d' filter='url(%23n)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
 .scene{position:absolute;width:min(100vw,160vh);width:min(100vw,160dvh);aspect-ratio:8/5;left:50%;top:50%;transform:translate(-50%,-50%);isolation:isolate}
-.landscape,.doors,.night-sky{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none}
+.landscape,.doors,.night-sky,.fireworks{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-select:none}
 .landscape{overflow:visible;transition:filter 1s ease}
 body.night-mode .landscape{filter:brightness(.52)}
 .night-sky{z-index:1;overflow:visible;opacity:0;pointer-events:none;transition:opacity .8s ease}
 body.night-mode .night-sky{opacity:1}
+.fireworks{z-index:1;overflow:visible;pointer-events:none}
+.firework-burst,.firework-launch{color:var(--firework-color)}
+.firework-burst{opacity:0;transform-box:fill-box;transform-origin:center;filter:brightness(1.25) saturate(1.5) drop-shadow(0 0 7px currentColor) drop-shadow(0 0 18px currentColor)}
+.firework-burst path{fill:none;stroke:currentColor;stroke-width:3.6;stroke-linecap:round}
+.firework-burst circle{fill:currentColor}
+.firework-burst .firework-glint,.firework-core{fill:#fff9df}
+.firework-core{filter:drop-shadow(0 0 10px #fff)}
+.firework-launch{fill:none;stroke:currentColor;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:0 125;opacity:0;filter:drop-shadow(0 0 7px currentColor)}
+.fireworks-active .firework-burst{animation:firework-burst 4.8s cubic-bezier(.12,.62,.22,1) var(--firework-delay) infinite both}
+.fireworks-active .firework-launch{animation:firework-launch 4.8s ease-out var(--firework-delay) infinite both}
+@keyframes firework-launch{0%,100%{opacity:0;stroke-dasharray:0 125}2%{opacity:1;stroke-dasharray:0 125}14%{opacity:1;stroke-dasharray:114 125}18%{opacity:0;stroke-dasharray:114 125}}
+@keyframes firework-burst{0%,100%{opacity:0;transform:scale(.03)}12%{opacity:0;transform:scale(.08)}17%{opacity:1;transform:scale(.38)}30%{opacity:1;transform:scale(1)}50%{opacity:0;transform:scale(1.36)}}
 .doors{z-index:2}
 .night-star{fill:#f9efbd;stroke:#f9efbd;stroke-width:.7;opacity:.75;transform-box:fill-box;transform-origin:center;animation:night-twinkle 2.6s ease-in-out var(--twinkle) infinite alternate}
 .winter-moon{pointer-events:auto;cursor:pointer;transform-box:view-box;transform-origin:1116px 168px}
@@ -24,6 +36,20 @@ body.night-mode .landscape .winter-moon{filter:brightness(1.9)}
 .celestial-toggle:focus{outline:0!important}
 .celestial-toggle:focus-visible{outline:0!important;filter:drop-shadow(0 0 7px #fff3c7)}
 .attic-window-glows{mix-blend-mode:screen}
+.central-attic{pointer-events:none;transition:filter .25s ease}
+.central-attic.is-enabled{pointer-events:auto;cursor:pointer;outline:none}
+.central-attic.is-enabled:focus,.central-attic.is-enabled:focus-visible{outline:none}
+.attic-window-glow{fill:#ffc45b;opacity:0;filter:blur(8px);transition:opacity .25s ease}
+.attic-cross{opacity:1;transition:opacity .2s ease}
+.central-attic.is-enabled:hover .attic-cross,.central-attic.is-enabled:focus-visible .attic-cross,.central-attic.is-open .attic-cross{opacity:0}
+.central-attic.is-enabled:hover .attic-window-glow,.central-attic.is-enabled:focus-visible .attic-window-glow,.central-attic.is-open .attic-window-glow{opacity:.42}
+.mariah-slideshow{position:fixed;inset:0;width:min(55vw,840px);height:min(55vh,600px);max-width:88vw;max-height:76vh;margin:auto;padding:0;border:1px solid #e9dfc42b;border-radius:12px;background:#101515;color:#fff;overflow:hidden;box-shadow:0 22px 70px #07131070}
+.mariah-slideshow[open]{display:grid;place-items:center}
+.mariah-slideshow::backdrop{background:rgba(15,30,31,.76);backdrop-filter:blur(4px);animation:gift-dim .35s ease-out both}
+.mariah-slideshow img{display:block;width:100%;height:100%;object-fit:contain}
+.mariah-slideshow-day{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);margin:0;padding:5px 14px;border-radius:999px;background:#07120dbb;color:#fffdf3;font:clamp(16px,2vw,22px) 'Patrick Hand','Comic Sans MS',cursive}
+.mariah-slideshow-close{position:absolute;z-index:1;top:10px;right:10px;width:38px;height:38px;border:1px solid #fff8;border-radius:50%;background:#101515aa;color:#fff;font:28px/1 'Patrick Hand',cursive;cursor:pointer}
+@media(max-width:640px){.mariah-slideshow{width:88vw;height:62vh;max-height:62vh}}
 body.night-mode .winter-sun{visibility:hidden;pointer-events:none}
 body.night-switching-to-night .winter-sun{visibility:visible;animation:celestial-out .72s cubic-bezier(.45,0,.8,.3) both}
 body.night-switching-to-night .winter-moon{animation:celestial-in .72s cubic-bezier(.16,1,.3,1) both}
@@ -109,4 +135,4 @@ body.night-mode .door{filter:brightness(.94)}
 @keyframes appa-stride{0%,100%{transform:rotate(-24deg)}50%{transform:rotate(27deg)}}
 @keyframes appa-knee{0%,100%{transform:rotate(8deg)}35%{transform:rotate(35deg)}75%{transform:rotate(-12deg)}}
 @media(min-aspect-ratio:8/5){.number{font-size:3.33vh}}
-@media(prefers-reduced-motion:reduce){.panel,.landscape,.night-sky,main{transition:none}.ambient,.ambient *,.night-star,.night-mode .rudolph-glow,.night-mode .festive-light .bulb-glass,.night-mode .festive-light .light-halo,.night-switching-to-night .winter-sun,.night-switching-to-night .winter-moon,.night-switching-to-day .winter-moon,.night-switching-to-day .winter-sun{animation:none!important}.santa-flight{display:none}.light-halo{opacity:.2}body.night-mode .festive-light .bulb-glass{opacity:1}body.night-mode .festive-light .light-halo{opacity:.65}}
+@media(prefers-reduced-motion:reduce){.panel,.landscape,.night-sky,main{transition:none}.ambient,.ambient *,.night-star,.night-mode .rudolph-glow,.night-mode .festive-light .bulb-glass,.night-mode .festive-light .light-halo,.night-switching-to-night .winter-sun,.night-switching-to-night .winter-moon,.night-switching-to-day .winter-moon,.night-switching-to-day .winter-sun,.firework-burst,.firework-launch{animation:none!important}.santa-flight{display:none}.light-halo{opacity:.2}body.night-mode .festive-light .bulb-glass{opacity:1}body.night-mode .festive-light .light-halo{opacity:.65}.fireworks-active .firework-burst{opacity:.9;transform:scale(1)}.fireworks-active .firework-launch{opacity:0}}

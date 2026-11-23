@@ -6,24 +6,45 @@ service cloud.firestore {
         return day.matches('^(?:[1-9]|1[0-9]|2[0-5])$');
       }
       function progressOnly(data) {
-        return data.keys().hasOnly(['openedAt', 'letterOpenedAt']);
+        return data.keys().hasOnly(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'reactionCapturedAt', 'christmasTreeImage', 'christmasTreeUpdatedAt']);
+      }
+      function validReaction(data) {
+        return (!('reactionPhoto' in data) && !('reactionCapturedAt' in data))
+          || (data.reactionPhoto is string
+            && data.reactionPhoto.size() <= 800000
+            && data.reactionCapturedAt is timestamp);
+      }
+      function validChristmasTree(data) {
+        return (!('christmasTreeImage' in data) && !('christmasTreeUpdatedAt' in data))
+          || (day == '23'
+            && data.christmasTreeImage is string
+            && data.christmasTreeImage.size() <= 800000
+            && data.christmasTreeUpdatedAt is timestamp);
       }
       function validCreate() {
         return progressOnly(request.resource.data)
-          && request.resource.data.keys().hasAny(['openedAt', 'letterOpenedAt'])
+          && request.resource.data.keys().hasAny(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'christmasTreeImage'])
           && (!('openedAt' in request.resource.data) || request.resource.data.openedAt is timestamp)
-          && (!('letterOpenedAt' in request.resource.data) || request.resource.data.letterOpenedAt is timestamp);
+          && (!('letterOpenedAt' in request.resource.data) || request.resource.data.letterOpenedAt is timestamp)
+          && validReaction(request.resource.data)
+          && validChristmasTree(request.resource.data);
       }
       function validUpdate() {
         let changed = request.resource.data.diff(resource.data).affectedKeys();
         return progressOnly(request.resource.data)
-          && changed.hasOnly(['openedAt', 'letterOpenedAt'])
+          && changed.hasOnly(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'reactionCapturedAt', 'christmasTreeImage', 'christmasTreeUpdatedAt'])
           && (!changed.hasAny(['openedAt'])
             || (request.resource.data.openedAt is timestamp
               && (!('openedAt' in resource.data) || resource.data.openedAt == null)))
           && (!changed.hasAny(['letterOpenedAt'])
             || (request.resource.data.letterOpenedAt is timestamp
-              && (!('letterOpenedAt' in resource.data) || resource.data.letterOpenedAt == null)));
+              && (!('letterOpenedAt' in resource.data) || resource.data.letterOpenedAt == null)))
+          && (!changed.hasAny(['reactionPhoto', 'reactionCapturedAt'])
+            || changed.hasAll(['reactionPhoto', 'reactionCapturedAt']))
+          && (!changed.hasAny(['christmasTreeImage', 'christmasTreeUpdatedAt'])
+            || changed.hasAll(['christmasTreeImage', 'christmasTreeUpdatedAt']))
+          && validReaction(request.resource.data)
+          && validChristmasTree(request.resource.data);
       }
 
       // The client reads the whole giftProgress collection on startup, so list

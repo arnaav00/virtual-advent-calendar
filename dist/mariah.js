@@ -1,4 +1,6 @@
 import { ADVENT, defrostStage, iceShape } from './advent-time.js';
+import { allReactions } from './gift-state.js';
+import { missingReactionAlert, missingReactionDays, REACTION_SLIDE_MS } from './reaction-slideshow.js';
 const NS='http://www.w3.org/2000/svg';
 export function setupMariah(svg){
   const figure=document.createElementNS(NS,'g');figure.setAttribute('class','mariah-surprise');
@@ -56,9 +58,62 @@ export function setupMariah(svg){
   const front=figure.querySelector('.ice-front'),side=figure.querySelector('.ice-side'),top=figure.querySelector('.ice-top'),clip=figure.querySelector('#mariah-ice-clip path');
   const ice=figure.querySelector('.mariah-ice'),puddle=figure.querySelector('.mariah-puddle'),person=figure.querySelector('.mariah-person');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const audio=document.createElement('audio');audio.src='assets/its-time.mp3';audio.preload='auto';audio.volume=.6;audio.className='mariah-audio';audio.hidden=true;document.body.append(audio);
-  audio.addEventListener('canplaythrough',()=>{figure.dataset.audio='ready';});
-  audio.addEventListener('error',()=>{figure.dataset.audio='unavailable';});
+  const itsTimeAudio=document.createElement('audio');itsTimeAudio.src='assets/its-time.mp3';itsTimeAudio.preload='auto';itsTimeAudio.volume=.6;itsTimeAudio.className='mariah-audio mariah-itstime-audio';itsTimeAudio.hidden=true;document.body.append(itsTimeAudio);
+  const songAudio=document.createElement('audio');songAudio.src='assets/mariah_carrey.mp3';songAudio.preload='auto';songAudio.volume=.6;songAudio.className='mariah-audio mariah-song-audio';songAudio.hidden=true;document.body.append(songAudio);
+  const attic=svg.querySelector('.central-attic');
+  const atticUnlockKey='snowglobe-mariah-attic-unlocked';
+  let atticUnlocked=false;
+  try{atticUnlocked=localStorage.getItem(atticUnlockKey)==='yes';}catch{}
+  if(atticUnlocked){attic.classList.add('is-enabled');attic.setAttribute('tabindex','0');}
+  const slideshow=document.createElement('dialog');slideshow.className='mariah-slideshow';slideshow.setAttribute('aria-label','Christmas reaction slideshow');
+  slideshow.innerHTML='<button class="mariah-slideshow-close" type="button" aria-label="Close slideshow">×</button><img alt="Reaction photo for day 1"><p class="mariah-slideshow-day" aria-live="polite">Day 1</p>';
+  document.body.append(slideshow);
+  const slideImage=slideshow.querySelector('img'),slideLabel=slideshow.querySelector('.mariah-slideshow-day');
+  let slideTimer=0,slideUrls=[],slideshowOpening=false;
+  function fitSlideshowToPhoto(){
+    if(!slideImage.naturalWidth||!slideImage.naturalHeight)return;
+    const mobile=window.innerWidth<=640;
+    const maxWidth=Math.min(window.innerWidth*(mobile ? .88 : .55),840);
+    const maxHeight=Math.min(window.innerHeight*(mobile ? .62 : .55),600);
+    const scale=Math.min(1,maxWidth/slideImage.naturalWidth,maxHeight/slideImage.naturalHeight);
+    slideshow.style.width=`${Math.round(slideImage.naturalWidth*scale)}px`;
+    slideshow.style.height=`${Math.round(slideImage.naturalHeight*scale)}px`;
+  }
+  window.addEventListener('resize',fitSlideshowToPhoto);
+  function closeSlideshow(){clearTimeout(slideTimer);slideTimer=0;if(slideshow.open)slideshow.close();itsTimeAudio.pause();itsTimeAudio.currentTime=0;songAudio.pause();songAudio.currentTime=0;songAudio.volume=.6;finish();slideUrls.forEach(url=>URL.revokeObjectURL(url));slideUrls=[];slideImage.removeAttribute('src');slideshow.style.removeProperty('width');slideshow.style.removeProperty('height');}
+  slideshow.querySelector('.mariah-slideshow-close').addEventListener('click',closeSlideshow);
+  slideshow.addEventListener('cancel',event=>{event.preventDefault();closeSlideshow();});
+  slideshow.addEventListener('click',event=>{if(event.target===slideshow)closeSlideshow();});
+  async function openSlideshow(){
+    if(slideshowOpening||slideshow.open)return;
+    slideshowOpening=true;
+    closeSlideshow();
+    itsTimeAudio.pause();
+    songAudio.currentTime=0;songAudio.volume=0;
+    // Begin silently within the click gesture so browsers allow playback after
+    // Firebase finishes loading the saved photos; unmute only on a valid show.
+    const songPlayback=songAudio.play().then(()=>true,error=>{console.warn('[Mariah] Could not play the slideshow song:',error);return false;});
+    try{
+      const photos=await allReactions();
+      const missing=missingReactionDays(photos);
+      if(missing.length){songAudio.pause();songAudio.currentTime=0;songAudio.volume=.6;window.alert(missingReactionAlert(missing));return;}
+      slideUrls=photos.map(photo=>URL.createObjectURL(photo.blob));
+      let index=0;const show=async()=>{slideImage.src=slideUrls[index];slideImage.alt=`Reaction photo for day ${photos[index].day}`;try{await slideImage.decode();}catch{}if(!slideshow.open)return;fitSlideshowToPhoto();slideLabel.textContent=`Day ${photos[index].day}`;index++;if(index===photos.length){slideTimer=setTimeout(closeSlideshow,REACTION_SLIDE_MS);return;}slideTimer=setTimeout(show,REACTION_SLIDE_MS);};
+      songAudio.currentTime=0;
+      slideshow.showModal();show();
+      figure.dataset.singing='true';figure.classList.add('is-singing');
+      songPlayback.then(playing=>{if(playing&&slideshow.open)songAudio.volume=.6;else if(!playing)finish();});
+    }catch(error){
+      songAudio.pause();songAudio.currentTime=0;songAudio.volume=.6;
+      console.warn('[Mariah] Could not load the slideshow photos:',error);
+      window.alert('The Christmas slideshow could not be loaded. Please try again.');
+    }finally{slideshowOpening=false;}
+  }
+  attic.addEventListener('click',()=>{if(figure.dataset.state==='free')openSlideshow();});
+  attic.addEventListener('keydown',event=>{if(figure.dataset.state==='free'&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openSlideshow();}});
+  attic.addEventListener('pointerleave',()=>attic.classList.remove('is-open'));
+  itsTimeAudio.addEventListener('error',()=>{console.warn('[Mariah] Could not load the “It’s time” clip.');});
+  songAudio.addEventListener('error',()=>{console.warn('[Mariah] Could not load the slideshow song.');});
   let elapsed=0,previous=0,stage=-1,shown=0,free=false;
   function droplets(progress){
     if(reduced.matches||progress<=0||progress>=1)return;
@@ -103,15 +158,16 @@ export function setupMariah(svg){
     requestAnimationFrame(frame);
   }
   function sing(){
-    if(!free||figure.dataset.singing==='true')return;
-    figure.dataset.singing='true';figure.classList.add('is-singing');
-    audio.currentTime=0;
-    audio.play().catch(()=>{figure.dataset.audio='unavailable';finish();});
+    if(!free)return;
+    itsTimeAudio.currentTime=0;
+    itsTimeAudio.play().catch(error=>console.warn('[Mariah] Could not play the “It’s time” clip:',error));
+    if(!atticUnlocked){atticUnlocked=true;attic.classList.add('is-enabled','is-open');attic.setAttribute('tabindex','0');try{localStorage.setItem(atticUnlockKey,'yes');}catch{}}
   }
   function finish(){figure.dataset.singing='false';figure.classList.remove('is-singing');}
-  audio.addEventListener('ended',finish);
-  figure.addEventListener('click',sing);
-  figure.addEventListener('keydown',event=>{if(free&&(event.key==='Enter'||event.key===' ')){event.preventDefault();sing();}});
+  songAudio.addEventListener('ended',finish);
+  songAudio.addEventListener('timeupdate',()=>{if(Number.isFinite(songAudio.duration)&&songAudio.duration-songAudio.currentTime<=1.5)songAudio.volume=Math.max(0,.6*(songAudio.duration-songAudio.currentTime)/1.5);});
+  figure.addEventListener('click',event=>{if(attic.contains(event.target))return;sing();});
+  figure.addEventListener('keydown',event=>{if(attic.contains(event.target))return;if(free&&(event.key==='Enter'||event.key===' ')){event.preventDefault();sing();}});
   document.addEventListener('visibilitychange',()=>{previous=0;});
   draw(0);requestAnimationFrame(frame);
 }

@@ -44,7 +44,7 @@ function wreath(x,y,s=1){
 }
 function chimney(x,y,paint){return `<g class="chimney">${rect(x,y,28,77,paint)}${rect(x-5,y-4,38,10,snow,4)}${path(`M${x+5} ${y+20}h10m-1 12h12m-20 14h12`,'none','opacity=".35"')}</g>`;}
 function roof(x,y,w,h,color){return `${path(`M${x-13} ${y+7}L${x+w/2} ${y-h}L${x+w+13} ${y+7}L${x+w+6} ${y+20}L${x+w/2} ${y-h+20}L${x-6} ${y+20}Z`,color)}${path(`M${x-18} ${y+5}Q${x-24} ${y-3} ${x-12} ${y-9}L${x+w/2-9} ${y-h-11}Q${x+w/2} ${y-h-18} ${x+w/2+11} ${y-h-9}L${x+w+18} ${y-4}Q${x+w+27} ${y+9} ${x+w+13} ${y+12}Q${x+w+3} ${y+16} ${x+w-1} ${y+6}L${x+w/2} ${y-h+5}L${x+8} ${y+7}Q${x+1} ${y+23} ${x-6} ${y+11}Z`,snow)}`;}
-function attic(x,y,r=18){return `${circle(x,y,r,'#f0d79b')}${path(`M${x-r+2} ${y}h${r*2-4}M${x} ${y-r+2}v${r*2-4}`)}${circle(x,y,r+5,'none')}`;}
+function attic(x,y,r=18,interactive=false){if(interactive)return `<g class="central-attic" role="button" aria-label="Open the Christmas reaction slideshow" tabindex="-1" transform-origin="${x}px ${y}px"><circle class="attic-window-glow" cx="${x}" cy="${y}" r="${r+20}"/><circle cx="${x}" cy="${y}" r="${r}" fill="#f0d79b" stroke="${ink}" stroke-width="2.3"/><path class="attic-cross" d="M${x-r+2} ${y}h${r*2-4}M${x} ${y-r+2}v${r*2-4}" stroke="${ink}" stroke-width="2.3"/><circle cx="${x}" cy="${y}" r="${r+5}" fill="none" stroke="${ink}" stroke-width="2.3"/></g>`;return `${circle(x,y,r,'#f0d79b')}${path(`M${x-r+2} ${y}h${r*2-4}M${x} ${y-r+2}v${r*2-4}`)}${circle(x,y,r+5,'none')}`;}
 let art = `<defs><radialGradient id="sun"><stop stop-color="#fff2b0"/><stop offset="1" stop-color="#f3d179"/></radialGradient><linearGradient id="ground" x2="0" y2="1"><stop stop-color="#fffdf3"/><stop offset="1" stop-color="#e9ede4"/></linearGradient></defs>`;
 // A sunny winter sky and distant snowy hills.
 art += `<g class="winter-sun celestial-toggle" role="button" tabindex="0" aria-label="Switch to night-time" transform-origin="1116px 168px"><circle cx="1116" cy="168" r="61" fill="#fff1b7" opacity=".15"/><circle cx="1116" cy="168" r="49" fill="#ffe9a2" opacity=".22"/><circle cx="1116" cy="168" r="39" fill="url(#sun)" stroke="#e4bc69" stroke-width="1.5"/></g>`;
@@ -72,7 +72,7 @@ art += chimney(791,189,'#c58176');
 art += houseBody(613,302,231,428,'#e1ada1',2);
 art += gable(613,302,231,128,'#e1ada1');
 art += roof(613,302,231,135,'#875349');
-art += attic(728,252,22);
+art += attic(728,252,22,true);
 art += path('M625 315V716M831 315V716M613 439H844M613 554H844','none','opacity=".4"');
 art += rect(600,720,257,16,snow,5);
 art += path('M668 731L659 747H800L791 731','#e7d7c3');
@@ -165,6 +165,26 @@ const nightSky=document.querySelector('#night-sky');
 const stars=[[92,102,2.2],[178,215,1.5],[260,115,1.8],[342,255,2.3],[418,102,1.6],[506,190,2.1],[587,93,1.4],[678,196,2.4],[761,112,1.7],[844,244,1.8],[940,92,2.2],[1012,247,1.5],[1262,101,1.9],[1348,220,2.3],[127,330,1.6],[286,362,2.1],[487,310,1.4],[656,365,1.8],[836,330,2.2],[976,376,1.6],[1236,338,1.5],[1378,392,1.8],[218,185,1.3],[565,248,1.4],[884,160,1.5],[1305,288,1.4]];
 nightSky.innerHTML=`<defs><radialGradient id="attic-amber-glow"><stop offset="0" stop-color="#ffc45b" stop-opacity=".9"/><stop offset=".34" stop-color="#ffb83f" stop-opacity=".52"/><stop offset="1" stop-color="#ffb83f" stop-opacity="0"/></radialGradient></defs><g class="attic-window-glows" aria-hidden="true">${[[278,397,68],[493,321,76],[728,252,88],[956,338,72],[1152,421,65]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#attic-amber-glow)"/>`).join('')}</g><g class="night-stars" aria-hidden="true">${stars.map(([x,y,r],i)=>`<g class="night-star" style="--twinkle:${(i%7)*.31}s"><circle cx="${x}" cy="${y}" r="${r}"/><path d="M${x} ${y-r*2.6}V${y+r*2.6}M${x-r*2.6} ${y}H${x+r*2.6}"/></g>`).join('')}</g>`;
 svg.querySelectorAll('.festive-light').forEach(light=>nightSky.appendChild(light.cloneNode(true)));
+const fireworks=document.querySelector('#fireworks');
+const fireworkBursts=[[155,120,'#ff3048',0],[430,214,'#fff8ed',.9],[700,104,'#35f477',1.8],[985,196,'#ff3048',2.7],[1280,116,'#fff8ed',3.6],[1130,310,'#35f477',4.5]];
+fireworks.innerHTML=fireworkBursts.map(([x,y,color,delay])=>{
+  const sparks=Array.from({length:20},(_,i)=>{
+    const angle=(Math.PI*2*i)/20,inner=i%2?5:8,outer=i%2?48:70;
+    const x1=Math.cos(angle)*inner,y1=Math.sin(angle)*inner,x2=Math.cos(angle)*outer,y2=Math.sin(angle)*outer;
+    const mx=Math.cos(angle)*(outer-10),my=Math.sin(angle)*(outer-10);
+    return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}"/><circle cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="${i%3===0?2.8:1.8}"/><circle class="firework-glint" cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="1.15"/>`;
+  }).join('');
+  return `<g transform="translate(${x} ${y})" style="--firework-color:${color};--firework-delay:${delay}s"><path class="firework-launch" d="M0 116L0 2"/><g class="firework-burst">${sparks}<circle class="firework-core" r="5.5"/></g></g>`;
+}).join('');
+const fireworksStorageKey='snowglobe-gift25-fireworks';
+const fireworksEnabled=true;
+function startFireworks(){
+  if(!fireworksEnabled)return;
+  fireworks.classList.add('fireworks-active');
+  try{localStorage.setItem(fireworksStorageKey,'yes');}catch{}
+}
+try{if(localStorage.getItem(fireworksStorageKey)==='yes')startFireworks();}catch{}
+window.addEventListener('gift25:complete',startFireworks,{once:true});
 const celestialSun=svg.querySelector('.winter-sun');
 const celestialMoon=document.createElementNS('http://www.w3.org/2000/svg','g');
 celestialMoon.setAttribute('class','winter-moon celestial-toggle');
