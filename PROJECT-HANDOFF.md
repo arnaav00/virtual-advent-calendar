@@ -1,11 +1,11 @@
 # Little Snowglobe — project handoff
 
-Updated 21 November 2026. This file captures the current implementation and the latest user decisions. When it conflicts with older `README.md` text, follow this handoff and the user’s latest requests.
+Updated 23 November 2026. This file captures the current implementation and the latest user decisions. When it conflicts with older `README.md` text, follow this handoff and the user’s latest requests.
 
 ## Where the project is
 
 - Project root: `C:\Users\arnaa\Desktop\adventcalendar\little-snowglobe`
-- Push policy: do not push to origin until the user explicitly asks. The user is resolving GitHub authentication on their side.
+- Push policy: push to origin when the user explicitly asks; otherwise keep changes local.
 - App files and media: `dist/`
 - Run locally from the project root with `npm run dev`; visit `http://127.0.0.1:4173/` (or `http://localhost:4173/`). The local server supports HTTP byte ranges for seekable MP4 playback. If the server reports `EADDRINUSE`, it is already listening on port 4173; use the existing preview or stop that process before starting another.
 - Checks: `npm test` (18 passing at the time of this note), `npm run check`, and `node --check dist/wrapped-stories.js` for the story module.
@@ -127,6 +127,10 @@ Gift 20 conversation follow-up: the replay screen uses a standard outlined chat-
 Gift 23 is implemented in `dist/gift23-gift.js` and registered in `dist/gift-modal.js`. Its click-outable shared dark overlay shows the requested white message and gold Santa’s Workshop link. `dist/assets/elf_upload.gif` opens the image picker. After a tree image is selected, the upload is proportionally cropped to the interior artwork bounds observed in the 1200×1580 North Pole export (x 50–1150, y 87–1373), dropping the gold frame and footer; the cropped tree appears in an animated Polaroid captioned “2027 Christmas Devangtree”. The elf remains at bottom-left to replace the image. Shared X and reaction-photo controls remain visible. The Gift 23 intro, link, upload control, click-out dismissal, and camera control were checked in the live preview. The snowball mini-game cat now stays visible for 2 seconds (`CAT_STAY` in `dist/game-model.js`). Night mode’s five attic window glows were brightened to match the door lights.
 
 Gift 24 is implemented in `dist/gift24-gift.js`: a single wooden door appears with no visible copy, while `assets/door_knock.mp3` loops. Opening Gift 24 pauses the home background music; closing it resumes the music if it had been playing. Clicking the door stops the knocks and animates it inward before revealing and autoplaying the same sample flower clip used by Gift 3’s North Pole video (`SAMPLE_MESSAGE_VIDEO` in `dist/letter-video.js`). Closing the gift stops sound/video; the overlay and shared X dismiss it, and the shared reaction camera remains available.
+
+## Gift 25 — tabletop Santa dolls
+
+Gift 25 is registered in `dist/gift-modal.js` and implemented in `dist/gift25-gift.js`. The usual dark modal and shared reaction camera frame a full-width wooden tabletop using `dist/assets/table25.png` at its natural aspect ratio. The supplied `devdoll.png` and `arndoll.png` cutouts start on opposite sides, with their visible heights normalized despite different source dimensions. They are draggable horizontally only, bounded from their starting sides to center positions that retain a gap. Their visible height is now half the original design size, and their feet are aligned toward the front edge of the table’s wood surface. Once both reach center, `arnangshi.png` fades in behind them at 125% of its previous size; its offset aligns the pictured hands with the two doll pieces. The X and empty overlay close the gift. Initial and gathered layouts were visually checked in the live preview before these latest size and baseline adjustments. The app’s accessible description now identifies 25 calendar days.
 
 ## Gift 21 — hand-cranked Christmas music box
 

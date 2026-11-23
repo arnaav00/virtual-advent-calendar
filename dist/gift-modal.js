@@ -16,6 +16,7 @@ import { slothBookCard } from './sloth-book-gift.js';
 import { musicBoxCard } from './musicbox-gift.js';
 import { gift23Card } from './gift23-gift.js';
 import { gift24Card } from './gift24-gift.js';
+import { gift25Card } from './gift25-gift.js';
 export function setupGiftModal(){
   const dialog=document.createElement('dialog');dialog.id='day-gift';dialog.className='gift-dialog';dialog.setAttribute('aria-label','Open your present');
   dialog.innerHTML=`<button class="gift-close" aria-label="Close gift"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg></button>
@@ -73,7 +74,7 @@ export function setupGiftModal(){
     </g>
   </svg></div>`;
   document.body.append(dialog);
-  const cards={1:playlistCard(1),2:playlistCard(2,3),3:playlistCard(3,2),4:playlistCard(4),5:playlistCard(5),6:playlistCard(6),7:playlistCard(7),8:playlistCard(8),9:christmillionCard(),10:btsCard(),12:snoopyCard(),13:coffeeCard(),14:jigsawCard(),15:cookbookCard(),16:snowglobeCard(),17:ao3Card(),18:tetrisCard(),19:slothBookCard(),20:goodreadsCard(),21:musicBoxCard(),22:ghibliCard(),23:gift23Card(),24:gift24Card()};Object.values(cards).forEach(item=>dialog.append(item.element,item.captureButton));let card=cards[1],currentDay=0;
+  const cards={1:playlistCard(1),2:playlistCard(2,3),3:playlistCard(3,2),4:playlistCard(4),5:playlistCard(5),6:playlistCard(6),7:playlistCard(7),8:playlistCard(8),9:christmillionCard(),10:btsCard(),12:snoopyCard(),13:coffeeCard(),14:jigsawCard(),15:cookbookCard(),16:snowglobeCard(),17:ao3Card(),18:tetrisCard(),19:slothBookCard(),20:goodreadsCard(),21:musicBoxCard(),22:ghibliCard(),23:gift23Card(),24:gift24Card(),25:gift25Card()};Object.values(cards).forEach(item=>dialog.append(item.element,item.captureButton));let card=cards[1],currentDay=0;
   const physicalInstruction=dialog.querySelector('.gift-physical-instruction');
   dialog.querySelector('.gift-close').addEventListener('click',()=>close());
   const art=dialog.querySelector('.gift-art'),handle=dialog.querySelector('.ribbon-handle'),left=dialog.querySelector('.bow-left'),right=dialog.querySelector('.bow-right');
@@ -162,7 +163,7 @@ export function setupGiftModal(){
   handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',event=>{release(event);suppressClick=false;});
   handle.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();unwrap();}});
   dialog.addEventListener('pointerdown',event=>{if(!event.target.closest('.ribbon-handle'))suppressClick=false;});
-  dialog.addEventListener('click',event=>{if(suppressClick){suppressClick=false;return;}if(currentDay===21){if(event.target===dialog||event.target.closest('.musicbox-gift')&&!event.target.closest('.musicbox-stage,.musicbox-note'))close();return;}if(currentDay===23||currentDay===24){if(event.target===dialog||event.target===card.element)close();return;}if(currentDay===17||currentDay===18||currentDay===19||currentDay===20||currentDay===22){if(event.target===dialog)close();return;}if(currentDay===10||currentDay===13||currentDay===14||currentDay===16)return;if(!event.target.closest('.present-interactive,.playlist-card,.reaction-start,.bts-gift-card,.snoopy-gift,.coffee-gift,.jigsaw-gift,.cookbook-gift,.gift23-card'))close();});
+  dialog.addEventListener('click',event=>{if(suppressClick){suppressClick=false;return;}if(currentDay===21){if(event.target===dialog||event.target.closest('.musicbox-gift')&&!event.target.closest('.musicbox-stage,.musicbox-note'))close();return;}if(currentDay===23||currentDay===24){if(event.target===dialog||event.target===card.element)close();return;}if(currentDay===25){if(state==='revealed'&&!event.target.closest('.gift25-doll,.reaction-start,.gift-close'))close();return;}if(currentDay===17||currentDay===18||currentDay===19||currentDay===20||currentDay===22){if(event.target===dialog)close();return;}if(currentDay===10||currentDay===13||currentDay===14||currentDay===16)return;if(!event.target.closest('.present-interactive,.playlist-card,.reaction-start,.bts-gift-card,.snoopy-gift,.coffee-gift,.jigsaw-gift,.cookbook-gift,.gift23-card'))close();});
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(currentDay!==10)close();});
   dialog.addEventListener('keydown',event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();if(currentDay!==10)close();}});
   return{
