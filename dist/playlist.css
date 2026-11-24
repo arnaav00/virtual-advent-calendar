@@ -380,3 +380,35 @@
 @media(max-width:520px){.library-gift-heading h2{font-size:clamp(12px,3.66vw,18px);letter-spacing:-.45px}.library-gift-heading p{font-size:15.6px}.library-cabinet-stage{width:min(310px,84vw,37dvh);height:min(50dvh,465px)}.library-play-area{gap:0}.library-floor{width:calc(100vw - 22px);height:min(19dvh,150px);min-height:88px}.library-floor-tile{height:70px}.library-book{width:clamp(76px,19vw,105px);height:clamp(45px,10vh,58px)}.library-book{width:clamp(82px,22vw,110px);height:clamp(48px,11vh,62px)}.library-start-over{bottom:clamp(108px,17vh,150px)}}
 @media(max-height:700px){.library-card.playlist-card{padding-top:10px}.library-gift-heading{margin-bottom:0}.library-cabinet-stage{height:min(51dvh,470px);width:min(350px,34dvh)}.library-floor{height:min(17dvh,125px);min-height:76px}.library-floor-tile{height:62px}.library-book{width:clamp(78px,15vw,110px);height:clamp(45px,8vh,60px)}}
 @media(prefers-reduced-motion:reduce){.library-cupboard,.library-book,.library-glass-gleam::before,.library-book.is-falling{transition:none;animation:none}}
+.terms-agreement{box-sizing:border-box;position:fixed;inset:0;max-width:none;max-height:none;width:100%;height:100%;margin:0;padding:clamp(22px,5vh,54px) clamp(18px,6vw,90px);border:0;background:rgba(15,30,31,.76);backdrop-filter:blur(4px);color:#fff;overflow:auto;overscroll-behavior:contain;text-align:center;font-family:'Patrick Hand','Comic Sans MS',cursive}
+.terms-agreement::backdrop{background:transparent;backdrop-filter:none}
+.terms-agreement-content{box-sizing:border-box;width:min(100%,1250px);height:100%;min-height:100%;margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0}
+.terms-agreement h1{margin:0;color:#fff;font:400 clamp(30px,4.2vw,52px)/1.1 'Patrick Hand','Comic Sans MS',cursive}
+.terms-intro,.terms-warning{width:min(100%,780px);margin:0;color:#fff;font:400 clamp(18px,2.2vw,25px)/1.25 'Patrick Hand','Comic Sans MS',cursive}
+.terms-checklist-group{width:min(100%,1120px);max-width:100%;align-self:center;display:flex;flex-direction:column;gap:clamp(30px,4vh,48px);margin-top:clamp(71px,10.14vh,118.3px)}
+.terms-intro{width:100%;align-self:stretch;margin:0;text-align:left;text-decoration:underline;text-underline-offset:.16em}
+.terms-list{width:100%;max-width:100%;display:flex;flex-direction:column;align-items:stretch;gap:clamp(15px,2vh,24px);margin:0}
+.terms-item{position:relative;display:grid;grid-template-columns:19px minmax(0,1fr);column-gap:10px;align-items:center;width:100%;max-width:100%;color:#fff;font:400 clamp(20.4px,2.4vw,27.6px)/1.2 'Patrick Hand','Comic Sans MS',cursive;cursor:pointer}
+.terms-item .terms-text{text-align:left;padding:0;min-width:0;white-space:nowrap}
+.terms-item input{position:absolute;width:1px;height:1px;margin:0;opacity:0}
+.terms-checkbox{display:grid;place-items:center;width:19px;height:19px;border:1px solid #fff;border-radius:3px;background:#fffaf0;box-shadow:none;transition:background .2s,border-color .2s,transform .18s}
+.terms-checkbox svg{width:17px;height:17px;fill:none;stroke:#171713;stroke-width:2.45;stroke-linecap:round;stroke-linejoin:round;opacity:0;overflow:visible}
+.terms-checkbox svg path{stroke-dasharray:28;stroke-dashoffset:28;transition:stroke-dashoffset .32s cubic-bezier(.2,.8,.2,1)}
+.terms-item input:checked+.terms-checkbox{background:#fffaf0;border-color:#fff;transform:scale(1.04)}
+.terms-item input:checked+.terms-checkbox svg{opacity:1}
+.terms-item input:checked+.terms-checkbox svg path{stroke-dashoffset:0}
+.terms-item:hover input:not(:checked)+.terms-checkbox{transform:scale(1.06);box-shadow:0 0 9px #fff6}
+.terms-item input:checked+.terms-checkbox,.terms-item input:checked+.terms-checkbox svg{transition:background .2s,border-color .2s,transform .24s cubic-bezier(.2,.8,.2,1),opacity .18s}
+.terms-item:active .terms-checkbox{transform:scale(.93)}
+.terms-item input:focus-visible+.terms-checkbox{outline:none}
+.terms-footer{display:flex;flex-direction:column;align-items:center;gap:clamp(12px,2vh,22px);margin-top:auto}
+.terms-warning{margin-top:clamp(12px,2vh,22px);font-size:clamp(11px,1.32vw,15px)}
+.terms-enter:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.terms-enter{min-width:142px;padding:7px 22px;border:2px solid #fff;border-radius:0;background:transparent;color:#fff;font:400 25px/1.1 'Patrick Hand','Comic Sans MS',cursive;letter-spacing:.08em;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,color .2s ease,border-color .2s ease}
+.terms-enter:not(:disabled):hover{transform:translateY(-2px) scale(1.04);box-shadow:0 0 18px #fff7}
+.terms-enter:not(:disabled):active{transform:scale(.94)}
+.terms-enter:disabled{border-color:#707775;color:#707775;cursor:not-allowed}
+.terms-enter.is-entering{animation:terms-enter-pop .3s ease both}
+@keyframes terms-check-pop{0%{transform:scale(.65)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes terms-enter-pop{50%{transform:scale(.9)}100%{transform:scale(1.06)}}
+@media(max-width:600px){.terms-agreement{padding:24px 17px}.terms-agreement-content{justify-content:flex-start;padding:2vh 0;gap:0}.terms-checklist-group{margin-top:54.1px;gap:32px}.terms-item{grid-template-columns:19px minmax(0,1fr);column-gap:8px;font-size:21.6px}.terms-checkbox{width:17px;height:17px}.terms-checkbox svg{width:15px;height:15px}.terms-footer{gap:12px;margin-top:auto}}

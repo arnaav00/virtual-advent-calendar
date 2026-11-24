@@ -4,7 +4,8 @@ const KEY='snowglobe:2026:gifts:v8';
 let memory={};
 try{memory=JSON.parse(localStorage.getItem(KEY)||'{}');if(!memory||typeof memory!=='object')memory={};}catch{}
 
-let cloud=null,cloudReady=false,cloudInit;
+let cloud=null,cloudReady=false,cloudInit,cloudAuthoritative=false,hasRemoteProgress=false;
+const TERMS_ACCEPTED_KEY='snowglobe:2026:terms-accepted:v1';
 const iso=value=>value?.toDate?value.toDate().toISOString():typeof value==='string'?value:null;
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(memory));return true;}catch{return false;}}
 function announce(type,detail){window.dispatchEvent(new CustomEvent(type,{detail}));}
@@ -17,12 +18,18 @@ function mergeCloudSnapshot(snapshot){
     const data=item.data(),next={};
     if(data.openedAt)next.openedAt=iso(data.openedAt);
     if(data.letterOpenedAt)next.letterOpenedAt=iso(data.letterOpenedAt);
+    if(day===1&&data.termsAccepted===true)next.termsAccepted=true;
     if(data.fireworksActivated===true||(day===25&&data.openedAt))next.fireworksActivated=true;
     if(data.boomboxActivated===true||(day===1&&data.openedAt))next.boomboxActivated=true;
-    if(next.openedAt||next.letterOpenedAt||next.fireworksActivated||next.boomboxActivated)remote[day]=next;
+    if(day===25&&data.mariahAtticActivated===true)next.mariahAtticActivated=true;
+    if(day===16&&typeof data.snowglobeImage==='string'&&data.snowglobeImageUpdatedAt) {
+      next.snowglobeImage=data.snowglobeImage;
+      next.snowglobeImageUpdatedAt=iso(data.snowglobeImageUpdatedAt);
+    }
+    if(next.openedAt||next.letterOpenedAt||next.termsAccepted||next.fireworksActivated||next.boomboxActivated||next.mariahAtticActivated||next.snowglobeImage)remote[day]=next;
   }
   memory=remote;
-  persist();announce('gift-state-updated',{source:'firebase'});
+  hasRemoteProgress=snapshot.docs.length>0;cloudAuthoritative=true;persist();announce('gift-state-updated',{source:'firebase'});
 }
 
 function clearLegacyLocalReactions(){
@@ -83,9 +90,47 @@ function syncField(day,field){
 }
 
 export const isOpened=day=>Boolean(memory[day]?.openedAt);
+export const giftProgressExists=()=>cloudAuthoritative&&hasRemoteProgress;
+export function termsWereAccepted(){try{return localStorage.getItem(TERMS_ACCEPTED_KEY)==='yes';}catch{return false;}}
+export async function acceptTerms(){
+  try{localStorage.setItem(TERMS_ACCEPTED_KEY,'yes');}catch{}
+  await initializeGiftState();
+  if(!cloudReady||!cloud)return false;
+  await cloud.setDoc(cloud.doc(cloud.db,'giftProgress','1'),{termsAccepted:true},{merge:true});
+  memory[1]={...memory[1],termsAccepted:true};hasRemoteProgress=true;persist();return true;
+}
 export function isFeatureActivated(feature){
-  const [day,field]=feature==='fireworks'?[25,'fireworksActivated']:feature==='boombox'?[1,'boomboxActivated']:[0,''];
+  const [day,field]=feature==='fireworks'?[25,'fireworksActivated']:feature==='boombox'?[1,'boomboxActivated']:feature==='mariahAttic'?[25,'mariahAtticActivated']:[0,''];
   return Boolean(memory[day]?.[field]);
+}
+export function activateFeature(feature){
+  const [day,field]=feature==='mariahAttic'?[25,'mariahAtticActivated']:[0,''];
+  if(!day)return false;
+  memory[day]={...memory[day],[field]:true};
+  const persisted=persist();announce('gift-state-updated',{source:'local',feature});
+  syncFields(day,{[field]:true});
+  return persisted;
+}
+export const savedSnowglobeImage=()=>cloudAuthoritative?memory[16]?.snowglobeImage||null:null;
+export async function saveSnowglobeImage(dataUrl){
+  if(typeof dataUrl!=='string'||!dataUrl.startsWith('data:image/')||dataUrl.length>800000)throw new Error('The snowglobe image is too large to sync. Choose a smaller image.');
+  await initializeGiftState();
+  if(!cloudReady||!cloud)throw new Error('Snowglobe image sync requires Firebase. Connect to the internet and try again.');
+  const fields={snowglobeImage:dataUrl,snowglobeImageUpdatedAt:cloud.serverTimestamp()};
+  await cloud.setDoc(cloud.doc(cloud.db,'giftProgress','16'),fields,{merge:true});
+  cloudAuthoritative=true;
+  memory[16]={...memory[16],...fields,snowglobeImageUpdatedAt:new Date().toISOString()};persist();
+  announce('gift-state-updated',{source:'firebase',day:16});
+}
+export async function clearSnowglobeImage(){
+  await initializeGiftState();
+  if(!cloudReady||!cloud)throw new Error('Snowglobe image sync requires Firebase. Connect to the internet and try again.');
+  await cloud.updateDoc(cloud.doc(cloud.db,'giftProgress','16'),{
+    snowglobeImage:cloud.deleteField(),snowglobeImageUpdatedAt:cloud.deleteField()
+  });
+  const next={...memory[16]};delete next.snowglobeImage;delete next.snowglobeImageUpdatedAt;
+  if(Object.keys(next).length)memory[16]=next;else delete memory[16];
+  persist();announce('gift-state-updated',{source:'firebase',day:16});
 }
 export function markOpened(day){
   const wasOpen=isOpened(day);memory[day]={...memory[day],openedAt:memory[day]?.openedAt||new Date().toISOString()};

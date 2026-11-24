@@ -1,5 +1,5 @@
-export const SNOWGLOBE_IMAGE_KEY = 'snowglobe:2026:custom-photo:v1';
 export const SNOWGLOBE_IMAGE_EVENT = 'snowglobe-image-updated';
+import { savedSnowglobeImage } from './gift-state.js';
 
 export async function compressSnowglobeImage(src) {
   const image = new Image();
@@ -13,7 +13,7 @@ export async function compressSnowglobeImage(src) {
   context.fillStyle = '#eaf1f2';
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL('image/jpeg', .9);
+  return canvas.toDataURL('image/jpeg', .76);
 }
 
 export function setupHomeSnowglobe(svg) {
@@ -51,11 +51,12 @@ export function setupHomeSnowglobe(svg) {
 
   const photo = globe.querySelector('.home-snowglobe-photo');
   function update(src) {
-    if (!src) return;
+    if (!src) { globe.setAttribute('visibility', 'hidden'); photo.removeAttribute('href'); photo.removeAttributeNS('http://www.w3.org/1999/xlink','href'); return; }
     photo.setAttribute('href', src);
     photo.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', src);
     globe.setAttribute('visibility', 'visible');
   }
-  window.addEventListener(SNOWGLOBE_IMAGE_EVENT, event => update(event.detail?.src));
-  try { update(localStorage.getItem(SNOWGLOBE_IMAGE_KEY)); } catch {}
+  window.addEventListener(SNOWGLOBE_IMAGE_EVENT, event => update(event.detail?.src ?? savedSnowglobeImage()));
+  window.addEventListener('gift-state-updated', () => update(savedSnowglobeImage()));
+  update(savedSnowglobeImage());
 }

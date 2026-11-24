@@ -1,5 +1,5 @@
 import { ADVENT, defrostStage, iceShape } from './advent-time.js';
-import { allReactions } from './gift-state.js';
+import { activateFeature, allReactions, isFeatureActivated } from './gift-state.js';
 import { missingReactionAlert, missingReactionDays, REACTION_SLIDE_MS } from './reaction-slideshow.js';
 const NS='http://www.w3.org/2000/svg';
 export function setupMariah(svg){
@@ -61,10 +61,15 @@ export function setupMariah(svg){
   const itsTimeAudio=document.createElement('audio');itsTimeAudio.src='assets/its-time.mp3';itsTimeAudio.preload='auto';itsTimeAudio.volume=.6;itsTimeAudio.className='mariah-audio mariah-itstime-audio';itsTimeAudio.hidden=true;document.body.append(itsTimeAudio);
   const songAudio=document.createElement('audio');songAudio.src='assets/mariah_carrey.mp3';songAudio.preload='auto';songAudio.volume=.6;songAudio.className='mariah-audio mariah-song-audio';songAudio.hidden=true;document.body.append(songAudio);
   const attic=svg.querySelector('.central-attic');
-  const atticUnlockKey='snowglobe-mariah-attic-unlocked';
-  let atticUnlocked=false;
-  try{atticUnlocked=localStorage.getItem(atticUnlockKey)==='yes';}catch{}
-  if(atticUnlocked){attic.classList.add('is-enabled');attic.setAttribute('tabindex','0');}
+  let atticUnlocked=isFeatureActivated('mariahAttic');
+  function updateAtticAvailability(){
+    atticUnlocked=isFeatureActivated('mariahAttic');
+    attic.classList.toggle('is-enabled',atticUnlocked);
+    if(atticUnlocked)attic.setAttribute('tabindex','0');
+    else attic.removeAttribute('tabindex');
+  }
+  updateAtticAvailability();
+  window.addEventListener('gift-state-updated',updateAtticAvailability);
   const slideshow=document.createElement('dialog');slideshow.className='mariah-slideshow';slideshow.setAttribute('aria-label','Christmas reaction slideshow');
   slideshow.innerHTML='<img alt="Reaction photo for day 1"><p class="mariah-slideshow-day" aria-live="polite">Day 1</p>';
   document.body.append(slideshow);
@@ -160,7 +165,7 @@ export function setupMariah(svg){
     if(!free)return;
     itsTimeAudio.currentTime=0;
     itsTimeAudio.play().catch(error=>console.warn('[Mariah] Could not play the “It’s time” clip:',error));
-    if(!atticUnlocked){atticUnlocked=true;attic.classList.add('is-enabled','is-open');attic.setAttribute('tabindex','0');try{localStorage.setItem(atticUnlockKey,'yes');}catch{}}
+    if(!atticUnlocked){activateFeature('mariahAttic');updateAtticAvailability();attic.classList.add('is-open');}
   }
   function finish(){figure.dataset.singing='false';figure.classList.remove('is-singing');}
   songAudio.addEventListener('ended',finish);

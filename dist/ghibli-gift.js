@@ -21,10 +21,10 @@ export function ghibliCard() {
   element.innerHTML = `
     <img class="ghibli-modal-background" src="./assets/ghibli-gifs/studio-ghibli-stone-cottage-4k.jpg" alt="" aria-hidden="true">
     <div class="ghibli-modal-shade" aria-hidden="true"></div>
-    <div class="ghibli-modal-scene" aria-hidden="true">
+    <div class="ghibli-modal-scene">
       <img class="ghibli-decor ghibli-calcifer" src="./assets/ghibli-gifs/calcifer.gif" alt="">
       <img class="ghibli-decor ghibli-kiki" src="./assets/ghibli-gifs/kiki.gif" alt="">
-      <img class="ghibli-decor ghibli-ponyo" src="./assets/ghibli-gifs/ponyo.gif" alt="">
+      <img class="ghibli-decor ghibli-ponyo" src="./assets/ghibli-gifs/ponyo.gif" alt="Ponyo" role="button" tabindex="0" aria-label="Ponyo reminder">
       <img class="ghibli-decor ghibli-haru" src="./assets/ghibli-gifs/haru.gif" alt="">
       <img class="ghibli-decor ghibli-howls" src="./assets/ghibli-gifs/howls.gif" alt="">
       <img class="ghibli-decor ghibli-spiritedaway" src="./assets/ghibli-gifs/spiritedaway.gif" alt="">
@@ -52,6 +52,13 @@ export function ghibliCard() {
 
   const stage = element.querySelector('.ghibli-calendar-stage');
   const bevel = element.querySelector('.ghibli-calendar-bevel');
+  const ponyo = element.querySelector('.ghibli-ponyo');
+  const ponyoReminder = () => window.alert('This was the fish you saw the other day. Remember?');
+  ponyo.addEventListener('click', ponyoReminder);
+  ponyo.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();ponyoReminder();
+  });
   let drag = null, rotation = 0;
   stage.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;

@@ -468,7 +468,8 @@
 .ghibli-decor{position:absolute;display:block;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 8px 10px #07101570)}
 .ghibli-calcifer{right:15%;top:5%;width:clamp(72px,9vw,142px);height:clamp(72px,9vw,142px);transform:scaleX(-1)}
 .ghibli-kiki{left:2%;top:7%;width:clamp(112px,13vw,208px);height:clamp(66px,8vw,128px);transform:scaleX(-1)}
-.ghibli-ponyo{left:3%;top:22%;width:clamp(86px,10vw,154px);height:clamp(58px,7vw,108px)}
+.ghibli-ponyo{left:3%;top:22%;width:clamp(86px,10vw,154px);height:clamp(58px,7vw,108px);pointer-events:auto;cursor:pointer}
+.ghibli-ponyo:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:50%}
 .ghibli-haru{left:0;bottom:1%;width:clamp(294px,33.6vw,525px);height:clamp(122px,14.7vw,235px);object-position:left bottom}
 .ghibli-howls{right:0;bottom:15%;width:clamp(172px,19.5vw,315px);height:clamp(172px,19.5vw,315px);transform:scaleX(-1)}
 .ghibli-spiritedaway{left:0;bottom:24%;width:clamp(135px,15vw,240px);height:clamp(135px,15vw,240px)}

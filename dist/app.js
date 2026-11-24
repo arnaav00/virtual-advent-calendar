@@ -1,4 +1,5 @@
 import {setupBackgroundMusic} from './background-music.js';
+import { requireTermsAgreement } from './terms-agreement.js';
 import {setupSpeaker} from './speaker.js';
 import { skaterPose, santaPose } from './motion.js';
 import { setupEasterEggs } from './interactions.js';
@@ -216,7 +217,6 @@ const eggs=setupEasterEggs(svg);
 setupSantaGifts(svg);
 setupSnowballGame(svg);
 setupMariah(svg);
-setupBackgroundMusic();
 setupSpeaker(svg);
 setupHomeSnowglobe(svg);
 
@@ -240,6 +240,8 @@ const doors = [
 const holder=document.querySelector('#doors');
 const gifts=setupGiftModal();
 await initializeGiftState();
+await requireTermsAgreement();
+setupBackgroundMusic();
 const doorButtons=new Map();
 function updateDoorAvailability(){
   for(const [day,button]of doorButtons){

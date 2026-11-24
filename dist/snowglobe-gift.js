@@ -1,5 +1,6 @@
 import { playlistCard } from './playlist-gift.js';
-import { compressSnowglobeImage, SNOWGLOBE_IMAGE_EVENT, SNOWGLOBE_IMAGE_KEY } from './home-snowglobe.js';
+import { compressSnowglobeImage, SNOWGLOBE_IMAGE_EVENT } from './home-snowglobe.js';
+import { clearSnowglobeImage, saveSnowglobeImage } from './gift-state.js';
 
 export function snowglobeCard() {
   const element = document.createElement('section');
@@ -75,12 +76,13 @@ export function snowglobeCard() {
     const sequence = ++imageSelectionSequence;
     imageLayer.style.backgroundImage = `url("${src}")`;
     picker.hidden = true; wrap.hidden = false; retakeButton.hidden = false; sizeCanvas(); particles.length = 0; startSnow();
-    if (persist) void compressSnowglobeImage(src).then(dataUrl => {
+    if (persist) void compressSnowglobeImage(src).then(async dataUrl => {
       if (sequence !== imageSelectionSequence) return;
-      try { localStorage.setItem(SNOWGLOBE_IMAGE_KEY, dataUrl); } catch (error) { console.warn('[Snowglobe] Could not save the image for the home scene:', error.message); }
+      await saveSnowglobeImage(dataUrl);
+      if (sequence !== imageSelectionSequence) return;
       imageLayer.style.backgroundImage = `url("${dataUrl}")`;
       window.dispatchEvent(new CustomEvent(SNOWGLOBE_IMAGE_EVENT, { detail: { src: dataUrl } }));
-    }).catch(error => console.warn('[Snowglobe] Could not prepare the home-scene image:', error.message));
+    }).catch(error => { console.warn('[Snowglobe] Could not save the image to Firebase:', error.message); window.alert('The snowglobe image could not be saved to Firebase. Please try again.'); });
   }
   fileInput.addEventListener('change', () => {
     const file = fileInput.files?.[0]; if (!file || !file.type.startsWith('image/')) return;
@@ -98,6 +100,7 @@ export function snowglobeCard() {
   });
   retakeButton.addEventListener('click', () => {
     imageSelectionSequence++;
+    void clearSnowglobeImage().then(() => window.dispatchEvent(new CustomEvent(SNOWGLOBE_IMAGE_EVENT, { detail: { src: null } }))).catch(error => console.warn('[Snowglobe] Could not clear the saved Firebase image:', error.message));
     imageLayer.style.backgroundImage = '';
     picker.hidden = false; wrap.hidden = false; retakeButton.hidden = true;
     fileInput.value = ''; useReference.checked = false; globe.classList.remove('is-warm');
@@ -107,10 +110,6 @@ export function snowglobeCard() {
     if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = ''; }
     sizeCanvas(); startSnow();
   });
-  try {
-    const savedImage = localStorage.getItem(SNOWGLOBE_IMAGE_KEY);
-    if (savedImage) selectImage(savedImage, { persist: false });
-  } catch {}
   globe.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
     suppressClick = false; clearTimeout(suppressClickTimer);
@@ -157,7 +156,13 @@ export function snowglobeCard() {
   });
   return {
     element, captureButton: camera.captureButton,
-    show() { element.hidden = false; camera.captureButton.hidden = false; camera.show(); if (!wrap.hidden) { sizeCanvas(); startSnow(); } },
+    show() { this.resetForOpen(); element.hidden = false; camera.captureButton.hidden = false; camera.show(); },
+    resetForOpen() {
+      imageSelectionSequence++;imageLayer.style.backgroundImage='';picker.hidden=false;wrap.hidden=false;retakeButton.hidden=true;
+      fileInput.value='';useReference.checked=false;globe.classList.remove('is-warm','is-shaking');globe.style.position='';globe.style.left='';globe.style.top='';globe.style.width='';globe.style.zIndex='';
+      globe.setAttribute('aria-pressed','false');velocity={x:0,y:0};particles.length=0;ctx.clearRect(0,0,canvas.width,canvas.height);
+      if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl='';}sizeCanvas();
+    },
     stop() { cancelAnimationFrame(raf); raf = 0; camera.stop(); },
     hide() { cancelAnimationFrame(raf); raf = 0; particles.length = 0; camera.hide(); element.hidden = true; camera.captureButton.hidden = true; },
   };
