@@ -48,7 +48,6 @@ body.night-mode .landscape .winter-moon{filter:brightness(1.9)}
 .mariah-slideshow::backdrop{background:rgba(15,30,31,.76);backdrop-filter:blur(4px);animation:gift-dim .35s ease-out both}
 .mariah-slideshow img{display:block;width:100%;height:100%;object-fit:contain}
 .mariah-slideshow-day{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);margin:0;padding:5px 14px;border-radius:999px;background:#07120dbb;color:#fffdf3;font:clamp(16px,2vw,22px) 'Patrick Hand','Comic Sans MS',cursive}
-.mariah-slideshow-close{position:absolute;z-index:1;top:10px;right:10px;width:38px;height:38px;border:1px solid #fff8;border-radius:50%;background:#101515aa;color:#fff;font:28px/1 'Patrick Hand',cursive;cursor:pointer}
 @media(max-width:640px){.mariah-slideshow{width:88vw;height:62vh;max-height:62vh}}
 body.night-mode .winter-sun{visibility:hidden;pointer-events:none}
 body.night-switching-to-night .winter-sun{visibility:visible;animation:celestial-out .72s cubic-bezier(.45,0,.8,.3) both}

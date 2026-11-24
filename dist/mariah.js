@@ -66,7 +66,7 @@ export function setupMariah(svg){
   try{atticUnlocked=localStorage.getItem(atticUnlockKey)==='yes';}catch{}
   if(atticUnlocked){attic.classList.add('is-enabled');attic.setAttribute('tabindex','0');}
   const slideshow=document.createElement('dialog');slideshow.className='mariah-slideshow';slideshow.setAttribute('aria-label','Christmas reaction slideshow');
-  slideshow.innerHTML='<button class="mariah-slideshow-close" type="button" aria-label="Close slideshow">×</button><img alt="Reaction photo for day 1"><p class="mariah-slideshow-day" aria-live="polite">Day 1</p>';
+  slideshow.innerHTML='<img alt="Reaction photo for day 1"><p class="mariah-slideshow-day" aria-live="polite">Day 1</p>';
   document.body.append(slideshow);
   const slideImage=slideshow.querySelector('img'),slideLabel=slideshow.querySelector('.mariah-slideshow-day');
   let slideTimer=0,slideUrls=[],slideshowOpening=false;
@@ -81,7 +81,6 @@ export function setupMariah(svg){
   }
   window.addEventListener('resize',fitSlideshowToPhoto);
   function closeSlideshow(){clearTimeout(slideTimer);slideTimer=0;if(slideshow.open)slideshow.close();itsTimeAudio.pause();itsTimeAudio.currentTime=0;songAudio.pause();songAudio.currentTime=0;songAudio.volume=.6;finish();slideUrls.forEach(url=>URL.revokeObjectURL(url));slideUrls=[];slideImage.removeAttribute('src');slideshow.style.removeProperty('width');slideshow.style.removeProperty('height');}
-  slideshow.querySelector('.mariah-slideshow-close').addEventListener('click',closeSlideshow);
   slideshow.addEventListener('cancel',event=>{event.preventDefault();closeSlideshow();});
   slideshow.addEventListener('click',event=>{if(event.target===slideshow)closeSlideshow();});
   async function openSlideshow(){

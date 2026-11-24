@@ -17,7 +17,9 @@ function mergeCloudSnapshot(snapshot){
     const data=item.data(),next={};
     if(data.openedAt)next.openedAt=iso(data.openedAt);
     if(data.letterOpenedAt)next.letterOpenedAt=iso(data.letterOpenedAt);
-    if(next.openedAt||next.letterOpenedAt)remote[day]=next;
+    if(data.fireworksActivated===true||(day===25&&data.openedAt))next.fireworksActivated=true;
+    if(data.boomboxActivated===true||(day===1&&data.openedAt))next.boomboxActivated=true;
+    if(next.openedAt||next.letterOpenedAt||next.fireworksActivated||next.boomboxActivated)remote[day]=next;
   }
   memory=remote;
   persist();announce('gift-state-updated',{source:'firebase'});
@@ -54,6 +56,11 @@ export function initializeGiftState(){
       mergeCloudSnapshot(initial);
       cloud={...firestoreSdk,db,progress};
       cloudReady=true;
+      for(const item of initial.docs){
+        const day=Number(item.id),data=item.data();
+        if(day===25&&data.openedAt&&data.fireworksActivated!==true)syncFields(day,{fireworksActivated:true});
+        if(day===1&&data.openedAt&&data.boomboxActivated!==true)syncFields(day,{boomboxActivated:true});
+      }
       firestoreSdk.onSnapshot(progress,mergeCloudSnapshot,error=>console.warn('[Firebase] Gift-state sync paused:',error.message));
       announce('gift-state-connected',{projectId:firebaseConfig.projectId});
       return true;
@@ -65,17 +72,29 @@ export function initializeGiftState(){
   })();
 }
 
+function syncFields(day,fields){
+  if(!cloudReady||!cloud)return;
+  cloud.setDoc(cloud.doc(cloud.db,'giftProgress',String(day)),fields,{merge:true})
+    .catch(error=>{console.warn(`[Firebase] Could not sync day ${day}:`,error.message);announce('gift-state-sync-error',{day,fields:Object.keys(fields),message:error.message});});
+}
 function syncField(day,field){
   if(!cloudReady||!cloud)return;
-  cloud.setDoc(cloud.doc(cloud.db,'giftProgress',String(day)),{[field]:cloud.serverTimestamp()},{merge:true})
-    .catch(error=>{console.warn(`[Firebase] Could not sync day ${day}:`,error.message);announce('gift-state-sync-error',{day,field,message:error.message});});
+  syncFields(day,{[field]:cloud.serverTimestamp()});
 }
 
 export const isOpened=day=>Boolean(memory[day]?.openedAt);
+export function isFeatureActivated(feature){
+  const [day,field]=feature==='fireworks'?[25,'fireworksActivated']:feature==='boombox'?[1,'boomboxActivated']:[0,''];
+  return Boolean(memory[day]?.[field]);
+}
 export function markOpened(day){
   const wasOpen=isOpened(day);memory[day]={...memory[day],openedAt:memory[day]?.openedAt||new Date().toISOString()};
+  const fields={};
+  if(!wasOpen)fields.openedAt=cloudReady&&cloud?cloud.serverTimestamp():memory[day].openedAt;
+  const activationField=day===25?'fireworksActivated':day===1?'boomboxActivated':null;
+  if(activationField){memory[day][activationField]=true;fields[activationField]=true;}
   const persisted=persist();announce('gift-opened',{day,persisted,alreadyOpen:wasOpen});
-  if(!wasOpen)syncField(day,'openedAt');
+  if(Object.keys(fields).length)syncFields(day,fields);
   return persisted;
 }
 export const isLetterOpened=day=>Boolean(memory[day]?.letterOpenedAt);

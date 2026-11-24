@@ -46,10 +46,11 @@ export function slothBookCard() {
       greeting.classList.remove('is-sliding');
     }, 2600);
   });
-  let drag = null, rotateY = -18, rotateX = 2;
+  let drag = null, rotateY = -18, rotateX = 2, didRotate = false;
   const render = () => { model.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`; };
   stage.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || event.target === stage) return;
+    didRotate = false;
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, rotateY, rotateX };
     stage.setPointerCapture(event.pointerId);
     stage.classList.add('is-dragging');
@@ -57,6 +58,7 @@ export function slothBookCard() {
   });
   stage.addEventListener('pointermove', event => {
     if (!drag || event.pointerId !== drag.id) return;
+    if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 4) didRotate = true;
     rotateY = drag.rotateY + (event.clientX - drag.x) * .72;
     rotateX = Math.max(-18, Math.min(18, drag.rotateX - (event.clientY - drag.y) * .22));
     render();
@@ -69,6 +71,10 @@ export function slothBookCard() {
   }
   stage.addEventListener('pointerup', release);
   stage.addEventListener('pointercancel', release);
+  stage.addEventListener('click', event => {
+    if (didRotate) event.stopPropagation();
+    didRotate = false;
+  });
   return {
     element,
     captureButton: camera.captureButton,

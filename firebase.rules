@@ -6,7 +6,7 @@ service cloud.firestore {
         return day.matches('^(?:[1-9]|1[0-9]|2[0-5])$');
       }
       function progressOnly(data) {
-        return data.keys().hasOnly(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'reactionCapturedAt', 'christmasTreeImage', 'christmasTreeUpdatedAt']);
+        return data.keys().hasOnly(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'reactionCapturedAt', 'christmasTreeImage', 'christmasTreeUpdatedAt', 'fireworksActivated', 'boomboxActivated']);
       }
       function validReaction(data) {
         return (!('reactionPhoto' in data) && !('reactionCapturedAt' in data))
@@ -21,18 +21,25 @@ service cloud.firestore {
             && data.christmasTreeImage.size() <= 800000
             && data.christmasTreeUpdatedAt is timestamp);
       }
+      function validFeatureActivations(data) {
+        return (!('fireworksActivated' in data)
+            || (day == '25' && data.fireworksActivated is bool && data.fireworksActivated == true))
+          && (!('boomboxActivated' in data)
+            || (day == '1' && data.boomboxActivated is bool && data.boomboxActivated == true));
+      }
       function validCreate() {
         return progressOnly(request.resource.data)
-          && request.resource.data.keys().hasAny(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'christmasTreeImage'])
+          && request.resource.data.keys().hasAny(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'christmasTreeImage', 'fireworksActivated', 'boomboxActivated'])
           && (!('openedAt' in request.resource.data) || request.resource.data.openedAt is timestamp)
           && (!('letterOpenedAt' in request.resource.data) || request.resource.data.letterOpenedAt is timestamp)
           && validReaction(request.resource.data)
-          && validChristmasTree(request.resource.data);
+          && validChristmasTree(request.resource.data)
+          && validFeatureActivations(request.resource.data);
       }
       function validUpdate() {
         let changed = request.resource.data.diff(resource.data).affectedKeys();
         return progressOnly(request.resource.data)
-          && changed.hasOnly(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'reactionCapturedAt', 'christmasTreeImage', 'christmasTreeUpdatedAt'])
+          && changed.hasOnly(['openedAt', 'letterOpenedAt', 'reactionPhoto', 'reactionCapturedAt', 'christmasTreeImage', 'christmasTreeUpdatedAt', 'fireworksActivated', 'boomboxActivated'])
           && (!changed.hasAny(['openedAt'])
             || (request.resource.data.openedAt is timestamp
               && (!('openedAt' in resource.data) || resource.data.openedAt == null)))
@@ -44,12 +51,12 @@ service cloud.firestore {
           && (!changed.hasAny(['christmasTreeImage', 'christmasTreeUpdatedAt'])
             || changed.hasAll(['christmasTreeImage', 'christmasTreeUpdatedAt']))
           && validReaction(request.resource.data)
-          && validChristmasTree(request.resource.data);
+          && validChristmasTree(request.resource.data)
+          && validFeatureActivations(request.resource.data);
       }
 
-      // The client reads the whole giftProgress collection on startup, so list
-      // reads must be authorized without depending on an individual document ID.
-      // The collection contains only public gift-open timestamps.
+      // The client reads the giftProgress collection on startup so feature
+      // activations and saved gift media can synchronize across devices.
       allow read: if request.auth != null;
       allow create: if request.auth != null && validDay() && validCreate();
       allow update: if request.auth != null && validDay() && validUpdate();

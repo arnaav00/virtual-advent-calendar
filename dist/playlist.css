@@ -252,6 +252,9 @@
 .earring-note-wrap{position:relative;padding-bottom:76px}
 .earring-note-card{position:relative;z-index:1;overflow:visible;padding:12px 14px 11px;border-radius:12px;background:linear-gradient(145deg,#fffaf0,#f3e8d2);box-shadow:0 4px 12px #66533b20}
 .earring-note-card>p{max-width:none;width:100%;margin:0 auto;font-size:20px;line-height:1.15}
+.earring-rack-card{background:transparent;border:0;box-shadow:none;color:#fff}
+.earring-rack-card .rack-note-card{padding:12px 14px 11px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.earring-rack-card .rack-note-card>p{color:#fff;text-shadow:0 2px 8px #102b28cc}
 .earring-rack{position:absolute;z-index:3;top:calc(100% - 1px);left:0;right:0;height:75px;margin:0}
 .earring-hole-guide{display:none}
 .earring-slot{top:0;width:54px;height:70px}

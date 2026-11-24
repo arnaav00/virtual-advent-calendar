@@ -9,16 +9,20 @@ export function gift25Card() {
   element.innerHTML = `
     <img class="gift25-table" src="./assets/table25.png" alt="">
     <img class="gift25-couple" src="./assets/arnangshi.png" alt="Arnaav and Devangshi">
+    <div class="gift25-messages">
     <div class="gift25-greeting gift25-greeting-left" role="img" aria-label="Merry Christmas, baby">
       <svg class="gift25-handwriting" viewBox="0 0 430 205" aria-hidden="true">
-        <g class="gift25-writing-ink"><text x="8" y="64">Merry</text><text x="8" y="126">Christmas,</text><text x="8" y="184">baby</text></g>
+        <g class="gift25-writing-ink" text-anchor="middle"><text x="215" y="64">Merry</text><text x="215" y="126">Christmas,</text><text x="215" y="184">baby</text></g>
       </svg>
     </div>
     <div class="gift25-greeting gift25-greeting-right" role="img" aria-label="I love you with a red heart">
-      <svg class="gift25-handwriting" viewBox="0 0 430 300" aria-hidden="true">
-        <g class="gift25-writing-ink"><text x="8" y="76">I love you</text></g>
-        <path class="gift25-heart-path" transform="translate(-110 55)" d="M215 174C200 160 160 137 161 115C162 93 190 87 215 113C240 87 268 93 269 115C270 137 230 160 215 174Z"/>
+      <svg class="gift25-handwriting" viewBox="0 0 430 190" aria-hidden="true">
+        <g class="gift25-writing-ink" text-anchor="middle"><text x="215" y="52">I love you</text></g>
+        <g transform="translate(215 153) scale(.6) translate(-105 -185)">
+          <path class="gift25-heart-path" transform="translate(-110 55)" d="M215 174C200 160 160 137 161 115C162 93 190 87 215 113C240 87 268 93 269 115C270 137 230 160 215 174Z"/>
+        </g>
       </svg>
+    </div>
     </div>
     <button class="gift25-doll gift25-doll-dev" type="button" aria-label="Drag the reindeer doll toward the center">
       <img src="./assets/devdoll.png" alt="Reindeer Santa doll">
@@ -42,7 +46,6 @@ export function gift25Card() {
   const table = element.querySelector('.gift25-table');
   let activeDrag = null;
   let centerGap = 0;
-  let hasCelebrated = false;
   let backgroundUrl = '';
 
   async function loadTreeBackground() {
@@ -69,7 +72,8 @@ export function gift25Card() {
     return window.innerWidth * (75/ 857);
   }
 
-  function placeInitial() {
+  function placeInitial(preserveCompletion = true) {
+    const wasComplete = preserveCompletion && element.classList.contains('is-complete');
     const margin = Math.max(12, window.innerWidth * .07);
     const baseline = tableBaseline();
     for (const { node, side } of dolls) {
@@ -83,8 +87,17 @@ export function gift25Card() {
       node.dataset.startX = side === 'left' ? String(margin) : String(window.innerWidth - margin - width);
     }
     couple.style.bottom = `${tableBackEdge() - couple.getBoundingClientRect().height * (42 / 468)}px`;
-    couple.classList.remove('is-visible');
-    element.classList.remove('is-complete');
+    element.style.setProperty('--gift25-heart-bottom', `${baseline + dolls[1].node.getBoundingClientRect().height * .65}px`);
+    if (wasComplete) {
+      for (const item of dolls) {
+        const range = limitsFor(item);
+        item.node.style.transform = `translateX(${item.side === 'left' ? range.end : range.start}px)`;
+      }
+      updateCompletion();
+    } else {
+      couple.classList.remove('is-visible');
+      element.classList.remove('is-complete');
+    }
   }
 
   function limitsFor(item) {
@@ -116,10 +129,8 @@ export function gift25Card() {
     const complete = dolls.every(atCenter);
     element.classList.toggle('is-complete', complete);
     couple.classList.toggle('is-visible', complete);
-    if (complete && !hasCelebrated) {
-      hasCelebrated = true;
+    if (complete) {
       element.classList.add('is-celebrated');
-      window.dispatchEvent(new CustomEvent('gift25:complete'));
     }
   }
 
@@ -163,8 +174,7 @@ export function gift25Card() {
     show() {
       element.hidden = false;
       element.classList.remove('is-celebrated');
-      hasCelebrated = false;
-      placeInitial();
+      placeInitial(false);
       camera.captureButton.hidden = false;
       void camera.show();
       void loadTreeBackground();
@@ -175,7 +185,7 @@ export function gift25Card() {
       element.style.backgroundImage = '';
       if (backgroundUrl) URL.revokeObjectURL(backgroundUrl);
       backgroundUrl = '';
-      placeInitial();
+      placeInitial(false);
       camera.hide();
     },
     stop() { camera.stop(); }

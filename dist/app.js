@@ -8,7 +8,7 @@ import { setupSantaGifts } from './santa-gifts.js';
 import { setupMariah } from './mariah.js';
 import { setupGiftModal } from './gift-modal.js';
 import { ADVENT, isDayAvailable } from './advent-time.js';
-import { initializeGiftState } from './gift-state.js';
+import { initializeGiftState, isFeatureActivated } from './gift-state.js';
 import { setupHomeSnowglobe } from './home-snowglobe.js';
 const svg = document.querySelector('#landscape');
 const ink = '#354d49', snow = '#fffdf3';
@@ -176,15 +176,12 @@ fireworks.innerHTML=fireworkBursts.map(([x,y,color,delay])=>{
   }).join('');
   return `<g transform="translate(${x} ${y})" style="--firework-color:${color};--firework-delay:${delay}s"><path class="firework-launch" d="M0 116L0 2"/><g class="firework-burst">${sparks}<circle class="firework-core" r="5.5"/></g></g>`;
 }).join('');
-const fireworksStorageKey='snowglobe-gift25-fireworks';
-const fireworksEnabled=true;
 function startFireworks(){
-  if(!fireworksEnabled)return;
-  fireworks.classList.add('fireworks-active');
-  try{localStorage.setItem(fireworksStorageKey,'yes');}catch{}
+  fireworks.classList.toggle('fireworks-active',isFeatureActivated('fireworks'));
 }
-try{if(localStorage.getItem(fireworksStorageKey)==='yes')startFireworks();}catch{}
-window.addEventListener('gift25:complete',startFireworks,{once:true});
+window.addEventListener('gift-opened',event=>{if(event.detail?.day===25)startFireworks();});
+window.addEventListener('gift-state-updated',startFireworks);
+startFireworks();
 const celestialSun=svg.querySelector('.winter-sun');
 const celestialMoon=document.createElementNS('http://www.w3.org/2000/svg','g');
 celestialMoon.setAttribute('class','winter-moon celestial-toggle');
