@@ -1,5 +1,4 @@
 import { playlistCard } from './playlist-gift.js';
-import { SAMPLE_MESSAGE_VIDEO } from './letter-video.js';
 
 export function gift24Card() {
   const element = document.createElement('section');
@@ -46,7 +45,7 @@ export function gift24Card() {
   const door = element.querySelector('.gift24-door');
   const videoStage = element.querySelector('.gift24-video-stage');
   const video = element.querySelector('.gift24-video');
-  video.src = SAMPLE_MESSAGE_VIDEO;
+  video.src = './assets/bonu_video.mp4';
   const knocking = new Audio('./assets/door_knock.mp3');
   knocking.loop = true;
   knocking.preload = 'auto';
@@ -62,6 +61,18 @@ export function gift24Card() {
     if (element.hidden || opening) return;
     void knocking.play().catch(() => {});
   }
+
+  function pauseCalendarMusic() {
+    window.dispatchEvent(new Event('pause-calendar-music'));
+  }
+
+  function resumeCalendarMusic() {
+    window.dispatchEvent(new Event('resume-calendar-music'));
+  }
+
+  video.addEventListener('play', pauseCalendarMusic);
+  video.addEventListener('pause', resumeCalendarMusic);
+  video.addEventListener('ended', resumeCalendarMusic);
 
   async function openDoor() {
     if (opening || element.hidden) return;
@@ -87,7 +98,6 @@ export function gift24Card() {
     captureButton: camera.captureButton,
     async show() {
       element.hidden = false;
-      window.dispatchEvent(new Event('pause-calendar-music'));
       doorStage.hidden = false;
       videoStage.hidden = true;
       door.disabled = false;
@@ -112,11 +122,12 @@ export function gift24Card() {
       door.getAnimations().forEach(animation => animation.cancel());
       element.hidden = true;
       camera.hide();
-      window.dispatchEvent(new Event('resume-calendar-music'));
+      resumeCalendarMusic();
     },
     stop() {
       stopKnocking();
       video.pause();
+      resumeCalendarMusic();
     }
   };
 }

@@ -1,6 +1,6 @@
 # Devangshi's Winter Wonderland — project handoff
 
-Updated 25 November 2026. This file captures the current implementation and the latest user decisions. When it conflicts with older `README.md` text, follow this handoff and the user’s latest requests.
+Updated 27 November 2026. This file captures the current implementation and the latest user decisions. When it conflicts with older `README.md` text, follow this handoff and the user’s latest requests.
 
 ## Where the project is
 
@@ -126,7 +126,7 @@ Gift 20 conversation follow-up: the replay screen uses a standard outlined chat-
 
 Gift 23 is implemented in `dist/gift23-gift.js` and registered in `dist/gift-modal.js`. Its click-outable shared dark overlay shows the requested white message and gold Santa’s Workshop link. `dist/assets/elf_upload.gif` opens the image picker. After a tree image is selected, the upload is proportionally cropped to the interior artwork bounds observed in the 1200×1580 North Pole export (x 50–1150, y 87–1373), dropping the gold frame and footer; a compressed copy is saved to `giftProgress/23` in Firestore. The cropped tree appears in an animated Polaroid captioned “2027 Christmas Devangtree”. The elf remains at bottom-left to replace the image. The upload label has no visible focus border. Shared X and reaction-photo controls remain visible. Publish the updated `firebase.rules` before testing tree saves in Firebase.
 
-Gift 24 is implemented in `dist/gift24-gift.js`: a single wooden door appears with no visible copy, while `assets/door_knock.mp3` loops. Opening Gift 24 pauses the home background music; closing it resumes the music if it had been playing. Clicking the door stops the knocks and animates it inward before revealing and autoplaying the same sample flower clip used by Gift 3’s North Pole video (`SAMPLE_MESSAGE_VIDEO` in `dist/letter-video.js`). Closing the gift stops sound/video; the overlay and shared X dismiss it, and the shared reaction camera remains available.
+Gift 24 is implemented in `dist/gift24-gift.js`: a single wooden door appears with no visible copy, while `assets/door_knock.mp3` loops. Clicking the door stops the knocks and animates it inward before revealing and autoplaying `assets/bonu_video.mp4`. The home background music pauses only while this video is playing and resumes when it pauses or ends. The 1.1 GB video is local-only and excluded in `.git/info/exclude`; it is intentionally not committed, so it must be copied into `dist/assets/` on any other checkout. Closing the gift stops sound/video; the overlay and shared X dismiss it, and the shared reaction camera remains available.
 
 ## Gift 25 — tabletop Santa dolls
 
